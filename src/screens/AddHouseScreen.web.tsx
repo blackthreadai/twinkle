@@ -439,7 +439,7 @@ export default function AddHouseScreenWeb() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text' as any,
             animation: 'twinkle-shimmer 12s linear infinite',
-          }}>Add House</span>
+          }}>Add Location</span>
         </button>
       </div>
 
