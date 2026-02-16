@@ -180,7 +180,7 @@ export default function AddHouseScreenWeb() {
     <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{
-          fontSize: 28, fontWeight: 700, margin: '0 0 4px',
+          fontSize: 42, fontWeight: 700, margin: '0 0 4px',
           fontFamily: "'Mountains of Christmas', cursive",
           background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
           backgroundSize: '400% 100%',

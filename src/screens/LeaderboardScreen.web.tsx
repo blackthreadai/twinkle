@@ -66,7 +66,7 @@ export default function LeaderboardScreenWeb() {
       {/* Header */}
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 10 }}>
         <h1 style={{
-          fontSize: 28, fontWeight: 700, margin: '0 0 14px',
+          fontSize: 42, fontWeight: 700, margin: '0 0 14px',
           fontFamily: "'Mountains of Christmas', cursive",
           background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
           backgroundSize: '400% 100%',
@@ -88,7 +88,7 @@ export default function LeaderboardScreenWeb() {
                 flex: 1, padding: '10px 0', border: 'none', cursor: 'pointer',
                 background: tab === t ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#111111',
                 color: tab === t ? '#000000' : '#888',
-                fontSize: 16, fontWeight: 700, transition: 'all 0.2s',
+                fontSize: 22, fontWeight: 700, transition: 'all 0.2s',
                 fontFamily: "'Mountains of Christmas', cursive",
               }}
             >
