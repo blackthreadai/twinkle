@@ -48,7 +48,7 @@ function popupHtml(house: House): string {
     <div style="min-width:240px">
       ${house.photos.length > 0 ? `<img src="${house.photos[0]}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0" />` : ''}
       <div style="padding:12px 14px">
-        <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}</div>
+        <div style="color:#FFD700;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}${house.zip_code ? `, ${house.zip_code}` : ''}</div>
         <div style="font-size:14px;margin-bottom:6px">
           <span style="color:#888;font-weight:600">Rating</span> <span style="color:#4ade80;font-weight:700">${rating.toFixed(1)}</span> <span style="color:#888;font-size:12px">(${house.rating_count ?? 0})</span>
         </div>
