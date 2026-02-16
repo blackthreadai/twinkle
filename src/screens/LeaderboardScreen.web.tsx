@@ -75,7 +75,7 @@ export default function LeaderboardScreenWeb() {
           backgroundClip: 'text' as any,
           animation: 'twinkle-shimmer 12s linear infinite',
         }}>
-          Leaderboard
+          Twinkle Leaderboard
         </h1>
 
         {/* Tab toggle */}

@@ -189,7 +189,7 @@ export default function AddHouseScreenWeb() {
           backgroundClip: 'text' as any,
           animation: 'twinkle-shimmer 12s linear infinite',
         }}>
-          Add a House
+          Add A New Location
         </h1>
         <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Share an amazing Christmas lights display with the community</p>
 
