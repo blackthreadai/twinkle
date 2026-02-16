@@ -75,11 +75,11 @@ function RouteMap({ houses }: { houses: House[] }) {
   return (
     <MapContainer center={center} zoom={11} style={{ height: 350, borderRadius: 12, overflow: 'hidden' }} zoomControl={false}>
       <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
-      <Polyline positions={positions} pathOptions={{ color: '#FFD700', weight: 3, opacity: 0.7, dashArray: '8, 8' }} />
+      <Polyline positions={positions} pathOptions={{ color: '#4ade80', weight: 3, opacity: 0.7, dashArray: '8, 8' }} />
       {houses.map((h, i) => {
         const icon = leaflet.divIcon({
           className: 'twinkle-marker',
-          html: `<div style="width:28px;height:28px;border-radius:50%;background:#B22222;border:2px solid #FFD700;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.5)">${i + 1}</div>`,
+          html: `<div style="width:28px;height:28px;border-radius:50%;background:#B22222;border:2px solid #4ade80;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.5)">${i + 1}</div>`,
           iconSize: [28, 28],
           iconAnchor: [14, 14],
         });
@@ -128,7 +128,7 @@ export default function RouteScreenWeb() {
   return (
     <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 100px' }}>
-        <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
+        <h1 style={{ color: '#4ade80', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🚗 Plan Your Route
         </h1>
         <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Build the perfect Christmas lights tour</p>
@@ -139,7 +139,7 @@ export default function RouteScreenWeb() {
           {DURATIONS.map(d => (
             <button key={d.value} onClick={() => setDuration(d.value)} style={{
               padding: '10px 20px', borderRadius: 24, border: 'none',
-              background: duration === d.value ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#111111',
+              background: duration === d.value ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#111111',
               color: duration === d.value ? '#000000' : '#ccc',
               fontWeight: 700, fontSize: 14, cursor: 'pointer', transition: 'all 0.2s',
             }}>{d.label}</button>
@@ -156,7 +156,7 @@ export default function RouteScreenWeb() {
           />
           <button onClick={() => setStartAddress('📍 My Location')} style={{
             padding: '12px 16px', borderRadius: 10, border: '1px solid #222',
-            background: '#111111', color: '#FFD700', fontSize: 13, fontWeight: 600,
+            background: '#111111', color: '#4ade80', fontSize: 13, fontWeight: 600,
             cursor: 'pointer', whiteSpace: 'nowrap', transition: 'border-color 0.2s',
           }}>📍 Use My Location</button>
         </div>
@@ -167,7 +167,7 @@ export default function RouteScreenWeb() {
           {[1, 2, 3, 4, 5].map(n => (
             <button key={n} onClick={() => setMinRating(minRating === n ? 0 : n)} style={{
               background: 'none', border: 'none', fontSize: 28, cursor: 'pointer',
-              color: n <= minRating ? '#FFD700' : '#444', transition: 'color 0.15s',
+              color: n <= minRating ? '#4ade80' : '#444', transition: 'color 0.15s',
             }}>★</button>
           ))}
           {minRating > 0 && <button onClick={() => setMinRating(0)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 12, cursor: 'pointer', marginLeft: 8 }}>Clear</button>}
@@ -179,7 +179,7 @@ export default function RouteScreenWeb() {
           {ALL_FEATURES.map(f => (
             <button key={f} onClick={() => toggleFeature(f)} style={{
               padding: '8px 14px', borderRadius: 20,
-              border: `1px solid ${featurePref.includes(f) ? '#FFD700' : '#444'}`,
+              border: `1px solid ${featurePref.includes(f) ? '#4ade80' : '#444'}`,
               backgroundColor: featurePref.includes(f) ? '#B22222' : '#111111',
               color: '#fff', fontSize: 13, cursor: 'pointer', transition: 'all 0.15s',
             }}>{FEATURE_EMOJI[f]} {f}</button>
@@ -211,15 +211,15 @@ export default function RouteScreenWeb() {
                   border: '1px solid #333',
                 }}>
                   <div>
-                    <div style={{ color: '#FFD700', fontSize: 24, fontWeight: 800 }}>{routeHouses.length}</div>
+                    <div style={{ color: '#4ade80', fontSize: 24, fontWeight: 800 }}>{routeHouses.length}</div>
                     <div style={{ color: '#888', fontSize: 12, marginTop: 2 }}>Houses</div>
                   </div>
                   <div>
-                    <div style={{ color: '#FFD700', fontSize: 24, fontWeight: 800 }}>{duration < 60 ? `${duration}m` : `${duration / 60}h`}</div>
+                    <div style={{ color: '#4ade80', fontSize: 24, fontWeight: 800 }}>{duration < 60 ? `${duration}m` : `${duration / 60}h`}</div>
                     <div style={{ color: '#888', fontSize: 12, marginTop: 2 }}>Est. Time</div>
                   </div>
                   <div>
-                    <div style={{ color: '#FFD700', fontSize: 24, fontWeight: 800 }}>{(totalDistance * 0.621371).toFixed(1)} mi</div>
+                    <div style={{ color: '#4ade80', fontSize: 24, fontWeight: 800 }}>{(totalDistance * 0.621371).toFixed(1)} mi</div>
                     <div style={{ color: '#888', fontSize: 12, marginTop: 2 }}>Distance</div>
                   </div>
                 </div>
@@ -234,13 +234,13 @@ export default function RouteScreenWeb() {
                     }}>
                       <div style={{
                         width: 32, height: 32, borderRadius: 16, background: '#B22222',
-                        border: '2px solid #FFD700', color: '#fff', display: 'flex',
+                        border: '2px solid #4ade80', color: '#fff', display: 'flex',
                         alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14, flexShrink: 0,
                       }}>{i + 1}</div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.address}</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                          <span style={{ color: '#FFD700', fontSize: 13 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))}{'☆'.repeat(5 - Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</span>
+                          <span style={{ color: '#4ade80', fontSize: 13 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))}{'☆'.repeat(5 - Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</span>
                           <span style={{ color: '#666', fontSize: 11 }}>{h.features.map(f => FEATURE_EMOJI[f]).join(' ')}</span>
                         </div>
                       </div>
@@ -251,7 +251,7 @@ export default function RouteScreenWeb() {
                 {/* Share */}
                 <button onClick={handleShare} style={{
                   marginTop: 16, width: '100%', padding: '14px 0', borderRadius: 12,
-                  border: '1px solid #FFD700', background: 'transparent', color: '#FFD700',
+                  border: '1px solid #4ade80', background: 'transparent', color: '#4ade80',
                   fontSize: 16, fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
                 }}>
                   {copied ? '✅ Link Copied!' : '🔗 Share Route'}
@@ -265,7 +265,7 @@ export default function RouteScreenWeb() {
       <style>{`
         body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
-        input:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
       `}</style>
     </div>

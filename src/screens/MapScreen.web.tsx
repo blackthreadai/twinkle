@@ -41,7 +41,7 @@ function createStarIcon(house: House): L.DivIcon {
 function popupHtml(house: House): string {
   const rating = house.avg_rating ?? 0;
   const features = (house.features as Feature[])
-    .map((f) => `<span style="background:#111111;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
+    .map((f) => `<span style="background:#111111;color:#4ade80;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
     .join(' ');
 
   return `
@@ -50,7 +50,7 @@ function popupHtml(house: House): string {
       <div style="padding:12px 14px">
         <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}</div>
         <div style="font-size:14px;margin-bottom:6px">
-          <span style="color:#888;font-weight:600">Rating</span> <span style="color:#FFD700;font-weight:700">${rating.toFixed(1)}</span> <span style="color:#888;font-size:12px">(${house.rating_count ?? 0})</span>
+          <span style="color:#888;font-weight:600">Rating</span> <span style="color:#4ade80;font-weight:700">${rating.toFixed(1)}</span> <span style="color:#888;font-size:12px">(${house.rating_count ?? 0})</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
         ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
@@ -59,7 +59,7 @@ function popupHtml(house: House): string {
           <span>·</span>
           <span>${house.votes} votes</span>
         </div>
-        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000000;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
+        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#4ade80,#22c55e);color:#000000;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
       </div>
     </div>
   `;
@@ -218,7 +218,7 @@ export default function MapScreenWeb() {
         >
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>✨</div>
-            <p style={{ color: '#FFD700', fontSize: 16 }}>Finding your location...</p>
+            <p style={{ color: '#4ade80', fontSize: 16 }}>Finding your location...</p>
           </div>
         </div>
       )}
@@ -258,7 +258,7 @@ export default function MapScreenWeb() {
         backdropFilter: 'blur(10px)',
       }}>
         <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #111111' }}>
-          <h2 style={{ color: '#FFD700', fontSize: 18, fontWeight: 700, margin: 0, letterSpacing: 1, fontFamily: "'Mountains of Christmas', cursive" }}>
+          <h2 style={{ color: '#4ade80', fontSize: 18, fontWeight: 700, margin: 0, letterSpacing: 1, fontFamily: "'Mountains of Christmas', cursive" }}>
             Featured Displays
           </h2>
         </div>
@@ -274,7 +274,7 @@ export default function MapScreenWeb() {
                   overflow: 'hidden', cursor: 'pointer', border: '1px solid #333',
                   transition: 'border-color 0.2s, transform 0.15s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#FFD700'; (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4ade80'; (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#333'; (e.currentTarget as HTMLElement).style.transform = 'none'; }}
               >
                 <img src={h.photos[0]} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }} />
@@ -286,14 +286,14 @@ export default function MapScreenWeb() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 12 }}>
                       <span style={{ color: '#888' }}>Rating </span>
-                      <span style={{ color: '#FFD700', fontWeight: 700 }}>{r.toFixed(1)}</span>
+                      <span style={{ color: '#4ade80', fontWeight: 700 }}>{r.toFixed(1)}</span>
                       {h.local_rank && <span style={{ color: '#666', marginLeft: 6 }}>#{h.local_rank} local</span>}
                     </span>
                   </div>
                   <div style={{
                     marginTop: 6, padding: '4px 0', textAlign: 'center',
                     background: 'rgba(255,215,0,0.1)', borderRadius: 6,
-                    color: '#FFD700', fontSize: 11, fontWeight: 700,
+                    color: '#4ade80', fontSize: 11, fontWeight: 700,
                   }}>
                     View Listing
                   </div>
@@ -340,11 +340,11 @@ export default function MapScreenWeb() {
         }
         .twinkle-star:hover {
           transform: scale(1.4) !important;
-          filter: drop-shadow(0 0 12px #FFD700) !important;
+          filter: drop-shadow(0 0 12px #4ade80) !important;
         }
         .leaflet-popup-content-wrapper {
           background: #000000 !important;
-          border: 1px solid #FFD700 !important;
+          border: 1px solid #4ade80 !important;
           border-radius: 12px !important;
           padding: 0 !important;
           box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
@@ -355,7 +355,7 @@ export default function MapScreenWeb() {
         }
         .leaflet-popup-tip {
           background: #000000 !important;
-          border: 1px solid #FFD700 !important;
+          border: 1px solid #4ade80 !important;
           border-top: none !important;
           border-left: none !important;
         }
@@ -364,7 +364,7 @@ export default function MapScreenWeb() {
           font-size: 20px !important;
         }
         .leaflet-popup-close-button:hover {
-          color: #FFD700 !important;
+          color: #4ade80 !important;
         }
         .leaflet-control-attribution {
           background: rgba(0,0,0,0.7) !important;

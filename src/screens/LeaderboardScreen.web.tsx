@@ -7,14 +7,14 @@ const FEATURE_EMOJI: Record<string, string> = {
 };
 
 function rankStyle(rank: number): React.CSSProperties {
-  if (rank === 1) return { color: '#FFD700', fontWeight: 800, fontSize: 22, textShadow: '0 0 8px rgba(255,215,0,0.5)' };
+  if (rank === 1) return { color: '#4ade80', fontWeight: 800, fontSize: 22, textShadow: '0 0 8px rgba(255,215,0,0.5)' };
   if (rank === 2) return { color: '#C0C0C0', fontWeight: 800, fontSize: 20, textShadow: '0 0 6px rgba(192,192,192,0.4)' };
   if (rank === 3) return { color: '#CD7F32', fontWeight: 800, fontSize: 20, textShadow: '0 0 6px rgba(205,127,50,0.4)' };
   return { color: '#888', fontWeight: 700, fontSize: 18 };
 }
 
 function rankBorder(rank: number): string {
-  if (rank === 1) return '2px solid #FFD700';
+  if (rank === 1) return '2px solid #4ade80';
   if (rank === 2) return '2px solid #C0C0C0';
   if (rank === 3) return '2px solid #CD7F32';
   return '1px solid #333';
@@ -62,7 +62,7 @@ export default function LeaderboardScreenWeb() {
     }}>
       {/* Header */}
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 10 }}>
-        <h1 style={{ color: '#FFD700', fontSize: 24, fontWeight: 800, margin: '0 0 14px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
+        <h1 style={{ color: '#4ade80', fontSize: 24, fontWeight: 800, margin: '0 0 14px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🏆 Leaderboard
         </h1>
 
@@ -74,7 +74,7 @@ export default function LeaderboardScreenWeb() {
               onClick={() => setTab(t)}
               style={{
                 flex: 1, padding: '10px 0', border: 'none', cursor: 'pointer',
-                background: tab === t ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#111111',
+                background: tab === t ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#111111',
                 color: tab === t ? '#000000' : '#888',
                 fontSize: 14, fontWeight: 700, transition: 'all 0.2s',
               }}
@@ -141,7 +141,7 @@ export default function LeaderboardScreenWeb() {
                     {house.address}
                   </div>
                   <div style={{ display: 'flex', gap: 10, marginTop: 4, alignItems: 'center' }}>
-                    <span style={{ color: '#FFD700', fontSize: 12, fontWeight: 700 }}>
+                    <span style={{ color: '#4ade80', fontSize: 12, fontWeight: 700 }}>
                       ★ {(house.avg_rating ?? 0).toFixed(1)}
                     </span>
                     <span style={{ color: '#aaa', fontSize: 12 }}>
@@ -149,7 +149,7 @@ export default function LeaderboardScreenWeb() {
                     </span>
                   </div>
                 </div>
-                <div style={{ color: '#FFD700', fontSize: 20, fontWeight: 800 }}>
+                <div style={{ color: '#4ade80', fontSize: 20, fontWeight: 800 }}>
                   {house.votes}
                   <div style={{ color: '#888', fontSize: 9, textAlign: 'center' }}>votes</div>
                 </div>
@@ -164,7 +164,7 @@ export default function LeaderboardScreenWeb() {
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                     {(house.features as Feature[]).map(f => (
-                      <span key={f} style={{ padding: '3px 10px', borderRadius: 12, background: '#000000', border: '1px solid #222', color: '#FFD700', fontSize: 11, fontWeight: 600 }}>
+                      <span key={f} style={{ padding: '3px 10px', borderRadius: 12, background: '#000000', border: '1px solid #222', color: '#4ade80', fontSize: 11, fontWeight: 600 }}>
                         {FEATURE_EMOJI[f] || '✨'} {f}
                       </span>
                     ))}
@@ -182,7 +182,7 @@ export default function LeaderboardScreenWeb() {
       </div>
 
       <style>{`
-        input:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
       `}</style>
     </div>

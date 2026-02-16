@@ -71,9 +71,9 @@ export function FilterSheet({ visible, initialValues, onApply, onClose }: Filter
             step={1}
             value={radius}
             onValueChange={setRadius}
-            minimumTrackTintColor="#FFD700"
+            minimumTrackTintColor="#4ade80"
             maximumTrackTintColor="#444"
-            thumbTintColor="#FFD700"
+            thumbTintColor="#4ade80"
           />
 
           {/* Min Rating */}
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#FFD700',
+    color: '#4ade80',
     marginBottom: 16,
   },
   label: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     color: '#444',
   },
   starActive: {
-    color: '#FFD700',
+    color: '#4ade80',
   },
   clearText: {
     color: '#888',
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   chipActive: {
     backgroundColor: '#B22222',
-    borderColor: '#FFD700',
+    borderColor: '#4ade80',
   },
   chipText: {
     color: '#fff',

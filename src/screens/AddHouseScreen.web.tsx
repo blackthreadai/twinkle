@@ -179,7 +179,7 @@ export default function AddHouseScreenWeb() {
   return (
     <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 20px 100px' }}>
-        <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
+        <h1 style={{ color: '#4ade80', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🎄 Add a House
         </h1>
         <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Share an amazing Christmas lights display with the community</p>
@@ -224,7 +224,7 @@ export default function AddHouseScreenWeb() {
               style={{
                 padding: '10px 18px',
                 borderRadius: 24,
-                border: `2px solid ${features.includes(key) ? '#FFD700' : '#444'}`,
+                border: `2px solid ${features.includes(key) ? '#4ade80' : '#444'}`,
                 backgroundColor: features.includes(key) ? 'rgba(178,34,34,0.6)' : '#111111',
                 color: '#fff',
                 fontSize: 14,
@@ -255,9 +255,9 @@ export default function AddHouseScreenWeb() {
                   style={{
                     padding: '8px 16px',
                     borderRadius: 20,
-                    border: `2px solid ${lightCount === value ? '#FFD700' : '#555'}`,
+                    border: `2px solid ${lightCount === value ? '#4ade80' : '#555'}`,
                     backgroundColor: lightCount === value ? 'rgba(255,215,0,0.15)' : 'transparent',
-                    color: lightCount === value ? '#FFD700' : '#ccc',
+                    color: lightCount === value ? '#4ade80' : '#ccc',
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -283,9 +283,9 @@ export default function AddHouseScreenWeb() {
                 style={{
                   padding: '10px 20px',
                   borderRadius: 20,
-                  border: `2px solid ${musicType === 'LIVE' ? '#FFD700' : '#555'}`,
+                  border: `2px solid ${musicType === 'LIVE' ? '#4ade80' : '#555'}`,
                   backgroundColor: musicType === 'LIVE' ? 'rgba(255,215,0,0.15)' : 'transparent',
-                  color: musicType === 'LIVE' ? '#FFD700' : '#ccc',
+                  color: musicType === 'LIVE' ? '#4ade80' : '#ccc',
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -302,9 +302,9 @@ export default function AddHouseScreenWeb() {
                 style={{
                   padding: '10px 20px',
                   borderRadius: 20,
-                  border: `2px solid ${musicType === 'RADIO' ? '#FFD700' : '#555'}`,
+                  border: `2px solid ${musicType === 'RADIO' ? '#4ade80' : '#555'}`,
                   backgroundColor: musicType === 'RADIO' ? 'rgba(255,215,0,0.15)' : 'transparent',
-                  color: musicType === 'RADIO' ? '#FFD700' : '#ccc',
+                  color: musicType === 'RADIO' ? '#4ade80' : '#ccc',
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -342,7 +342,7 @@ export default function AddHouseScreenWeb() {
           onDrop={e => { e.preventDefault(); setDragOver(false); addPhotos(e.dataTransfer.files); }}
           onClick={() => fileRef.current?.click()}
           style={{
-            border: `2px dashed ${dragOver ? '#FFD700' : '#444'}`,
+            border: `2px dashed ${dragOver ? '#4ade80' : '#444'}`,
             borderRadius: 12,
             padding: 32,
             textAlign: 'center',
@@ -387,7 +387,7 @@ export default function AddHouseScreenWeb() {
             padding: '16px 0',
             borderRadius: 12,
             border: 'none',
-            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            background: 'linear-gradient(135deg, #4ade80, #22c55e)',
             color: '#000000',
             fontSize: 18,
             fontWeight: 800,
@@ -406,11 +406,11 @@ export default function AddHouseScreenWeb() {
       {showSuccess && (
         <div style={{
           position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
-          background: '#111111', border: '1px solid #FFD700', borderRadius: 12,
+          background: '#111111', border: '1px solid #4ade80', borderRadius: 12,
           padding: '16px 24px', zIndex: 9999, boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
           animation: 'fadeInUp 0.3s ease',
         }}>
-          <p style={{ color: '#FFD700', margin: 0, fontSize: 16, fontWeight: 700 }}>🎉 House added successfully!</p>
+          <p style={{ color: '#4ade80', margin: 0, fontSize: 16, fontWeight: 700 }}>🎉 House added successfully!</p>
           <p style={{ color: '#aaa', margin: '4px 0 0', fontSize: 13 }}>It will appear on the map shortly.</p>
         </div>
       )}
@@ -418,7 +418,7 @@ export default function AddHouseScreenWeb() {
       <style>{`
         body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
-        input:focus, textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        input:focus, textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder, textarea::placeholder { color: #555; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
       `}</style>

@@ -32,7 +32,7 @@ function Stars({ score, size = 14 }: { score: number; size?: number }) {
   const full = Math.floor(score);
   const half = score - full >= 0.25;
   const empty = 5 - full - (half ? 1 : 0);
-  return <span style={{ color: '#FFD700', fontSize: size }}>{'★'.repeat(full)}{half ? '½' : ''}{'☆'.repeat(empty)}</span>;
+  return <span style={{ color: '#4ade80', fontSize: size }}>{'★'.repeat(full)}{half ? '½' : ''}{'☆'.repeat(empty)}</span>;
 }
 
 function getTodayKey(): string {
@@ -130,8 +130,8 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       }}>
         {/* Header */}
         <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 1 }}>
-          <button onClick={handleClose} style={{ background: 'none', border: 'none', color: '#FFD700', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
-          <h2 style={{ color: '#FFD700', fontSize: 18, fontWeight: 700, margin: 0 }}>Twinkle ✨</h2>
+          <button onClick={handleClose} style={{ background: 'none', border: 'none', color: '#4ade80', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
+          <h2 style={{ color: '#4ade80', fontSize: 18, fontWeight: 700, margin: 0 }}>Twinkle ✨</h2>
         </div>
 
         <div style={{ padding: '0 20px 40px' }}>
@@ -149,7 +149,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   {house.photos.map((p: string, i: number) => (
                     <img key={i} src={p} alt="" onClick={() => setActivePhoto(i)} style={{
                       width: 52, height: 40, objectFit: 'cover', borderRadius: 6, cursor: 'pointer',
-                      border: i === activePhoto ? '2px solid #FFD700' : '2px solid transparent',
+                      border: i === activePhoto ? '2px solid #4ade80' : '2px solid transparent',
                       opacity: i === activePhoto ? 1 : 0.5, transition: 'all 0.2s',
                     }} />
                   ))}
@@ -162,12 +162,12 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           <h3 style={{ color: '#fff', fontSize: 20, fontWeight: 700, margin: '20px 0 6px' }}>{house.address}</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
             <span style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>Rating</span>
-            <span style={{ color: '#FFD700', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>
+            <span style={{ color: '#4ade80', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>
             <span style={{ color: '#888', fontSize: 13 }}>({ratingCount})</span>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
             {features.map((f: Feature) => (
-              <span key={f} style={{ padding: '4px 12px', borderRadius: 16, background: '#111111', border: '1px solid #222', color: '#FFD700', fontSize: 12, fontWeight: 600 }}>
+              <span key={f} style={{ padding: '4px 12px', borderRadius: 16, background: '#111111', border: '1px solid #222', color: '#4ade80', fontSize: 12, fontWeight: 600 }}>
                 {FEATURE_EMOJI[f] || '✨'} {f}
               </span>
             ))}
@@ -182,17 +182,17 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   <div key={i} className="twinkle-confetti-piece" style={{
                     left: `${Math.random() * 100}%`,
                     animationDelay: `${Math.random() * 0.5}s`,
-                    backgroundColor: ['#FFD700', '#FFA500', '#FF6347', '#4ade80', '#60a5fa'][i % 5],
+                    backgroundColor: ['#4ade80', '#22c55e', '#FF6347', '#4ade80', '#60a5fa'][i % 5],
                   }} />
                 ))}
               </div>
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {house.local_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#FFD700' }}>#{house.local_rank}</strong> locally</span>}
+              {house.local_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#4ade80' }}>#{house.local_rank}</strong> locally</span>}
               <span style={{ color: '#555' }}>·</span>
-              {house.national_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#FFA500' }}>#{house.national_rank}</strong> nationally</span>}
+              {house.national_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#22c55e' }}>#{house.national_rank}</strong> nationally</span>}
               <span style={{ color: '#555' }}>·</span>
-              <span style={{ color: '#FFD700', fontSize: 16, fontWeight: 700 }}>{voteCount} votes</span>
+              <span style={{ color: '#4ade80', fontSize: 16, fontWeight: 700 }}>{voteCount} votes</span>
               <div style={{ marginLeft: 'auto' }}>
                 <button
                   onClick={handleVote}
@@ -200,7 +200,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   title={votedToday ? 'Already voted today' : 'Upvote this house!'}
                   style={{
                     width: 40, height: 40, borderRadius: '50%', border: 'none',
-                    background: votedToday ? '#444' : 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    background: votedToday ? '#444' : 'linear-gradient(135deg, #4ade80, #22c55e)',
                     fontSize: 18, cursor: votedToday ? 'not-allowed' : 'pointer',
                     boxShadow: votedToday ? 'none' : '0 0 12px rgba(255,215,0,0.3)',
                     transition: 'all 0.2s ease',
@@ -218,7 +218,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #4ade80, #22c55e)', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
               Get Directions
             </a>
             <button
@@ -244,9 +244,9 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   type="range" min="1" max="5" step="0.5"
                   value={userRating}
                   onChange={e => setUserRating(parseFloat(e.target.value))}
-                  style={{ flex: 1, accentColor: '#FFD700', height: 6, cursor: 'pointer' }}
+                  style={{ flex: 1, accentColor: '#4ade80', height: 6, cursor: 'pointer' }}
                 />
-                <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
+                <span style={{ color: '#4ade80', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
                   {userRating.toFixed(1)}
                 </span>
               </div>
@@ -255,7 +255,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #222', backgroundColor: '#000000', color: '#fff', fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }} />
             <button onClick={submitReview} disabled={!reviewText.trim()} style={{
               marginTop: 8, padding: '8px 20px', borderRadius: 8, border: 'none',
-              background: reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
+              background: reviewText.trim() ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#444',
               color: reviewText.trim() ? '#000000' : '#888',
               fontSize: 13, fontWeight: 700, cursor: reviewText.trim() ? 'pointer' : 'not-allowed',
             }}>Submit Review</button>
@@ -290,7 +290,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                     </button>
                   </div>
                 </div>
-                <span style={{ color: '#FFD700', fontSize: 13, fontWeight: 700 }}>{r.score.toFixed(1)}</span>
+                <span style={{ color: '#4ade80', fontSize: 13, fontWeight: 700 }}>{r.score.toFixed(1)}</span>
                 <p style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4, margin: '6px 0 0' }}>{r.body}</p>
               </div>
             );
@@ -362,7 +362,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       )}
 
       <style>{`
-        textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
         .twinkle-confetti-container {
           position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 10;

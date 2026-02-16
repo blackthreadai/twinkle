@@ -72,7 +72,7 @@ export default function MapScreen() {
   if (locationLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FFD700" />
+        <ActivityIndicator size="large" color="#4ade80" />
         <Text style={styles.loadingText}>Finding your location...</Text>
       </View>
     );
@@ -165,7 +165,7 @@ export default function MapScreen() {
       {/* Loading indicator */}
       {housesLoading && (
         <View style={styles.loadingBadge}>
-          <ActivityIndicator size="small" color="#FFD700" />
+          <ActivityIndicator size="small" color="#4ade80" />
         </View>
       )}
 
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   loadingText: {
-    color: '#FFD700',
+    color: '#4ade80',
     marginTop: 12,
     fontSize: 16,
   },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#FFD700',
+    borderColor: '#4ade80',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   calloutStars: {
-    color: '#FFD700',
+    color: '#4ade80',
     fontSize: 14,
   },
   calloutRatingText: {
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   tagText: {
-    color: '#FFD700',
+    color: '#4ade80',
     fontSize: 11,
   },
   calloutClose: {
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   fabText: {
-    color: '#FFD700',
+    color: '#4ade80',
     fontSize: 28,
     fontWeight: '700',
     lineHeight: 30,

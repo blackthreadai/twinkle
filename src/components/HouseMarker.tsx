@@ -7,8 +7,8 @@ interface HouseMarkerProps {
 }
 
 function ratingToColor(rating: number): string {
-  if (rating >= 4) return '#FFD700'; // bright gold
-  if (rating >= 3) return '#FFA500'; // orange
+  if (rating >= 4) return '#4ade80'; // bright gold
+  if (rating >= 3) return '#22c55e'; // orange
   if (rating >= 2) return '#CD853F'; // dim gold
   return '#8B7355'; // muted brown
 }

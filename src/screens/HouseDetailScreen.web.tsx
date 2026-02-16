@@ -26,7 +26,7 @@ function StarRating({ score, size = 16 }: { score: number; size?: number }) {
   const half = score - full >= 0.25;
   const empty = 5 - full - (half ? 1 : 0);
   return (
-    <span style={{ color: '#FFD700', fontSize: size, letterSpacing: 1 }}>
+    <span style={{ color: '#4ade80', fontSize: size, letterSpacing: 1 }}>
       {'★'.repeat(full)}{half ? '⯨' : ''}{'☆'.repeat(empty)}
     </span>
   );
@@ -67,7 +67,7 @@ export default function HouseDetailScreenWeb() {
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
           <p style={{ color: '#888', fontSize: 16 }}>House not found</p>
-          <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>
+          <a href="/" style={{ color: '#4ade80', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>
         </div>
       </div>
     );
@@ -89,8 +89,8 @@ export default function HouseDetailScreenWeb() {
     <div style={{ width: '100%', minHeight: '100%', background: '#000000', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       {/* Header */}
       <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111' }}>
-        <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 20, lineHeight: 1 }}>←</a>
-        <h1 style={{ color: '#FFD700', fontSize: 20, fontWeight: 700, margin: 0, textShadow: '0 0 15px rgba(255,215,0,0.3)' }}>Twinkle ✨</h1>
+        <a href="/" style={{ color: '#4ade80', textDecoration: 'none', fontSize: 20, lineHeight: 1 }}>←</a>
+        <h1 style={{ color: '#4ade80', fontSize: 20, fontWeight: 700, margin: 0, textShadow: '0 0 15px rgba(255,215,0,0.3)' }}>Twinkle ✨</h1>
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 20px 100px' }}>
@@ -117,7 +117,7 @@ export default function HouseDetailScreenWeb() {
                     onClick={() => setActivePhoto(i)}
                     style={{
                       width: 64, height: 48, objectFit: 'cover', borderRadius: 8, cursor: 'pointer',
-                      border: i === activePhoto ? '2px solid #FFD700' : '2px solid transparent',
+                      border: i === activePhoto ? '2px solid #4ade80' : '2px solid transparent',
                       opacity: i === activePhoto ? 1 : 0.6,
                       transition: 'all 0.2s',
                     }}
@@ -133,7 +133,7 @@ export default function HouseDetailScreenWeb() {
           <h2 style={{ color: '#fff', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>{house.address}</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <StarRating score={rating} size={20} />
-            <span style={{ color: '#FFD700', fontSize: 18, fontWeight: 700 }}>{rating.toFixed(1)}</span>
+            <span style={{ color: '#4ade80', fontSize: 18, fontWeight: 700 }}>{rating.toFixed(1)}</span>
             <span style={{ color: '#888', fontSize: 14 }}>({ratingCount} ratings)</span>
           </div>
 
@@ -142,7 +142,7 @@ export default function HouseDetailScreenWeb() {
             {features.map(f => (
               <span key={f} style={{
                 padding: '6px 14px', borderRadius: 20, background: '#111111', border: '1px solid #222',
-                color: '#FFD700', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4,
+                color: '#4ade80', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4,
               }}>
                 {FEATURE_EMOJI[f] || '✨'} {f}
               </span>
@@ -201,9 +201,9 @@ export default function HouseDetailScreenWeb() {
                   width: s % 1 === 0 ? 36 : 24,
                   height: 36,
                   borderRadius: 8,
-                  border: `2px solid ${userRating === s ? '#FFD700' : '#444'}`,
+                  border: `2px solid ${userRating === s ? '#4ade80' : '#444'}`,
                   background: userRating === s ? 'rgba(255,215,0,0.2)' : 'transparent',
-                  color: userRating !== null && s <= userRating ? '#FFD700' : '#666',
+                  color: userRating !== null && s <= userRating ? '#4ade80' : '#666',
                   fontSize: s % 1 === 0 ? 14 : 11,
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -231,7 +231,7 @@ export default function HouseDetailScreenWeb() {
             disabled={!userRating || !reviewText.trim()}
             style={{
               marginTop: 12, padding: '10px 24px', borderRadius: 10, border: 'none',
-              background: userRating && reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
+              background: userRating && reviewText.trim() ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#444',
               color: userRating && reviewText.trim() ? '#000000' : '#888',
               fontSize: 14, fontWeight: 700, cursor: userRating && reviewText.trim() ? 'pointer' : 'not-allowed',
               transition: 'all 0.2s',
@@ -268,7 +268,7 @@ export default function HouseDetailScreenWeb() {
       <style>{`
         body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
-        textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
       `}</style>
     </div>

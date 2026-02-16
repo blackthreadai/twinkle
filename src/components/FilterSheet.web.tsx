@@ -74,7 +74,7 @@ export function FilterSheet({ visible, initialValues, onApply, onClose }: Filter
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <h2 style={{ color: '#FFD700', margin: 0, fontSize: 22, fontWeight: 700 }}>Filters</h2>
+          <h2 style={{ color: '#4ade80', margin: 0, fontSize: 22, fontWeight: 700 }}>Filters</h2>
           <button
             onClick={onClose}
             style={{
@@ -100,7 +100,7 @@ export function FilterSheet({ visible, initialValues, onApply, onClose }: Filter
           step={1}
           value={radius}
           onChange={(e) => setRadius(Number(e.target.value))}
-          style={{ width: '100%', accentColor: '#FFD700', marginBottom: 20 }}
+          style={{ width: '100%', accentColor: '#4ade80', marginBottom: 20 }}
         />
 
         {/* Min Rating */}
@@ -117,7 +117,7 @@ export function FilterSheet({ visible, initialValues, onApply, onClose }: Filter
                 border: 'none',
                 fontSize: 28,
                 cursor: 'pointer',
-                color: n <= minRating ? '#FFD700' : '#444',
+                color: n <= minRating ? '#4ade80' : '#444',
                 transition: 'color 0.15s',
               }}
             >
@@ -146,7 +146,7 @@ export function FilterSheet({ visible, initialValues, onApply, onClose }: Filter
               style={{
                 padding: '8px 14px',
                 borderRadius: 20,
-                border: `1px solid ${features.includes(f) ? '#FFD700' : '#444'}`,
+                border: `1px solid ${features.includes(f) ? '#4ade80' : '#444'}`,
                 backgroundColor: features.includes(f) ? '#B22222' : '#111111',
                 color: '#fff',
                 fontSize: 13,

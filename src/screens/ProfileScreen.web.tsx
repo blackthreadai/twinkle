@@ -38,7 +38,7 @@ export default function ProfileScreenWeb() {
         {isGuest && (
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <div style={{ fontSize: 64, marginBottom: 12 }}>✨</div>
-            <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 8px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
+            <h1 style={{ color: '#4ade80', fontSize: 28, fontWeight: 800, margin: '0 0 8px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
               Sign In to Get Started
             </h1>
             <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px', lineHeight: 1.5 }}>
@@ -59,15 +59,15 @@ export default function ProfileScreenWeb() {
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={() => setIsGuest(false)} style={{
                   flex: 1, padding: '14px 0', borderRadius: 12, border: 'none',
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000000',
+                  background: 'linear-gradient(135deg, #4ade80, #22c55e)', color: '#000000',
                   fontSize: 16, fontWeight: 800, cursor: 'pointer', transition: 'transform 0.15s',
                 }}
                   onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
                   onMouseLeave={e => { (e.target as HTMLElement).style.transform = 'none'; }}
                 >Sign In</button>
                 <button onClick={() => setIsGuest(false)} style={{
-                  flex: 1, padding: '14px 0', borderRadius: 12, border: '1px solid #FFD700',
-                  background: 'transparent', color: '#FFD700',
+                  flex: 1, padding: '14px 0', borderRadius: 12, border: '1px solid #4ade80',
+                  background: 'transparent', color: '#4ade80',
                   fontSize: 16, fontWeight: 700, cursor: 'pointer', transition: 'transform 0.15s',
                 }}
                   onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
@@ -95,7 +95,7 @@ export default function ProfileScreenWeb() {
             <div style={{
               width: 72, height: 72, borderRadius: 36, background: 'linear-gradient(135deg, #B22222, #8B0000)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32,
-              border: '3px solid #FFD700', boxShadow: '0 4px 15px rgba(178,34,34,0.4)',
+              border: '3px solid #4ade80', boxShadow: '0 4px 15px rgba(178,34,34,0.4)',
             }}>🎅</div>
             <div>
               <h2 style={{ color: '#fff', margin: 0, fontSize: 22, fontWeight: 700 }}>{mockProfile.name}</h2>
@@ -121,7 +121,7 @@ export default function ProfileScreenWeb() {
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 20, marginBottom: 4 }}>{s.icon}</div>
-                <div style={{ color: '#FFD700', fontSize: 22, fontWeight: 800 }}>{s.value}</div>
+                <div style={{ color: '#4ade80', fontSize: 22, fontWeight: 800 }}>{s.value}</div>
                 <div style={{ color: '#888', fontSize: 11, marginTop: 2 }}>{s.label}</div>
               </div>
             ))}
@@ -151,7 +151,7 @@ export default function ProfileScreenWeb() {
                   <img src={h.photos[0]} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.address}</div>
-                    <div style={{ color: '#FFD700', fontSize: 12, marginTop: 2 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</div>
+                    <div style={{ color: '#4ade80', fontSize: 12, marginTop: 2 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</div>
                     <div style={{ color: '#666', fontSize: 11, marginTop: 2 }}>{h.features.map(f => FEATURE_EMOJI[f] || f).join(' ')}</div>
                   </div>
                 </div>
@@ -187,7 +187,7 @@ export default function ProfileScreenWeb() {
                   border: '1px solid #333',
                 }}>
                   <div style={{ color: '#888', fontSize: 12, marginBottom: 4 }}>{r.house}</div>
-                  <div style={{ color: '#FFD700', fontSize: 14, marginBottom: 6 }}>{'★'.repeat(Math.round(r.rating))}{'☆'.repeat(5 - Math.round(r.rating))} {r.rating}</div>
+                  <div style={{ color: '#4ade80', fontSize: 14, marginBottom: 6 }}>{'★'.repeat(Math.round(r.rating))}{'☆'.repeat(5 - Math.round(r.rating))} {r.rating}</div>
                   <div style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4 }}>{r.text}</div>
                 </div>
               ))}
@@ -198,7 +198,7 @@ export default function ProfileScreenWeb() {
 
       <style>{`
         body { margin: 0; background: #000000; }
-        input:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
+        input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
       `}</style>
     </div>

@@ -6,7 +6,7 @@ import { HapticTab } from '@/components/haptic-tab';
 
 const COLORS = {
   background: '#000000',
-  active: '#FFD700',
+  active: '#4ade80',
   inactive: '#666',
   border: '#111111',
 };

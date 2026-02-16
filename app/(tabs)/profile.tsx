@@ -35,5 +35,5 @@ export default function ProfileTab() {
 const styles = StyleSheet.create({
   loading: { flex: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center' },
   sparkle: { fontSize: 48, marginBottom: 12 },
-  loadingText: { color: '#FFD700', fontSize: 16 },
+  loadingText: { color: '#4ade80', fontSize: 16 },
 });
