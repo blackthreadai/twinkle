@@ -41,7 +41,7 @@ function recordVote(houseId: string): void {
 
 export function HouseDetailPanel({ house, onClose }: { house: House; onClose: () => void }) {
   const [activePhoto, setActivePhoto] = useState(0);
-  const [userRating, setUserRating] = useState<number>(2.5);
+  const [userRating, setUserRating] = useState<number>(4);
   const [reviewText, setReviewText] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -63,7 +63,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
     if (!reviewText.trim()) return;
     setShowSuccess(true);
     setReviewText('');
-    setUserRating(2.5);
+    setUserRating(4);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
@@ -179,7 +179,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                     opacity: votedToday ? 0.5 : 1,
                   }}
                 >
-                  ⬆️
+                  <span style={{ color: votedToday ? '#888' : '#fff', fontSize: 18, lineHeight: 1 }}>↑</span>
                 </button>
               </div>
             </div>
