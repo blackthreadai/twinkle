@@ -33,6 +33,7 @@ function StarRating({ score, size = 16 }: { score: number; size?: number }) {
 }
 
 function WebHouseDetail() {
+  const [mounted, setMounted] = useState(false);
   const [house, setHouse] = useState<House | null>(null);
   const [activePhoto, setActivePhoto] = useState(0);
   const [userRating, setUserRating] = useState<number | null>(null);
@@ -43,6 +44,7 @@ function WebHouseDetail() {
   const [leaflet, setLeaflet] = useState<any>(null);
 
   useEffect(() => {
+    setMounted(true);
     const id = getHouseId();
     if (id) {
       const found = mockHouses.find(h => h.id === id);
@@ -66,13 +68,14 @@ function WebHouseDetail() {
     }
   }, [house]);
 
-  if (!house) {
+  // Render same loading state for SSR and initial client mount to avoid hydration mismatch
+  if (!mounted || !house) {
     return (
       <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
-          <p style={{ color: '#888', fontSize: 16 }}>House not found</p>
-          <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>✨</div>
+          <p style={{ color: '#FFD700', fontSize: 16 }}>{mounted ? 'House not found' : 'Loading...'}</p>
+          {mounted && <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>}
         </div>
       </div>
     );
