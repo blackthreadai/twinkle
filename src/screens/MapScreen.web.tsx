@@ -134,7 +134,7 @@ export default function MapScreenWeb() {
           position: 'absolute',
           top: 0,
           left: 0,
-          right: 0,
+          right: 280,
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
@@ -154,11 +154,13 @@ export default function MapScreenWeb() {
             alignItems: 'center',
             gap: 4,
             fontSize: 34,
+            color: '#fff',
+            WebkitTextFillColor: 'initial',
           }}
         >
           <span
             style={{
-              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
               backgroundSize: '400% 100%',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -168,7 +170,7 @@ export default function MapScreenWeb() {
           >
             Twinkle
           </span>
-          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block' }}>✨</span>
+          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block', fontSize: '0.8em' }}>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
@@ -291,7 +293,7 @@ export default function MapScreenWeb() {
                   </div>
                   <div style={{
                     marginTop: 6, padding: '4px 0', textAlign: 'center',
-                    background: 'rgba(255,215,0,0.1)', borderRadius: 6,
+                    background: 'rgba(74,222,128,0.15)', borderRadius: 6,
                     color: '#4ade80', fontSize: 11, fontWeight: 700,
                   }}>
                     View Listing
@@ -321,7 +323,8 @@ export default function MapScreenWeb() {
         body { margin: 0; padding: 0; overflow: hidden; background: #000000; }
         @keyframes twinkle-shimmer {
           0% { background-position: 0% 0%; }
-          100% { background-position: 400% 0%; }
+          50% { background-position: 400% 0%; }
+          100% { background-position: 0% 0%; }
         }
         @keyframes sparkle-pulse {
           0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.6)); }

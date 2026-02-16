@@ -133,7 +133,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           <button onClick={handleClose} style={{ background: 'none', border: 'none', color: '#4ade80', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
           <h2 style={{ fontSize: 22, fontWeight: 700, margin: 0, fontFamily: "'Mountains of Christmas', cursive", display: 'flex', alignItems: 'center', gap: 4 }}>
             <span style={{
-              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
               backgroundSize: '400% 100%',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -210,7 +210,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   title={votedToday ? 'Already voted today' : 'Upvote this house!'}
                   style={{
                     width: 40, height: 40, borderRadius: '50%', border: 'none',
-                    background: votedToday ? '#444' : 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+                    background: votedToday ? '#444' : 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
                     backgroundSize: votedToday ? 'auto' : '400% 100%',
                     animation: votedToday ? 'none' : 'btn-shimmer 12s linear infinite',
                     fontSize: 18, cursor: votedToday ? 'not-allowed' : 'pointer',
@@ -230,7 +230,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
               Get Directions
             </a>
             <button
@@ -377,7 +377,8 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       <style>{`
         @keyframes twinkle-shimmer {
           0% { background-position: 0% 0%; }
-          100% { background-position: 400% 0%; }
+          50% { background-position: 400% 0%; }
+          100% { background-position: 0% 0%; }
         }
         @keyframes sparkle-pulse {
           0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
@@ -387,7 +388,8 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
         }
         @keyframes btn-shimmer {
           0% { background-position: 0% 50%; }
-          100% { background-position: 400% 50%; }
+          50% { background-position: 400% 50%; }
+          100% { background-position: 0% 50%; }
         }
         textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
