@@ -275,8 +275,8 @@ export default function MapScreenWeb() {
               Featured Displays
             </h2>
           )}
-          <span style={{ color: '#4ade80', fontSize: 18, transition: 'transform 0.3s ease', transform: sidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)' }}>
-            {sidebarOpen ? '▶' : '◀'}
+          <span style={{ color: '#4ade80', fontSize: 20, cursor: 'pointer' }}>
+            {sidebarOpen ? '→' : '←'}
           </span>
         </div>
         <div style={{ padding: '8px 10px' }}>
