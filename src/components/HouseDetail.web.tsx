@@ -169,6 +169,19 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
 
           {/* Info */}
           <h3 style={{ color: '#FFD700', fontSize: 22, fontWeight: 700, margin: '20px 0 6px', fontFamily: "'Mountains of Christmas', cursive" }}>{house.address}{house.zip_code ? `, ${house.zip_code}` : ''}</h3>
+          {house.display_type && (
+            <div style={{ marginBottom: 10 }}>
+              <span style={{
+                padding: '4px 14px', borderRadius: 20,
+                background: house.display_type === 'commercial' ? 'rgba(74,222,128,0.15)' : 'rgba(255,215,0,0.1)',
+                border: `1px solid ${house.display_type === 'commercial' ? '#4ade80' : '#FFD700'}`,
+                color: house.display_type === 'commercial' ? '#4ade80' : '#FFD700',
+                fontSize: 12, fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive",
+              }}>
+                {house.display_type === 'commercial' ? '🏢 Commercial Display' : '🏠 Private Residence'}
+              </span>
+            </div>
+          )}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
             <span style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>Rating</span>
             <span style={{ color: '#4ade80', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>

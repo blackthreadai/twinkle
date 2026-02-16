@@ -32,6 +32,7 @@ export interface House {
   national_rank: number | null;
   // Monetization
   is_featured?: boolean;
+  display_type?: 'residential' | 'commercial';
 }
 
 export interface Rating {

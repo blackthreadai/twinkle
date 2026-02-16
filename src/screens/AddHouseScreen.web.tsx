@@ -98,6 +98,7 @@ export default function AddHouseScreenWeb() {
   const [markerPos, setMarkerPos] = useState<[number, number]>(DALLAS);
   const [geocoding, setGeocoding] = useState(false);
   const [geocodeStatus, setGeocodeStatus] = useState<string | null>(null);
+  const [displayType, setDisplayType] = useState<'residential' | 'commercial' | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -191,7 +192,6 @@ export default function AddHouseScreenWeb() {
         }}>
           Add A New Location
         </h1>
-        <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Share an amazing Christmas lights display with the community</p>
 
         {/* Address */}
         <label style={labelStyle}>Address *</label>
@@ -211,6 +211,32 @@ export default function AddHouseScreenWeb() {
         {/* Map (auto-pinned) */}
         <div style={{ marginTop: 12 }}>
           <MiniMap position={markerPos} />
+        </div>
+
+        {/* Display Type */}
+        <label style={{ ...labelStyle, marginTop: 20 }}>Display Type *</label>
+        <div style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
+          {([
+            { key: 'residential' as const, label: 'Private Residence', icon: '🏠' },
+            { key: 'commercial' as const, label: 'Commercial Display', icon: '🏢' },
+          ]).map(({ key, label, icon }) => (
+            <button
+              key={key}
+              onClick={() => setDisplayType(key)}
+              style={{
+                flex: 1, padding: '14px 12px', borderRadius: 12,
+                border: `2px solid ${displayType === key ? '#4ade80' : '#333'}`,
+                background: displayType === key ? 'rgba(74,222,128,0.1)' : '#111111',
+                color: '#fff', fontSize: 15, fontWeight: 600, cursor: 'pointer',
+                fontFamily: "'Mountains of Christmas', cursive",
+                transition: 'all 0.2s',
+                display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: 6,
+              }}
+            >
+              <span style={{ fontSize: 28 }}>{icon}</span>
+              <span style={{ color: displayType === key ? '#4ade80' : '#ccc' }}>{label}</span>
+            </button>
+          ))}
         </div>
 
         {/* Description */}
