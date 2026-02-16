@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { nationalMockHouses } from '../data/mockHouses';
+import { HouseDetailPanel } from '../components/HouseDetail.web';
 import type { House, Feature } from '../types';
 
 const FEATURE_EMOJI: Record<string, string> = {
@@ -38,6 +39,7 @@ export default function LeaderboardScreenWeb() {
   const [tab, setTab] = useState<'local' | 'national'>('local');
   const [zipFilter, setZipFilter] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
 
   // Dallas zip codes for local
   const dallasZips = ['75201', '75205', '75206', '75208', '75209', '75214', '75218', '75219', '75230', '75240'];
@@ -62,8 +64,17 @@ export default function LeaderboardScreenWeb() {
     }}>
       {/* Header */}
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 10 }}>
-        <h1 style={{ color: '#4ade80', fontSize: 24, fontWeight: 800, margin: '0 0 14px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
-          🏆 Leaderboard
+        <h1 style={{
+          fontSize: 28, fontWeight: 700, margin: '0 0 14px',
+          fontFamily: "'Mountains of Christmas', cursive",
+          background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+          backgroundSize: '400% 100%',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text' as any,
+          animation: 'leaderboard-shimmer 12s linear infinite',
+        }}>
+          Leaderboard
         </h1>
 
         {/* Tab toggle */}
@@ -76,10 +87,11 @@ export default function LeaderboardScreenWeb() {
                 flex: 1, padding: '10px 0', border: 'none', cursor: 'pointer',
                 background: tab === t ? 'linear-gradient(135deg, #4ade80, #22c55e)' : '#111111',
                 color: tab === t ? '#000000' : '#888',
-                fontSize: 14, fontWeight: 700, transition: 'all 0.2s',
+                fontSize: 16, fontWeight: 700, transition: 'all 0.2s',
+                fontFamily: "'Mountains of Christmas', cursive",
               }}
             >
-              {t === 'local' ? '🏠 Local' : '🌎 National'}
+              {t === 'local' ? 'Local' : 'National'}
             </button>
           ))}
         </div>
@@ -137,8 +149,8 @@ export default function LeaderboardScreenWeb() {
                   {medalEmoji(rank)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {house.address}
+                  <div style={{ color: '#FFD700', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {house.address}{house.zip_code ? `, ${house.zip_code}` : ''}
                   </div>
                   <div style={{ display: 'flex', gap: 10, marginTop: 4, alignItems: 'center' }}>
                     <span style={{ color: '#4ade80', fontSize: 12, fontWeight: 700 }}>
@@ -169,10 +181,21 @@ export default function LeaderboardScreenWeb() {
                       </span>
                     ))}
                   </div>
-                  <div style={{ display: 'flex', gap: 16, marginTop: 10 }}>
+                  <div style={{ display: 'flex', gap: 16, marginTop: 10, alignItems: 'center' }}>
                     {house.local_rank && <span style={{ color: '#888', fontSize: 12 }}>#{house.local_rank} locally</span>}
                     {house.national_rank && <span style={{ color: '#888', fontSize: 12 }}>#{house.national_rank} nationally</span>}
-                    {house.zip_code && <span style={{ color: '#888', fontSize: 12 }}>📍 {house.zip_code}</span>}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setSelectedHouse(house); }}
+                      style={{
+                        marginLeft: 'auto', padding: '6px 16px', borderRadius: 8, border: 'none',
+                        background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                        backgroundSize: '400% 100%', animation: 'leaderboard-shimmer 12s linear infinite',
+                        color: '#000', fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                        fontFamily: "'Mountains of Christmas', cursive",
+                      }}
+                    >
+                      View
+                    </button>
                   </div>
                 </div>
               )}
@@ -181,9 +204,18 @@ export default function LeaderboardScreenWeb() {
         })}
       </div>
 
+      {selectedHouse && (
+        <HouseDetailPanel house={selectedHouse} onClose={() => setSelectedHouse(null)} />
+      )}
+
       <style>{`
         input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
+        @keyframes leaderboard-shimmer {
+          0% { background-position: 0% 0%; }
+          50% { background-position: 400% 0%; }
+          100% { background-position: 0% 0%; }
+        }
       `}</style>
     </div>
   );
