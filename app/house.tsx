@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, View, Text, StyleSheet } from 'react-native';
-import { mockHouses } from '../../src/data/mockHouses';
-import type { Feature, House } from '../../src/types';
+import { Platform, View, Text } from 'react-native';
+import { mockHouses } from '../src/data/mockHouses';
+import type { Feature, House } from '../src/types';
 
 const FEATURE_EMOJI: Record<string, string> = {
   Lights: '🎄', Music: '🎶', Strobes: '⚡', Animatronics: '🦌', Blowups: '⛄',
@@ -14,12 +14,6 @@ const MOCK_REVIEWS = [
   { id: '4', user: 'David L.', score: 4, body: 'Really well done. The animatronics are a nice touch. Parking can be tricky though.', date: 'Dec 14, 2024' },
   { id: '5', user: 'Amanda K.', score: 4.5, body: "Pure magic. My 3-year-old didn't want to leave. The radio station sync is genius.", date: 'Dec 15, 2024' },
 ];
-
-function getHouseId(): string | null {
-  if (typeof window === 'undefined') return null;
-  const parts = window.location.pathname.split('/');
-  return parts[parts.length - 1] || null;
-}
 
 function StarRating({ score, size = 16 }: { score: number; size?: number }) {
   const full = Math.floor(score);
@@ -45,7 +39,9 @@ function WebHouseDetail() {
 
   useEffect(() => {
     setMounted(true);
-    const id = getHouseId();
+    // Get house ID from query param: /house?id=mock-1
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
     if (id) {
       const found = mockHouses.find(h => h.id === id);
       if (found) setHouse(found);
@@ -68,14 +64,24 @@ function WebHouseDetail() {
     }
   }, [house]);
 
-  // Render same loading state for SSR and initial client mount to avoid hydration mismatch
-  if (!mounted || !house) {
+  if (!mounted) {
     return (
       <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>✨</div>
-          <p style={{ color: '#FFD700', fontSize: 16 }}>{mounted ? 'House not found' : 'Loading...'}</p>
-          {mounted && <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>}
+          <p style={{ color: '#FFD700', fontSize: 16 }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!house) {
+    return (
+      <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
+          <p style={{ color: '#888', fontSize: 16 }}>House not found</p>
+          <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 14 }}>← Back to map</a>
         </div>
       </div>
     );
@@ -101,6 +107,7 @@ function WebHouseDetail() {
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 20px 100px' }}>
+        {/* Photo Gallery */}
         {house.photos.length > 0 && (
           <div style={{ marginTop: 20 }}>
             <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
@@ -123,6 +130,7 @@ function WebHouseDetail() {
           </div>
         )}
 
+        {/* House Info */}
         <div style={{ marginTop: 24 }}>
           <h2 style={{ color: '#fff', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>{house.address}</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -217,13 +225,11 @@ function WebHouseDetail() {
 
 export default function HouseDetailRoute() {
   if (Platform.OS !== 'web') {
-    // Native version placeholder
     return (
       <View style={{ flex: 1, backgroundColor: '#1a1a2e', alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ color: '#FFD700', fontSize: 18 }}>House Detail (Native)</Text>
+        <Text style={{ color: '#FFD700', fontSize: 18 }}>House Detail</Text>
       </View>
     );
   }
-
   return <WebHouseDetail />;
 }
