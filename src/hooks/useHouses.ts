@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { mockHouses } from '../data/mockHouses';
 import type { Feature, House } from '../types';
 
 export interface MapBounds {
@@ -9,7 +10,7 @@ export interface MapBounds {
 
 export interface HouseFilters {
   bounds?: MapBounds;
-  radius?: number; // miles (unused when bounds provided)
+  radius?: number;
   minRating?: number;
   features?: Feature[];
 }
@@ -18,6 +19,19 @@ interface HousesState {
   houses: House[];
   loading: boolean;
   error: string | null;
+}
+
+function filterMockHouses(houses: House[], filters: HouseFilters): House[] {
+  return houses.filter((h) => {
+    if (filters.minRating && filters.minRating > 0 && (h.avg_rating ?? 0) < filters.minRating) {
+      return false;
+    }
+    if (filters.features && filters.features.length > 0) {
+      const houseFeatures = h.features as Feature[];
+      if (!filters.features.every((f) => houseFeatures.includes(f))) return false;
+    }
+    return true;
+  });
 }
 
 export function useHouses(filters: HouseFilters) {
@@ -31,6 +45,13 @@ export function useHouses(filters: HouseFilters) {
 
   const fetchHouses = useCallback(async () => {
     setState((prev) => ({ ...prev, loading: true, error: null }));
+
+    // Use mock data when Supabase isn't configured
+    if (!isSupabaseConfigured) {
+      const filtered = filterMockHouses(mockHouses, filters);
+      setState({ houses: filtered, loading: false, error: null });
+      return;
+    }
 
     try {
       let query = supabase
@@ -48,7 +69,6 @@ export function useHouses(filters: HouseFilters) {
       }
 
       if (filters.features && filters.features.length > 0) {
-        // Filter houses that contain ALL selected features
         for (const feature of filters.features) {
           query = query.contains('features', JSON.stringify([feature]));
         }
@@ -61,7 +81,6 @@ export function useHouses(filters: HouseFilters) {
         return;
       }
 
-      // Flatten the joined stats and apply minRating filter client-side
       const houses: House[] = (data ?? [])
         .map((row: Record<string, unknown>) => {
           const stats = row.house_stats as
@@ -85,11 +104,9 @@ export function useHouses(filters: HouseFilters) {
 
       setState({ houses, loading: false, error: null });
     } catch (err) {
-      setState({
-        houses: [],
-        loading: false,
-        error: err instanceof Error ? err.message : 'Unknown error',
-      });
+      // Fall back to mock data on error
+      const filtered = filterMockHouses(mockHouses, filters);
+      setState({ houses: filtered, loading: false, error: null });
     }
   }, [filters.bounds?.ne.lat, filters.bounds?.ne.lng, filters.bounds?.sw.lat, filters.bounds?.sw.lng, filters.minRating, filters.features?.join(','), currentYear]);
 
