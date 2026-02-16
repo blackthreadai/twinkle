@@ -62,17 +62,18 @@ export default function LeaderboardScreenWeb() {
       width: '100%', height: '100%', background: '#000000',
       fontFamily: 'system-ui, -apple-system, sans-serif', overflowY: 'auto',
     }}>
+      <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 0 100px' }}>
       {/* Header */}
       <div style={{ padding: '16px 20px', borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 10 }}>
         <h1 style={{
           fontSize: 28, fontWeight: 700, margin: '0 0 14px',
           fontFamily: "'Mountains of Christmas', cursive",
-          backgroundImage: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+          background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
           backgroundSize: '400% 100%',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text' as any,
-          animation: 'leaderboard-shimmer 12s linear infinite',
+          animation: 'twinkle-shimmer 12s linear infinite',
         }}>
           Leaderboard
         </h1>
@@ -165,22 +166,30 @@ export default function LeaderboardScreenWeb() {
                   <div style={{ color: '#888', fontSize: 9 }}>votes</div>
                 </div>
                 <button
+                  className="gradient-border-btn"
                   onClick={(e) => { e.stopPropagation(); setSelectedHouse(house); }}
                   style={{
-                    padding: '6px 14px', borderRadius: 8, border: 'none',
-                    backgroundImage: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
-                    backgroundSize: '400% 100%', animation: 'leaderboard-shimmer 12s linear infinite',
-                    color: '#000', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                    padding: '6px 14px', borderRadius: 8, background: 'none',
+                    fontSize: 14, fontWeight: 700, cursor: 'pointer',
                     fontFamily: "'Mountains of Christmas', cursive",
                     flexShrink: 0,
                   }}
                 >
-                  View
+                  <span style={{
+                    background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                    backgroundSize: '400% 100%',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text' as any,
+                    animation: 'twinkle-shimmer 12s linear infinite',
+                  }}>View</span>
                 </button>
               </div>
             </div>
           );
         })}
+      </div>
+
       </div>
 
       {selectedHouse && (
@@ -190,10 +199,29 @@ export default function LeaderboardScreenWeb() {
       <style>{`
         input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
-        @keyframes leaderboard-shimmer {
+        @keyframes twinkle-shimmer {
           0% { background-position: 0% 0%; }
           50% { background-position: 400% 0%; }
           100% { background-position: 0% 0%; }
+        }
+        .gradient-border-btn {
+          position: relative;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .gradient-border-btn::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 10px;
+          padding: 2px;
+          background: linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700);
+          background-size: 400% 100%;
+          animation: twinkle-shimmer 12s linear infinite;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
         }
       `}</style>
     </div>
