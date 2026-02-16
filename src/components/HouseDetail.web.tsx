@@ -159,11 +159,11 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               </div>
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ color: '#FFD700', fontSize: 14, fontWeight: 700 }}>{voteCount} votes</span>
+              {house.local_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#FFD700' }}>#{house.local_rank}</strong> locally</span>}
               <span style={{ color: '#555' }}>·</span>
-              {house.local_rank && <span style={{ color: '#ccc', fontSize: 13 }}>🏠 <strong style={{ color: '#FFD700' }}>#{house.local_rank}</strong> locally</span>}
+              {house.national_rank && <span style={{ color: '#ccc', fontSize: 16 }}><strong style={{ color: '#FFA500' }}>#{house.national_rank}</strong> nationally</span>}
               <span style={{ color: '#555' }}>·</span>
-              {house.national_rank && <span style={{ color: '#ccc', fontSize: 13 }}>🌎 <strong style={{ color: '#FFA500' }}>#{house.national_rank}</strong> nationally</span>}
+              <span style={{ color: '#FFD700', fontSize: 16, fontWeight: 700 }}>{voteCount} votes</span>
               <div style={{ marginLeft: 'auto' }}>
                 <button
                   onClick={handleVote}
@@ -189,7 +189,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions */}
           <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
             style={{ display: 'inline-block', padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e', fontSize: 14, textDecoration: 'none', fontWeight: 700, marginBottom: 24 }}>
-            🗺️ Get Directions
+            Get Directions
           </a>
 
           {/* Rate */}
