@@ -252,6 +252,19 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               }}>Get Directions</span>
             </a>
             <button
+              className="gradient-border-btn"
+              onClick={() => { /* TODO: add to route logic */ }}
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'none', fontSize: 16, fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive", cursor: 'pointer', border: '2px solid transparent' }}>
+              <span style={{
+                background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                backgroundSize: '400% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text' as any,
+                animation: 'btn-shimmer 12s linear infinite',
+              }}>Add to Route</span>
+            </button>
+            <button
               onClick={() => !houseFlagged && setShowFlagModal({ type: 'house', id: house.id })}
               disabled={houseFlagged}
               style={{
