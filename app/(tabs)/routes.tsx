@@ -33,7 +33,7 @@ export default function RoutesTab() {
 }
 
 const styles = StyleSheet.create({
-  loading: { flex: 1, backgroundColor: '#1a1a2e', alignItems: 'center', justifyContent: 'center' },
+  loading: { flex: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center' },
   sparkle: { fontSize: 48, marginBottom: 12 },
   loadingText: { color: '#FFD700', fontSize: 16 },
 });

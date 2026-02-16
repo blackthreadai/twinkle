@@ -140,7 +140,7 @@ export default function MapScreenWeb() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '12px 20px',
-          background: 'linear-gradient(to bottom, rgba(26,26,46,0.95), rgba(26,26,46,0))',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0))',
           pointerEvents: 'none',
         }}
       >
@@ -169,7 +169,7 @@ export default function MapScreenWeb() {
           >
             Twinkle
           </span>
-          <span style={{ filter: 'drop-shadow(0 0 6px rgba(255,215,0,0.6))' }}>✨</span>
+          <span>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
@@ -252,7 +252,7 @@ export default function MapScreenWeb() {
       {/* Featured Sidebar */}
       <div style={{
         position: 'absolute', top: 0, right: 0, bottom: 0, width: 280,
-        background: 'linear-gradient(to bottom, rgba(26,26,46,0.97), rgba(26,26,46,0.95))',
+        background: 'linear-gradient(to bottom, rgba(0,0,0,0.97), rgba(0,0,0,0.95))',
         zIndex: 999, overflowY: 'auto', borderLeft: '1px solid #111111',
         fontFamily: 'system-ui, -apple-system, sans-serif',
         backdropFilter: 'blur(10px)',
@@ -360,7 +360,7 @@ export default function MapScreenWeb() {
           color: #FFD700 !important;
         }
         .leaflet-control-attribution {
-          background: rgba(26,26,46,0.7) !important;
+          background: rgba(0,0,0,0.7) !important;
           color: #666 !important;
         }
         .leaflet-control-attribution a {

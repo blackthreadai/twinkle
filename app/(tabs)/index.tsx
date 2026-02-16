@@ -46,7 +46,7 @@ export default function ExploreTab() {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },

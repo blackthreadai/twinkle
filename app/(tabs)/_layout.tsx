@@ -5,10 +5,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { HapticTab } from '@/components/haptic-tab';
 
 const COLORS = {
-  background: '#1a1a2e',
+  background: '#000000',
   active: '#FFD700',
   inactive: '#666',
-  border: '#2a2a4e',
+  border: '#111111',
 };
 
 export default function TabLayout() {
