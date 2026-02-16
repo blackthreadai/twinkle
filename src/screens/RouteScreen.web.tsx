@@ -129,7 +129,7 @@ export default function RouteScreenWeb() {
     <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{
-          fontSize: 28, fontWeight: 700, margin: '0 0 4px',
+          fontSize: 42, fontWeight: 700, margin: '0 0 4px',
           fontFamily: "'Mountains of Christmas', cursive",
           background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
           backgroundSize: '400% 100%',
@@ -140,7 +140,6 @@ export default function RouteScreenWeb() {
         }}>
           Plan Your Route
         </h1>
-        <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Build the perfect Christmas lights tour</p>
 
         {/* Duration */}
         <label style={labelStyle}>Duration</label>
@@ -172,14 +171,16 @@ export default function RouteScreenWeb() {
 
         {/* Min Rating */}
         <label style={labelStyle}>Minimum Rating</label>
-        <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 20 }}>
-          {[1, 2, 3, 4, 5].map(n => (
-            <button key={n} onClick={() => setMinRating(minRating === n ? 0 : n)} style={{
-              background: 'none', border: 'none', fontSize: 28, cursor: 'pointer',
-              color: n <= minRating ? '#4ade80' : '#444', transition: 'color 0.15s',
-            }}>★</button>
-          ))}
-          {minRating > 0 && <button onClick={() => setMinRating(0)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 12, cursor: 'pointer', marginLeft: 8 }}>Clear</button>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+          <input
+            type="range" min="0" max="5" step="0.5"
+            value={minRating}
+            onChange={e => setMinRating(parseFloat(e.target.value))}
+            style={{ flex: 1, accentColor: '#FFD700', height: 6, cursor: 'pointer' }}
+          />
+          <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center', fontFamily: "'Mountains of Christmas', cursive" }}>
+            {minRating > 0 ? minRating.toFixed(1) : 'Any'}
+          </span>
         </div>
 
         {/* Feature Preferences */}
