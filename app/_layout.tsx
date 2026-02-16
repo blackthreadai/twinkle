@@ -16,7 +16,19 @@ function LoadWebFont() {
 
     const style = document.createElement('style');
     style.textContent = `
-      [role="tab"]:hover { color: #4ade80 !important; transition: color 0.2s ease; }
+      [role="tab"]:hover,
+      [role="tab"]:hover * ,
+      a[href]:hover [data-testid],
+      [role="tablist"] > *:hover,
+      [role="tablist"] > *:hover * {
+        color: #4ade80 !important;
+        transition: color 0.2s ease;
+      }
+      [role="tab"]:hover svg,
+      [role="tablist"] > *:hover svg {
+        fill: #4ade80 !important;
+        transition: fill 0.2s ease;
+      }
     `;
     document.head.appendChild(style);
   }, []);
