@@ -67,7 +67,7 @@ export default function LeaderboardScreenWeb() {
         <h1 style={{
           fontSize: 28, fontWeight: 700, margin: '0 0 14px',
           fontFamily: "'Mountains of Christmas', cursive",
-          background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+          backgroundImage: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
           backgroundSize: '400% 100%',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
@@ -137,10 +137,9 @@ export default function LeaderboardScreenWeb() {
           return (
             <div
               key={house.id}
-              onClick={() => setExpandedId(expanded ? null : house.id)}
               style={{
                 background: rankBg(rank), border: rankBorder(rank),
-                borderRadius: 12, padding: 14, marginTop: 10, cursor: 'pointer',
+                borderRadius: 12, padding: 14, marginTop: 10,
                 transition: 'all 0.2s',
               }}
             >
@@ -161,44 +160,24 @@ export default function LeaderboardScreenWeb() {
                     </span>
                   </div>
                 </div>
-                <div style={{ color: '#4ade80', fontSize: 20, fontWeight: 800 }}>
+                <div style={{ color: '#4ade80', fontSize: 20, fontWeight: 800, textAlign: 'center' }}>
                   {house.votes}
-                  <div style={{ color: '#888', fontSize: 9, textAlign: 'center' }}>votes</div>
+                  <div style={{ color: '#888', fontSize: 9 }}>votes</div>
                 </div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setSelectedHouse(house); }}
+                  style={{
+                    padding: '6px 14px', borderRadius: 8, border: 'none',
+                    backgroundImage: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                    backgroundSize: '400% 100%', animation: 'leaderboard-shimmer 12s linear infinite',
+                    color: '#000', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                    fontFamily: "'Mountains of Christmas', cursive",
+                    flexShrink: 0,
+                  }}
+                >
+                  View
+                </button>
               </div>
-              {expanded && (
-                <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #222' }}>
-                  {house.photos.length > 0 && (
-                    <img src={house.photos[0]} alt="" style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 8, marginBottom: 10 }} />
-                  )}
-                  {house.description && (
-                    <p style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4, margin: '0 0 8px' }}>{house.description}</p>
-                  )}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {(house.features as Feature[]).map(f => (
-                      <span key={f} style={{ padding: '3px 10px', borderRadius: 12, background: '#000000', border: '1px solid #222', color: '#4ade80', fontSize: 11, fontWeight: 600 }}>
-                        {FEATURE_EMOJI[f] || '✨'} {f}
-                      </span>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', gap: 16, marginTop: 10, alignItems: 'center' }}>
-                    {house.local_rank && <span style={{ color: '#888', fontSize: 12 }}>#{house.local_rank} locally</span>}
-                    {house.national_rank && <span style={{ color: '#888', fontSize: 12 }}>#{house.national_rank} nationally</span>}
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setSelectedHouse(house); }}
-                      style={{
-                        marginLeft: 'auto', padding: '6px 16px', borderRadius: 8, border: 'none',
-                        background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
-                        backgroundSize: '400% 100%', animation: 'leaderboard-shimmer 12s linear infinite',
-                        color: '#000', fontSize: 13, fontWeight: 700, cursor: 'pointer',
-                        fontFamily: "'Mountains of Christmas', cursive",
-                      }}
-                    >
-                      View
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
           );
         })}

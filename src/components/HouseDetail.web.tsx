@@ -207,19 +207,30 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   onClick={handleVote}
                   disabled={votedToday}
                   title={votedToday ? 'Already voted today' : 'Upvote this house!'}
+                  className={votedToday ? '' : 'gradient-border-btn gradient-border-round'}
                   style={{
-                    width: 40, height: 40, borderRadius: '50%', border: 'none',
-                    background: votedToday ? '#444' : 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
-                    backgroundSize: votedToday ? 'auto' : '400% 100%',
-                    animation: votedToday ? 'none' : 'btn-shimmer 12s linear infinite',
+                    width: 40, height: 40, borderRadius: '50%',
+                    border: votedToday ? '2px solid #444' : 'none',
+                    background: votedToday ? '#222' : 'none',
                     fontSize: 18, cursor: votedToday ? 'not-allowed' : 'pointer',
-                    boxShadow: votedToday ? 'none' : '0 0 12px rgba(255,215,0,0.3)',
                     transition: 'all 0.2s ease',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     opacity: votedToday ? 0.5 : 1,
                   }}
                 >
-                  <span style={{ color: votedToday ? '#888' : '#fff', fontSize: 18, lineHeight: 1 }}>↑</span>
+                  {votedToday ? (
+                    <span style={{ color: '#888', fontSize: 18, lineHeight: 1 }}>↑</span>
+                  ) : (
+                    <span style={{
+                      background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                      backgroundSize: '400% 100%',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text' as any,
+                      animation: 'btn-shimmer 12s linear infinite',
+                      fontSize: 20, lineHeight: 1, fontWeight: 800,
+                    }}>↑</span>
+                  )}
                 </button>
               </div>
             </div>
@@ -229,8 +240,16 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 16, textDecoration: 'none', fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive" }}>
-              Get Directions
+              className="gradient-border-btn"
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'none', fontSize: 16, textDecoration: 'none', fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive", display: 'inline-block' }}>
+              <span style={{
+                background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                backgroundSize: '400% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text' as any,
+                animation: 'btn-shimmer 12s linear infinite',
+              }}>Get Directions</span>
             </a>
             <button
               onClick={() => !houseFlagged && setShowFlagModal({ type: 'house', id: house.id })}
@@ -389,6 +408,28 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           0% { background-position: 0% 50%; }
           50% { background-position: 400% 50%; }
           100% { background-position: 0% 50%; }
+        }
+        .gradient-border-btn {
+          position: relative;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .gradient-border-btn::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 12px;
+          padding: 2px;
+          background: linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700);
+          background-size: 400% 100%;
+          animation: btn-shimmer 12s linear infinite;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
+        .gradient-border-round::before {
+          border-radius: 50%;
         }
         textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
