@@ -13,6 +13,12 @@ function LoadWebFont() {
     link.href = 'https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
+
+    const style = document.createElement('style');
+    style.textContent = `
+      [role="tab"]:hover { color: #4ade80 !important; transition: color 0.2s ease; }
+    `;
+    document.head.appendChild(style);
   }, []);
   return null;
 }

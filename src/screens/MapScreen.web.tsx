@@ -95,6 +95,7 @@ export default function MapScreenWeb() {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
   const [mapBounds, setMapBounds] = useState<L.LatLngBounds | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [filterValues, setFilterValues] = useState<FilterValues>({
     radius: 10,
     minRating: 0,
@@ -134,7 +135,8 @@ export default function MapScreenWeb() {
           position: 'absolute',
           top: 0,
           left: 0,
-          right: 280,
+          right: sidebarOpen ? 280 : 48,
+          transition: 'right 0.3s ease',
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
@@ -153,7 +155,7 @@ export default function MapScreenWeb() {
             display: 'flex',
             alignItems: 'center',
             gap: 4,
-            fontSize: 34,
+            fontSize: 42,
             color: '#fff',
             WebkitTextFillColor: 'initial',
           }}
@@ -170,7 +172,6 @@ export default function MapScreenWeb() {
           >
             Twinkle
           </span>
-          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block', fontSize: '0.8em', WebkitBackgroundClip: 'initial', backgroundClip: 'initial', WebkitTextFillColor: 'initial', background: 'none' }}>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
@@ -252,16 +253,31 @@ export default function MapScreenWeb() {
 
       {/* Featured Sidebar */}
       <div style={{
-        position: 'absolute', top: 0, right: 0, bottom: 0, width: 280,
+        position: 'absolute', top: 0, right: 0, bottom: 0, width: sidebarOpen ? 280 : 48,
         background: 'linear-gradient(to bottom, rgba(0,0,0,0.97), rgba(0,0,0,0.95))',
-        zIndex: 999, overflowY: 'auto', borderLeft: '1px solid #111111',
+        zIndex: 999, overflowY: sidebarOpen ? 'auto' : 'hidden', borderLeft: '1px solid #111111',
         fontFamily: 'system-ui, -apple-system, sans-serif',
         backdropFilter: 'blur(10px)',
+        transition: 'width 0.3s ease',
       }}>
-        <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #111111' }}>
-          <h2 style={{ color: '#4ade80', fontSize: 18, fontWeight: 700, margin: 0, letterSpacing: 1, fontFamily: "'Mountains of Christmas', cursive" }}>
-            Featured Displays
-          </h2>
+        <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #111111', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+          onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen && (
+            <h2 style={{
+              fontSize: 20, fontWeight: 700, margin: 0, letterSpacing: 1, fontFamily: "'Mountains of Christmas', cursive",
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+              backgroundSize: '400% 100%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text' as any,
+              animation: 'twinkle-shimmer 12s linear infinite',
+            }}>
+              Featured Displays
+            </h2>
+          )}
+          <span style={{ color: '#4ade80', fontSize: 18, transition: 'transform 0.3s ease', transform: sidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)' }}>
+            {sidebarOpen ? '▶' : '◀'}
+          </span>
         </div>
         <div style={{ padding: '8px 10px' }}>
           {houses.filter(h => h.is_featured && (!mapBounds || mapBounds.contains(L.latLng(h.lat, h.lng)))).map(h => {
