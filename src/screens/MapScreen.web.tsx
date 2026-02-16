@@ -170,7 +170,7 @@ export default function MapScreenWeb() {
           >
             Twinkle
           </span>
-          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block', fontSize: '0.8em' }}>✨</span>
+          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block', fontSize: '0.8em', WebkitBackgroundClip: 'initial', backgroundClip: 'initial', WebkitTextFillColor: 'initial', background: 'none' }}>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
@@ -280,7 +280,7 @@ export default function MapScreenWeb() {
               >
                 <img src={h.photos[0]} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }} />
                 <div style={{ padding: '8px 10px' }}>
-                  <div style={{ color: '#fff', fontSize: 12, fontWeight: 600, lineHeight: 1.3, marginBottom: 4,
+                  <div style={{ color: '#FFD700', fontSize: 12, fontWeight: 600, lineHeight: 1.3, marginBottom: 4,
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {h.address}
                   </div>
@@ -294,7 +294,7 @@ export default function MapScreenWeb() {
                   <div style={{
                     marginTop: 6, padding: '4px 0', textAlign: 'center',
                     background: 'rgba(74,222,128,0.15)', borderRadius: 6,
-                    color: '#4ade80', fontSize: 11, fontWeight: 700,
+                    color: '#4ade80', fontSize: 13, fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive",
                   }}>
                     View Listing
                   </div>

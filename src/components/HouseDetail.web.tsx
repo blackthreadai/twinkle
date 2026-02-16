@@ -169,7 +169,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           )}
 
           {/* Info */}
-          <h3 style={{ color: '#fff', fontSize: 20, fontWeight: 700, margin: '20px 0 6px' }}>{house.address}</h3>
+          <h3 style={{ color: '#FFD700', fontSize: 20, fontWeight: 700, margin: '20px 0 6px' }}>{house.address}</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
             <span style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>Rating</span>
             <span style={{ color: '#4ade80', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>
@@ -230,7 +230,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 16, textDecoration: 'none', fontWeight: 700, fontFamily: "'Mountains of Christmas', cursive" }}>
               Get Directions
             </a>
             <button
@@ -249,16 +249,16 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
 
           {/* Rate */}
           <div style={{ background: '#111111', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
-            <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>Rate This House</h4>
+            <h4 style={{ color: '#FFD700', fontSize: 18, fontWeight: 700, margin: '0 0 12px', fontFamily: "'Mountains of Christmas', cursive" }}>Rate This House</h4>
             <div style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <input
                   type="range" min="1" max="5" step="0.5"
                   value={userRating}
                   onChange={e => setUserRating(parseFloat(e.target.value))}
-                  style={{ flex: 1, accentColor: '#4ade80', height: 6, cursor: 'pointer' }}
+                  style={{ flex: 1, accentColor: '#FFD700', height: 6, cursor: 'pointer' }}
                 />
-                <span style={{ color: '#4ade80', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
+                <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
                   {userRating.toFixed(1)}
                 </span>
               </div>
@@ -275,7 +275,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           </div>
 
           {/* Reviews */}
-          <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>💬 Reviews ({MOCK_REVIEWS.length})</h4>
+          <h4 style={{ color: '#4ade80', fontSize: 18, fontWeight: 700, margin: '0 0 12px', fontFamily: "'Mountains of Christmas', cursive" }}>💬 Reviews ({MOCK_REVIEWS.length})</h4>
           {MOCK_REVIEWS.filter(r => (reviewFlags[r.id] ?? 0) < AUTO_HIDE_THRESHOLD).map(r => {
             const flagCount = reviewFlags[r.id] ?? 0;
             const isFlagged = flaggedReviews.has(r.id);

@@ -24,7 +24,12 @@ export default function TabLayout() {
           borderTopColor: COLORS.border,
           borderTopWidth: 1,
           paddingBottom: 4,
-          height: 60,
+          height: 64,
+        },
+        tabBarLabelStyle: {
+          fontFamily: 'Mountains of Christmas',
+          fontSize: 13,
+          fontWeight: '700' as const,
         },
       }}
     >
