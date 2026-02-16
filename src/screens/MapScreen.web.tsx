@@ -19,7 +19,7 @@ function ratingToColor(rating: number): string {
 
 function createStarIcon(house: House): L.DivIcon {
   const rating = house.avg_rating ?? 0;
-  const color = house.is_featured ? '#4ade80' : ratingToColor(rating);
+  const color = house.local_rank === 1 ? '#ff4d6d' : house.is_featured ? '#4ade80' : ratingToColor(rating);
   const scale = rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
   const glow = rating >= 4 ? 8 : 4;
 
