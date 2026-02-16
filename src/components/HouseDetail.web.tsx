@@ -123,16 +123,21 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Rate */}
           <div style={{ background: '#2a2a4e', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
             <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>⭐ Rate This House</h4>
-            <div style={{ display: 'flex', gap: 4, marginBottom: 12, flexWrap: 'wrap' }}>
-              {[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(s => (
-                <button key={s} onClick={() => setUserRating(s)} style={{
-                  width: s % 1 === 0 ? 34 : 22, height: 34, borderRadius: 6,
-                  border: `2px solid ${userRating === s ? '#FFD700' : '#444'}`,
-                  background: userRating === s ? 'rgba(255,215,0,0.2)' : 'transparent',
-                  color: userRating !== null && s <= userRating ? '#FFD700' : '#666',
-                  fontSize: s % 1 === 0 ? 13 : 10, fontWeight: 700, cursor: 'pointer',
-                }}>{s}</button>
-              ))}
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <input
+                  type="range" min="1" max="5" step="0.5"
+                  value={userRating ?? 3}
+                  onChange={e => setUserRating(parseFloat(e.target.value))}
+                  style={{ flex: 1, accentColor: '#FFD700', height: 6, cursor: 'pointer' }}
+                />
+                <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
+                  {userRating ? userRating.toFixed(1) : '—'}
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 2px 0', color: '#555', fontSize: 10 }}>
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+              </div>
             </div>
             <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience..." rows={2}
               style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #444', backgroundColor: '#1a1a2e', color: '#fff', fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }} />
