@@ -1,58 +1,88 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { Feature } from '../types';
 
-const ALL_FEATURES: Feature[] = ['Lights', 'Music', 'Strobes', 'Animatronics', 'Blowups'];
-const FEATURE_EMOJI: Record<Feature, string> = {
-  Lights: '💡', Music: '🎵', Strobes: '⚡', Animatronics: '🤖', Blowups: '🎈',
-};
+type LightCount = '1-5000' | '5001-10000' | '10000+';
+type MusicType = 'LIVE' | 'RADIO';
+
+const BASE_FEATURES: { key: Feature; emoji: string }[] = [
+  { key: 'Lights', emoji: '🎄' },
+  { key: 'Music', emoji: '🎶' },
+  { key: 'Strobes', emoji: '⚡' },
+  { key: 'Animatronics', emoji: '🦌' },
+  { key: 'Blowups', emoji: '⛄' },
+];
+
+const LIGHT_COUNTS: { label: string; value: LightCount }[] = [
+  { label: '1 – 5,000', value: '1-5000' },
+  { label: '5,001 – 10,000', value: '5001-10000' },
+  { label: '10,000+', value: '10000+' },
+];
 
 const DALLAS: [number, number] = [32.7767, -96.7970];
 
-function MiniMap({ position, onPositionChange }: { position: [number, number]; onPositionChange: (pos: [number, number]) => void }) {
+// Simple geocoding via Nominatim (free, no API key)
+async function geocodeAddress(address: string): Promise<[number, number] | null> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`,
+      { headers: { 'User-Agent': 'Twinkle-App' } }
+    );
+    const data = await res.json();
+    if (data.length > 0) {
+      return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+    }
+  } catch {}
+  return null;
+}
+
+function MiniMap({ position }: { position: [number, number] }) {
   const [mapMod, setMapMod] = useState<any>(null);
   const [leaflet, setLeaflet] = useState<any>(null);
 
   useEffect(() => {
-    Promise.all([
-      import('react-leaflet'),
-      import('leaflet'),
-    ]).then(([rl, L]) => {
+    Promise.all([import('react-leaflet'), import('leaflet')]).then(([rl, L]) => {
       setMapMod(rl);
       setLeaflet(L);
     });
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-    document.head.appendChild(link);
+    if (!document.getElementById('leaflet-css-add')) {
+      const link = document.createElement('link');
+      link.id = 'leaflet-css-add';
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+    }
   }, []);
 
   if (!mapMod || !leaflet) {
-    return <div style={{ height: 250, background: '#2a2a4e', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>Loading map...</div>;
+    return (
+      <div style={{ height: 220, background: '#2a2a4e', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
+        Loading map...
+      </div>
+    );
   }
 
-  const { MapContainer, TileLayer, Marker, useMapEvents } = mapMod;
+  const { MapContainer, TileLayer, Marker, useMap } = mapMod;
 
   const icon = leaflet.divIcon({
     className: 'twinkle-marker',
-    html: '<span style="font-size:32px">📍</span>',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
+    html: '<span style="font-size:28px">📍</span>',
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
   });
 
-  function ClickHandler() {
-    useMapEvents({
-      click(e: any) {
-        onPositionChange([e.latlng.lat, e.latlng.lng]);
-      },
-    });
+  function FlyTo({ pos }: { pos: [number, number] }) {
+    const map = useMap();
+    useEffect(() => {
+      map.flyTo(pos, 15, { duration: 1 });
+    }, [pos[0], pos[1]]);
     return null;
   }
 
   return (
-    <MapContainer center={position} zoom={12} style={{ height: 250, borderRadius: 12, overflow: 'hidden' }} zoomControl={false}>
+    <MapContainer center={position} zoom={15} style={{ height: 220, borderRadius: 12, overflow: 'hidden' }} zoomControl={false}>
       <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
-      <Marker position={position} icon={icon} draggable eventHandlers={{ dragend: (e: any) => { const ll = e.target.getLatLng(); onPositionChange([ll.lat, ll.lng]); } }} />
-      <ClickHandler />
+      <Marker position={position} icon={icon} />
+      <FlyTo pos={position} />
     </MapContainer>
   );
 }
@@ -61,15 +91,49 @@ export default function AddHouseScreenWeb() {
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [features, setFeatures] = useState<Feature[]>([]);
+  const [lightCount, setLightCount] = useState<LightCount | null>(null);
+  const [musicType, setMusicType] = useState<MusicType | null>(null);
+  const [radioStation, setRadioStation] = useState('');
   const [photos, setPhotos] = useState<{ file: File; url: string }[]>([]);
   const [markerPos, setMarkerPos] = useState<[number, number]>(DALLAS);
+  const [geocoding, setGeocoding] = useState(false);
+  const [geocodeStatus, setGeocodeStatus] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const geocodeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-geocode when address changes (debounced)
+  useEffect(() => {
+    if (geocodeTimer.current) clearTimeout(geocodeTimer.current);
+    if (address.trim().length < 5) {
+      setGeocodeStatus(null);
+      return;
+    }
+    setGeocodeStatus('Searching...');
+    geocodeTimer.current = setTimeout(async () => {
+      setGeocoding(true);
+      const result = await geocodeAddress(address);
+      if (result) {
+        setMarkerPos(result);
+        setGeocodeStatus('📍 Location found!');
+      } else {
+        setGeocodeStatus('⚠ Could not find address');
+      }
+      setGeocoding(false);
+    }, 1000);
+    return () => { if (geocodeTimer.current) clearTimeout(geocodeTimer.current); };
+  }, [address]);
 
   const toggleFeature = (f: Feature) => {
-    setFeatures(prev => prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f]);
+    setFeatures(prev => {
+      const next = prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f];
+      // Clear sub-options when deselecting
+      if (!next.includes('Lights')) setLightCount(null);
+      if (!next.includes('Music')) { setMusicType(null); setRadioStation(''); }
+      return next;
+    });
   };
 
   const addPhotos = useCallback((files: FileList | null) => {
@@ -93,24 +157,30 @@ export default function AddHouseScreenWeb() {
     const errs: string[] = [];
     if (!address.trim()) errs.push('Address is required');
     if (features.length === 0) errs.push('Select at least one feature');
+    if (features.includes('Lights') && !lightCount) errs.push('Select a light count');
+    if (features.includes('Music') && !musicType) errs.push('Select music type (Live or Radio)');
+    if (features.includes('Music') && musicType === 'RADIO' && !radioStation.trim()) errs.push('Enter the radio station');
     setErrors(errs);
     if (errs.length > 0) return;
 
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
-    // Reset
     setAddress('');
     setDescription('');
     setFeatures([]);
+    setLightCount(null);
+    setMusicType(null);
+    setRadioStation('');
     setPhotos([]);
     setMarkerPos(DALLAS);
+    setGeocodeStatus(null);
   };
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
-          ➕ Add a House
+          🎄 Add a House
         </h1>
         <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Share an amazing Christmas lights display with the community</p>
 
@@ -123,13 +193,16 @@ export default function AddHouseScreenWeb() {
           placeholder="1234 Candy Cane Ln, Dallas, TX"
           style={inputStyle}
         />
+        {geocodeStatus && (
+          <p style={{ color: geocodeStatus.includes('found') ? '#4ade80' : geocodeStatus.includes('⚠') ? '#ff6b6b' : '#888', fontSize: 12, margin: '4px 0 0' }}>
+            {geocoding ? '🔍 ' : ''}{geocodeStatus}
+          </p>
+        )}
 
-        {/* Map */}
-        <label style={{ ...labelStyle, marginTop: 20 }}>Pin Location <span style={{ color: '#888', fontWeight: 400 }}>(click or drag marker)</span></label>
-        <MiniMap position={markerPos} onPositionChange={setMarkerPos} />
-        <p style={{ color: '#666', fontSize: 11, margin: '4px 0 0' }}>
-          {markerPos[0].toFixed(4)}, {markerPos[1].toFixed(4)}
-        </p>
+        {/* Map (auto-pinned) */}
+        <div style={{ marginTop: 12 }}>
+          <MiniMap position={markerPos} />
+        </div>
 
         {/* Description */}
         <label style={{ ...labelStyle, marginTop: 20 }}>Description</label>
@@ -142,30 +215,127 @@ export default function AddHouseScreenWeb() {
         />
 
         {/* Features */}
-        <label style={{ ...labelStyle, marginTop: 20 }}>Features *</label>
+        <label style={{ ...labelStyle, marginTop: 24 }}>Features *</label>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-          {ALL_FEATURES.map(f => (
+          {BASE_FEATURES.map(({ key, emoji }) => (
             <button
-              key={f}
-              onClick={() => toggleFeature(f)}
+              key={key}
+              onClick={() => toggleFeature(key)}
               style={{
-                padding: '8px 16px',
-                borderRadius: 20,
-                border: `1px solid ${features.includes(f) ? '#FFD700' : '#444'}`,
-                backgroundColor: features.includes(f) ? '#B22222' : '#2a2a4e',
+                padding: '10px 18px',
+                borderRadius: 24,
+                border: `2px solid ${features.includes(key) ? '#FFD700' : '#444'}`,
+                backgroundColor: features.includes(key) ? 'rgba(178,34,34,0.6)' : '#2a2a4e',
                 color: '#fff',
-                fontSize: 13,
+                fontSize: 14,
+                fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
               }}
             >
-              {FEATURE_EMOJI[f]} {f}
+              <span style={{ fontSize: 18 }}>{emoji}</span> {key}
             </button>
           ))}
         </div>
 
+        {/* Lights sub-options */}
+        {features.includes('Lights') && (
+          <div style={{ marginTop: 16, padding: 16, background: '#2a2a4e', borderRadius: 12, border: '1px solid #444' }}>
+            <label style={{ ...labelStyle, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 18 }}>🎄</span> How many lights? *
+            </label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {LIGHT_COUNTS.map(({ label, value }) => (
+                <button
+                  key={value}
+                  onClick={() => setLightCount(value)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 20,
+                    border: `2px solid ${lightCount === value ? '#FFD700' : '#555'}`,
+                    backgroundColor: lightCount === value ? 'rgba(255,215,0,0.15)' : 'transparent',
+                    color: lightCount === value ? '#FFD700' : '#ccc',
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {value === '10000+' ? '🌟 ' : '✨ '}{label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Music sub-options */}
+        {features.includes('Music') && (
+          <div style={{ marginTop: 12, padding: 16, background: '#2a2a4e', borderRadius: 12, border: '1px solid #444' }}>
+            <label style={{ ...labelStyle, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 18 }}>🎶</span> Music type *
+            </label>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => { setMusicType('LIVE'); setRadioStation(''); }}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: 20,
+                  border: `2px solid ${musicType === 'LIVE' ? '#FFD700' : '#555'}`,
+                  backgroundColor: musicType === 'LIVE' ? 'rgba(255,215,0,0.15)' : 'transparent',
+                  color: musicType === 'LIVE' ? '#FFD700' : '#ccc',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                🔊 LIVE
+              </button>
+              <button
+                onClick={() => setMusicType('RADIO')}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: 20,
+                  border: `2px solid ${musicType === 'RADIO' ? '#FFD700' : '#555'}`,
+                  backgroundColor: musicType === 'RADIO' ? 'rgba(255,215,0,0.15)' : 'transparent',
+                  color: musicType === 'RADIO' ? '#FFD700' : '#ccc',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                📻 RADIO
+              </button>
+            </div>
+            {musicType === 'RADIO' && (
+              <div style={{ marginTop: 12 }}>
+                <label style={{ ...labelStyle, fontSize: 12 }}>Radio Station / Frequency *</label>
+                <input
+                  type="text"
+                  value={radioStation}
+                  onChange={e => setRadioStation(e.target.value)}
+                  placeholder="e.g. 100.3 FM or iHeartRadio link"
+                  style={{ ...inputStyle, fontSize: 14 }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Photos */}
-        <label style={{ ...labelStyle, marginTop: 20 }}>Photos <span style={{ color: '#888', fontWeight: 400 }}>({photos.length}/5)</span></label>
+        <label style={{ ...labelStyle, marginTop: 24 }}>
+          Photos <span style={{ color: '#888', fontWeight: 400 }}>({photos.length}/5)</span>
+        </label>
         <div
           onDragOver={e => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
