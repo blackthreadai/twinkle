@@ -130,7 +130,7 @@ export default function HouseDetailScreenWeb() {
 
         {/* House Info */}
         <div style={{ marginTop: 24 }}>
-          <h2 style={{ color: '#fff', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>{house.address}</h2>
+          <h2 style={{ color: '#FFD700', fontSize: 24, fontWeight: 700, margin: '0 0 8px', fontFamily: "'Mountains of Christmas', cursive" }}>{house.address}</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <StarRating score={rating} size={20} />
             <span style={{ color: '#4ade80', fontSize: 18, fontWeight: 700 }}>{rating.toFixed(1)}</span>

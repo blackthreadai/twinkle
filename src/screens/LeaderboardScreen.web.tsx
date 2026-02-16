@@ -149,7 +149,7 @@ export default function LeaderboardScreenWeb() {
                   {medalEmoji(rank)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: '#FFD700', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <div style={{ color: '#FFD700', fontSize: 15, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: "'Mountains of Christmas', cursive" }}>
                     {house.address}{house.zip_code ? `, ${house.zip_code}` : ''}
                   </div>
                   <div style={{ display: 'flex', gap: 10, marginTop: 4, alignItems: 'center' }}>

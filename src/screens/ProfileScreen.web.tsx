@@ -150,7 +150,7 @@ export default function ProfileScreenWeb() {
                 }}>
                   <img src={h.photos[0]} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.address}</div>
+                    <div style={{ color: '#FFD700', fontSize: 15, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: "'Mountains of Christmas', cursive" }}>{h.address}</div>
                     <div style={{ color: '#4ade80', fontSize: 12, marginTop: 2 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</div>
                     <div style={{ color: '#666', fontSize: 11, marginTop: 2 }}>{h.features.map(f => FEATURE_EMOJI[f] || f).join(' ')}</div>
                   </div>

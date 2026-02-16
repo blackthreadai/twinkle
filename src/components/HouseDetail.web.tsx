@@ -168,7 +168,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           )}
 
           {/* Info */}
-          <h3 style={{ color: '#FFD700', fontSize: 20, fontWeight: 700, margin: '20px 0 6px' }}>{house.address}{house.zip_code ? `, ${house.zip_code}` : ''}</h3>
+          <h3 style={{ color: '#FFD700', fontSize: 22, fontWeight: 700, margin: '20px 0 6px', fontFamily: "'Mountains of Christmas', cursive" }}>{house.address}{house.zip_code ? `, ${house.zip_code}` : ''}</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
             <span style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>Rating</span>
             <span style={{ color: '#4ade80', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>

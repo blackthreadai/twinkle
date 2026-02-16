@@ -48,7 +48,7 @@ function popupHtml(house: House): string {
     <div style="min-width:240px">
       ${house.photos.length > 0 ? `<img src="${house.photos[0]}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0" />` : ''}
       <div style="padding:12px 14px">
-        <div style="color:#FFD700;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}${house.zip_code ? `, ${house.zip_code}` : ''}</div>
+        <div style="color:#FFD700;font-size:17px;font-weight:700;margin-bottom:4px;font-family:'Mountains of Christmas',cursive">${house.address}${house.zip_code ? `, ${house.zip_code}` : ''}</div>
         <div style="font-size:14px;margin-bottom:6px">
           <span style="color:#888;font-weight:600">Rating</span> <span style="color:#4ade80;font-weight:700">${rating.toFixed(1)}</span> <span style="color:#888;font-size:12px">(${house.rating_count ?? 0})</span>
         </div>
@@ -59,7 +59,7 @@ function popupHtml(house: House): string {
           <span>·</span>
           <span>${house.votes} votes</span>
         </div>
-        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#4ade80,#22c55e);color:#000000;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
+        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#4ade80,#22c55e);color:#000000;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:'Mountains of Christmas',cursive">View Listing</button>
       </div>
     </div>
   `;
@@ -296,8 +296,8 @@ export default function MapScreenWeb() {
               >
                 <img src={h.photos[0]} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }} />
                 <div style={{ padding: '8px 10px' }}>
-                  <div style={{ color: '#FFD700', fontSize: 12, fontWeight: 600, lineHeight: 1.3, marginBottom: 4,
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ color: '#FFD700', fontSize: 13, fontWeight: 700, lineHeight: 1.3, marginBottom: 4,
+                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: "'Mountains of Christmas', cursive" }}>
                     {h.address}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

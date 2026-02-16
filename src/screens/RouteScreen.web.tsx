@@ -238,7 +238,7 @@ export default function RouteScreenWeb() {
                         alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14, flexShrink: 0,
                       }}>{i + 1}</div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.address}</div>
+                        <div style={{ color: '#FFD700', fontSize: 15, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: "'Mountains of Christmas', cursive" }}>{h.address}</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
                           <span style={{ color: '#4ade80', fontSize: 13 }}>{'★'.repeat(Math.round(h.avg_rating ?? 0))}{'☆'.repeat(5 - Math.round(h.avg_rating ?? 0))} {(h.avg_rating ?? 0).toFixed(1)}</span>
                           <span style={{ color: '#666', fontSize: 11 }}>{h.features.map(f => FEATURE_EMOJI[f]).join(' ')}</span>
