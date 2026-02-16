@@ -101,7 +101,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Info */}
           <h3 style={{ color: '#fff', fontSize: 20, fontWeight: 700, margin: '20px 0 6px' }}>{house.address}</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-            <Stars score={rating} size={18} />
+            <span style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>Rating</span>
             <span style={{ color: '#FFD700', fontSize: 16, fontWeight: 700 }}>{rating.toFixed(1)}</span>
             <span style={{ color: '#888', fontSize: 13 }}>({ratingCount})</span>
           </div>
@@ -134,9 +134,6 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                 <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
                   {userRating ? userRating.toFixed(1) : '—'}
                 </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 2px 0', color: '#555', fontSize: 10 }}>
-                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
               </div>
             </div>
             <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience..." rows={2}
