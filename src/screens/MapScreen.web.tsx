@@ -19,7 +19,7 @@ function ratingToColor(rating: number): string {
 
 function createStarIcon(house: House): L.DivIcon {
   const rating = house.avg_rating ?? 0;
-  const color = ratingToColor(rating);
+  const color = house.is_featured ? '#4ade80' : ratingToColor(rating);
   const scale = rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
   const glow = rating >= 4 ? 8 : 4;
 
@@ -76,10 +76,24 @@ function FlyToLocation({ center }: { center: [number, number] }) {
   return null;
 }
 
+function BoundsTracker({ onBoundsChange }: { onBoundsChange: (bounds: L.LatLngBounds) => void }) {
+  const map = useMap();
+  useEffect(() => {
+    const update = () => onBoundsChange(map.getBounds());
+    map.on('moveend', update);
+    map.on('zoomend', update);
+    // Initial bounds
+    setTimeout(update, 500);
+    return () => { map.off('moveend', update); map.off('zoomend', update); };
+  }, [map, onBoundsChange]);
+  return null;
+}
+
 export default function MapScreenWeb() {
   const { location, loading: locationLoading } = useLocation();
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
+  const [mapBounds, setMapBounds] = useState<L.LatLngBounds | null>(null);
   const [filterValues, setFilterValues] = useState<FilterValues>({
     radius: 10,
     minRating: 0,
@@ -206,6 +220,7 @@ export default function MapScreenWeb() {
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         <FlyToLocation center={center} />
+        <BoundsTracker onBoundsChange={setMapBounds} />
         {houses.map((house) => (
           <Marker
             key={house.id}
@@ -233,7 +248,7 @@ export default function MapScreenWeb() {
           </h2>
         </div>
         <div style={{ padding: '8px 10px' }}>
-          {houses.filter(h => h.is_featured).map(h => {
+          {houses.filter(h => h.is_featured && (!mapBounds || mapBounds.contains(L.latLng(h.lat, h.lng)))).map(h => {
             const r = h.avg_rating ?? 0;
             return (
               <div
