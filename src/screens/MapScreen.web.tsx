@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import React, { useEffect, useState, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useLocation } from '../hooks/useLocation';
 import { useHouses, type HouseFilters } from '../hooks/useHouses';
 import { FilterSheet, type FilterValues } from '../components/FilterSheet';
 import type { Feature, House } from '../types';
 
-const MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
-const DALLAS = { lat: 32.7767, lng: -96.7970 };
+const DALLAS: [number, number] = [32.7767, -96.7970];
 
 function ratingToColor(rating: number): string {
   if (rating >= 4) return '#FFD700';
@@ -15,11 +16,62 @@ function ratingToColor(rating: number): string {
   return '#8B7355';
 }
 
+function createStarIcon(house: House): L.DivIcon {
+  const rating = house.avg_rating ?? 0;
+  const color = ratingToColor(rating);
+  const scale = rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
+  const glow = rating >= 4 ? 8 : 4;
+
+  return L.divIcon({
+    className: 'twinkle-marker',
+    html: `
+      <div class="twinkle-star" style="transform:scale(${scale});filter:drop-shadow(0 0 ${glow}px ${color})" data-color="${color}" data-scale="${scale}" data-glow="${glow}">
+        <span style="font-size:28px;color:${color};line-height:1">✦</span>
+        ${rating > 0 ? `<span style="font-size:10px;font-weight:700;color:#1a1a2e;background:${color};border-radius:6px;padding:1px 4px;margin-top:-2px">${rating.toFixed(1)}</span>` : ''}
+      </div>
+    `,
+    iconSize: [40, 50],
+    iconAnchor: [20, 25],
+    popupAnchor: [0, -25],
+  });
+}
+
+function popupHtml(house: House): string {
+  const rating = house.avg_rating ?? 0;
+  const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+  const features = (house.features as Feature[])
+    .map((f) => `<span style="background:#2a2a4e;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
+    .join(' ');
+
+  return `
+    <div style="min-width:240px">
+      ${house.photos.length > 0 ? `<img src="${house.photos[0]}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0" />` : ''}
+      <div style="padding:12px 14px">
+        <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}</div>
+        <div style="color:#FFD700;font-size:14px;margin-bottom:6px">
+          ${stars}
+          <span style="color:#ccc;font-size:12px;margin-left:6px">${rating.toFixed(1)} (${house.rating_count ?? 0})</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
+        ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function FlyToLocation({ center }: { center: [number, number] }) {
+  const map = useMap();
+  const flown = useRef(false);
+  useEffect(() => {
+    if (!flown.current) {
+      map.flyTo(center, 11, { duration: 1.5 });
+      flown.current = true;
+    }
+  }, [center, map]);
+  return null;
+}
+
 export default function MapScreenWeb() {
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
-  const popupRef = useRef<any>(null);
   const { location, loading: locationLoading } = useLocation();
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [filterValues, setFilterValues] = useState<FilterValues>({
@@ -35,138 +87,9 @@ export default function MapScreenWeb() {
 
   const { houses } = useHouses(houseFilters);
 
-  const center = location
-    ? { lat: location.coords.latitude, lng: location.coords.longitude }
+  const center: [number, number] = location
+    ? [location.coords.latitude, location.coords.longitude]
     : DALLAS;
-
-  // Initialize map
-  useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) return;
-
-    let mapboxgl: any;
-    try {
-      mapboxgl = require('mapbox-gl');
-    } catch {
-      return;
-    }
-
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-
-    const map = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
-      center: [center.lng, center.lat],
-      zoom: 11,
-    });
-
-    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-    map.addControl(
-      new mapboxgl.GeolocateControl({ trackUserLocation: true }),
-      'bottom-right',
-    );
-
-    mapRef.current = map;
-
-    return () => {
-      map.remove();
-      mapRef.current = null;
-    };
-  }, []);
-
-  // Update center when location arrives
-  useEffect(() => {
-    if (mapRef.current && location) {
-      mapRef.current.flyTo({
-        center: [location.coords.longitude, location.coords.latitude],
-        zoom: 11,
-        duration: 1500,
-      });
-    }
-  }, [location]);
-
-  // Update markers when houses change
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    let mapboxgl: any;
-    try {
-      mapboxgl = require('mapbox-gl');
-    } catch {
-      return;
-    }
-
-    // Clear old markers
-    markersRef.current.forEach((m) => m.remove());
-    markersRef.current = [];
-
-    houses.forEach((house) => {
-      const rating = house.avg_rating ?? 0;
-      const color = ratingToColor(rating);
-      const scale = rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
-
-      const el = document.createElement('div');
-      el.style.cssText = `
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transform: scale(${scale});
-        transition: transform 0.2s ease, filter 0.2s ease;
-        filter: drop-shadow(0 0 ${rating >= 4 ? '8px' : '4px'} ${color});
-      `;
-      el.innerHTML = `
-        <span style="font-size:28px;color:${color};line-height:1">✦</span>
-        ${rating > 0 ? `<span style="font-size:10px;font-weight:700;color:#1a1a2e;background:${color};border-radius:6px;padding:1px 4px;margin-top:-2px">${rating.toFixed(1)}</span>` : ''}
-      `;
-
-      el.addEventListener('mouseenter', () => {
-        el.style.transform = `scale(${scale * 1.25})`;
-        el.style.filter = `drop-shadow(0 0 12px ${color})`;
-      });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = `scale(${scale})`;
-        el.style.filter = `drop-shadow(0 0 ${rating >= 4 ? '8px' : '4px'} ${color})`;
-      });
-
-      el.addEventListener('click', () => {
-        if (popupRef.current) popupRef.current.remove();
-
-        const features = (house.features as Feature[])
-          .map((f) => `<span style="background:#2a2a4e;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px">${f}</span>`)
-          .join('');
-
-        const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
-
-        const html = `
-          <div style="min-width:240px">
-            ${house.photos.length > 0 ? `<img src="${house.photos[0]}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0" />` : ''}
-            <div style="padding:12px 14px">
-              <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}</div>
-              <div style="color:#FFD700;font-size:14px;margin-bottom:6px">
-                ${stars}
-                <span style="color:#ccc;font-size:12px;margin-left:6px">${rating.toFixed(1)} (${house.rating_count ?? 0})</span>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
-              ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
-            </div>
-          </div>
-        `;
-
-        const popup = new mapboxgl.Popup({ offset: 25, maxWidth: '320px' })
-          .setLngLat([house.lng, house.lat])
-          .setHTML(html)
-          .addTo(mapRef.current);
-
-        popupRef.current = popup;
-      });
-
-      const marker = new mapboxgl.Marker({ element: el })
-        .setLngLat([house.lng, house.lat])
-        .addTo(mapRef.current);
-
-      markersRef.current.push(marker);
-    });
-  }, [houses]);
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', position: 'relative' }}>
@@ -177,7 +100,7 @@ export default function MapScreenWeb() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 10,
+          zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -240,7 +163,7 @@ export default function MapScreenWeb() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 5,
+            zIndex: 1001,
             backgroundColor: '#1a1a2e',
           }}
         >
@@ -251,8 +174,30 @@ export default function MapScreenWeb() {
         </div>
       )}
 
-      {/* Map container */}
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+      {/* Map */}
+      <MapContainer
+        center={center}
+        zoom={11}
+        style={{ width: '100%', height: '100%' }}
+        zoomControl={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        />
+        <FlyToLocation center={center} />
+        {houses.map((house) => (
+          <Marker
+            key={house.id}
+            position={[house.lat, house.lng]}
+            icon={createStarIcon(house)}
+          >
+            <Popup maxWidth={320} className="twinkle-popup">
+              <div dangerouslySetInnerHTML={{ __html: popupHtml(house) }} />
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
 
       {/* Filter Sheet */}
       <FilterSheet
@@ -264,7 +209,19 @@ export default function MapScreenWeb() {
 
       <style>{`
         body { margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; }
-        .mapboxgl-popup-content {
+        .twinkle-marker { background: none !important; border: none !important; }
+        .twinkle-star {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          cursor: pointer;
+          transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        .twinkle-star:hover {
+          transform: scale(1.4) !important;
+          filter: drop-shadow(0 0 12px #FFD700) !important;
+        }
+        .leaflet-popup-content-wrapper {
           background: #1a1a2e !important;
           border: 1px solid #FFD700 !important;
           border-radius: 12px !important;
@@ -272,19 +229,28 @@ export default function MapScreenWeb() {
           box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
           overflow: hidden;
         }
-        .mapboxgl-popup-close-button {
+        .leaflet-popup-content {
+          margin: 0 !important;
+        }
+        .leaflet-popup-tip {
+          background: #1a1a2e !important;
+          border: 1px solid #FFD700 !important;
+          border-top: none !important;
+          border-left: none !important;
+        }
+        .leaflet-popup-close-button {
           color: #888 !important;
           font-size: 20px !important;
-          right: 6px !important;
-          top: 4px !important;
-          z-index: 1;
         }
-        .mapboxgl-popup-close-button:hover {
+        .leaflet-popup-close-button:hover {
           color: #FFD700 !important;
-          background: none !important;
         }
-        .mapboxgl-popup-tip {
-          border-top-color: #FFD700 !important;
+        .leaflet-control-attribution {
+          background: rgba(26,26,46,0.7) !important;
+          color: #666 !important;
+        }
+        .leaflet-control-attribution a {
+          color: #888 !important;
         }
       `}</style>
     </div>
