@@ -20,12 +20,34 @@ function Stars({ score, size = 14 }: { score: number; size?: number }) {
   return <span style={{ color: '#FFD700', fontSize: size }}>{'★'.repeat(full)}{half ? '½' : ''}{'☆'.repeat(empty)}</span>;
 }
 
+function getTodayKey(): string {
+  return new Date().toISOString().split('T')[0];
+}
+
+function hasVotedToday(): boolean {
+  try {
+    const data = JSON.parse(localStorage.getItem('twinkle_votes') || '{}');
+    return !!data[getTodayKey()];
+  } catch { return false; }
+}
+
+function recordVote(houseId: string): void {
+  try {
+    const data = JSON.parse(localStorage.getItem('twinkle_votes') || '{}');
+    data[getTodayKey()] = houseId;
+    localStorage.setItem('twinkle_votes', JSON.stringify(data));
+  } catch { /* ignore */ }
+}
+
 export function HouseDetailPanel({ house, onClose }: { house: House; onClose: () => void }) {
   const [activePhoto, setActivePhoto] = useState(0);
-  const [userRating, setUserRating] = useState<number | null>(null);
+  const [userRating, setUserRating] = useState<number>(2.5);
   const [reviewText, setReviewText] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [voteCount, setVoteCount] = useState(house.votes);
+  const [votedToday, setVotedToday] = useState(hasVotedToday());
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
@@ -38,11 +60,20 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
   };
 
   const submitReview = () => {
-    if (!userRating || !reviewText.trim()) return;
+    if (!reviewText.trim()) return;
     setShowSuccess(true);
     setReviewText('');
-    setUserRating(null);
+    setUserRating(2.5);
     setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const handleVote = () => {
+    if (votedToday) return;
+    recordVote(house.id);
+    setVoteCount(prev => prev + 1);
+    setVotedToday(true);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 2000);
   };
 
   const rating = house.avg_rating ?? 0;
@@ -114,6 +145,59 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           </div>
           {house.description && <p style={{ color: '#ccc', fontSize: 14, lineHeight: 1.5, margin: '0 0 20px' }}>{house.description}</p>}
 
+          {/* Vote Section */}
+          <div style={{ background: 'linear-gradient(135deg, #2a2a4e, #1a1a2e)', borderRadius: 14, padding: 20, marginBottom: 24, border: '2px solid #FFD700', position: 'relative', overflow: 'hidden' }}>
+            {showConfetti && (
+              <div className="twinkle-confetti-container">
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <div key={i} className="twinkle-confetti-piece" style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 0.5}s`,
+                    backgroundColor: ['#FFD700', '#FFA500', '#FF6347', '#4ade80', '#60a5fa'][i % 5],
+                  }} />
+                ))}
+              </div>
+            )}
+            <div style={{ textAlign: 'center' }}>
+              <button
+                onClick={handleVote}
+                disabled={votedToday}
+                style={{
+                  width: 80, height: 80, borderRadius: '50%', border: 'none',
+                  background: votedToday ? '#444' : 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  fontSize: 36, cursor: votedToday ? 'not-allowed' : 'pointer',
+                  boxShadow: votedToday ? 'none' : '0 0 20px rgba(255,215,0,0.4)',
+                  transition: 'all 0.3s ease',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 12px',
+                }}
+              >
+                ⬆️
+              </button>
+              <div style={{ color: '#FFD700', fontSize: 28, fontWeight: 800 }}>{voteCount}</div>
+              <div style={{ color: '#aaa', fontSize: 13, marginTop: 2 }}>votes</div>
+              {votedToday && (
+                <p style={{ color: '#888', fontSize: 12, marginTop: 8, fontStyle: 'italic' }}>
+                  You've already voted today! Come back tomorrow. 🌅
+                </p>
+              )}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 14 }}>
+              {house.local_rank && (
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#FFD700', fontSize: 18, fontWeight: 700 }}>#{house.local_rank}</div>
+                  <div style={{ color: '#888', fontSize: 11 }}>locally</div>
+                </div>
+              )}
+              {house.national_rank && (
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: '#FFA500', fontSize: 18, fontWeight: 700 }}>#{house.national_rank}</div>
+                  <div style={{ color: '#888', fontSize: 11 }}>nationally</div>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Directions */}
           <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
             style={{ display: 'inline-block', padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e', fontSize: 14, textDecoration: 'none', fontWeight: 700, marginBottom: 24 }}>
@@ -127,22 +211,22 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <input
                   type="range" min="1" max="5" step="0.5"
-                  value={userRating ?? 3}
+                  value={userRating}
                   onChange={e => setUserRating(parseFloat(e.target.value))}
                   style={{ flex: 1, accentColor: '#FFD700', height: 6, cursor: 'pointer' }}
                 />
                 <span style={{ color: '#FFD700', fontSize: 22, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>
-                  {userRating ? userRating.toFixed(1) : '—'}
+                  {userRating.toFixed(1)}
                 </span>
               </div>
             </div>
             <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience..." rows={2}
               style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #444', backgroundColor: '#1a1a2e', color: '#fff', fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }} />
-            <button onClick={submitReview} disabled={!userRating || !reviewText.trim()} style={{
+            <button onClick={submitReview} disabled={!reviewText.trim()} style={{
               marginTop: 8, padding: '8px 20px', borderRadius: 8, border: 'none',
-              background: userRating && reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
-              color: userRating && reviewText.trim() ? '#1a1a2e' : '#888',
-              fontSize: 13, fontWeight: 700, cursor: userRating && reviewText.trim() ? 'pointer' : 'not-allowed',
+              background: reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
+              color: reviewText.trim() ? '#1a1a2e' : '#888',
+              fontSize: 13, fontWeight: 700, cursor: reviewText.trim() ? 'pointer' : 'not-allowed',
             }}>Submit Review</button>
             {showSuccess && <p style={{ color: '#4ade80', fontSize: 12, margin: '6px 0 0' }}>✓ Review submitted!</p>}
           </div>
@@ -168,6 +252,17 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       <style>{`
         textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
+        .twinkle-confetti-container {
+          position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 10;
+        }
+        .twinkle-confetti-piece {
+          position: absolute; top: -10px; width: 8px; height: 8px; border-radius: 50%;
+          animation: twinkle-confetti-fall 1.5s ease-out forwards;
+        }
+        @keyframes twinkle-confetti-fall {
+          0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+          100% { transform: translateY(200px) rotate(720deg) scale(0); opacity: 0; }
+        }
       `}</style>
     </>
   );

@@ -14,6 +14,7 @@ export interface House {
   address: string;
   lat: number;
   lng: number;
+  zip_code?: string;
   description: string | null;
   features: Feature[];
   photos: string[];
@@ -25,6 +26,10 @@ export interface House {
   // Joined from house_stats view
   avg_rating?: number;
   rating_count?: number;
+  // Voting
+  votes: number;
+  local_rank: number | null;
+  national_rank: number | null;
 }
 
 export interface Rating {

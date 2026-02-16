@@ -55,6 +55,11 @@ function popupHtml(house: House): string {
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
         ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;margin-top:8px;color:#aaa;font-size:12px">
+          ${house.local_rank ? `<span>🏆 #${house.local_rank} locally</span>` : ''}
+          <span>·</span>
+          <span>${house.votes} votes</span>
+        </div>
         <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
       </div>
     </div>

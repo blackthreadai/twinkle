@@ -20,6 +20,7 @@ create table public.houses (
   lat double precision not null,
   lng double precision not null,
   description text,
+  zip_code text,
   features jsonb default '[]'::jsonb not null,  -- e.g. ["Lights","Music","Animatronics"]
   photos text[] default '{}' not null,           -- max 5, enforced at app level
   season_year int not null default extract(year from now()),
@@ -60,6 +61,16 @@ create table public.routes (
   created_at timestamptz default now() not null
 );
 
+create table public.votes (
+  id uuid primary key default gen_random_uuid(),
+  house_id uuid not null references public.houses(id) on delete cascade,
+  user_id uuid not null references public.users(id) on delete cascade,
+  voted_at date not null default current_date,
+  created_at timestamptz default now() not null,
+  -- One vote per user per day (across all houses)
+  unique (user_id, voted_at)
+);
+
 -- ============================================================
 -- INDEXES
 -- ============================================================
@@ -69,6 +80,9 @@ create index idx_houses_location on public.houses(lat, lng);
 create index idx_ratings_house on public.ratings(house_id);
 create index idx_reviews_house on public.reviews(house_id);
 create index idx_routes_user on public.routes(user_id);
+create index idx_votes_house on public.votes(house_id);
+create index idx_votes_user_date on public.votes(user_id, voted_at);
+create index idx_houses_zip on public.houses(zip_code);
 
 -- ============================================================
 -- VIEWS
@@ -83,6 +97,34 @@ from public.houses h
 left join public.ratings r on r.house_id = h.id
 group by h.id;
 
+-- Vote counts per house
+create or replace view public.house_vote_counts as
+select
+  h.id as house_id,
+  count(v.id) as vote_count
+from public.houses h
+left join public.votes v on v.house_id = h.id
+group by h.id;
+
+-- National ranking by votes
+create or replace view public.national_rankings as
+select
+  house_id,
+  vote_count,
+  rank() over (order by vote_count desc) as national_rank
+from public.house_vote_counts;
+
+-- Local ranking by votes (within zip code)
+create or replace view public.local_rankings as
+select
+  h.id as house_id,
+  h.zip_code,
+  coalesce(hvc.vote_count, 0) as vote_count,
+  rank() over (partition by h.zip_code order by coalesce(hvc.vote_count, 0) desc) as local_rank
+from public.houses h
+left join public.house_vote_counts hvc on hvc.house_id = h.id
+where h.zip_code is not null;
+
 -- ============================================================
 -- ROW LEVEL SECURITY
 -- ============================================================
@@ -91,6 +133,7 @@ alter table public.users enable row level security;
 alter table public.houses enable row level security;
 alter table public.ratings enable row level security;
 alter table public.reviews enable row level security;
+alter table public.votes enable row level security;
 alter table public.routes enable row level security;
 
 -- Users
@@ -141,6 +184,16 @@ create policy "Users can update own reviews"
 
 create policy "Users can delete own reviews"
   on public.reviews for delete using (auth.uid() = user_id);
+
+-- Votes
+create policy "Votes are viewable by everyone"
+  on public.votes for select using (true);
+
+create policy "Authenticated users can vote"
+  on public.votes for insert with check (auth.uid() = user_id);
+
+create policy "Users can delete own votes"
+  on public.votes for delete using (auth.uid() = user_id);
 
 -- Routes
 create policy "Public routes are viewable by everyone"

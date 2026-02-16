@@ -1,7 +1,5 @@
 import type { House, Feature } from '../types';
 
-const DALLAS_CENTER = { lat: 32.7767, lng: -96.7970 };
-
 function house(
   id: number,
   address: string,
@@ -11,6 +9,10 @@ function house(
   avgRating: number,
   ratingCount: number,
   description: string,
+  votes: number,
+  localRank: number | null,
+  nationalRank: number | null,
+  zipCode: string,
 ): House {
   return {
     id: `mock-${id}`,
@@ -18,6 +20,7 @@ function house(
     address,
     lat,
     lng,
+    zip_code: zipCode,
     description,
     features,
     photos: [
@@ -31,26 +34,44 @@ function house(
     updated_at: '2024-12-01T00:00:00Z',
     avg_rating: avgRating,
     rating_count: ratingCount,
+    votes,
+    local_rank: localRank,
+    national_rank: nationalRank,
   };
 }
 
 export const mockHouses: House[] = [
-  house(1, '1234 Candy Cane Ln, Dallas, TX', 32.7850, -96.7920, ['Lights', 'Music', 'Animatronics'], 4.8, 42, 'Stunning synchronized light show with over 50,000 LEDs'),
-  house(2, '567 Snowflake Dr, Highland Park, TX', 32.8320, -96.7910, ['Lights', 'Blowups'], 4.5, 28, 'Giant inflatable wonderland with a 20ft Santa'),
-  house(3, '890 Reindeer Way, University Park, TX', 32.8260, -96.8050, ['Lights', 'Music', 'Strobes'], 4.9, 67, 'The legendary display — voted #1 in DFW three years running'),
-  house(4, '321 Tinsel Blvd, Lakewood, TX', 32.7920, -96.7500, ['Lights'], 3.5, 12, 'Classic white lights and elegant wreaths'),
-  house(5, '444 Mistletoe Ave, Oak Lawn, TX', 32.8080, -96.8100, ['Lights', 'Music'], 4.2, 19, 'Tasteful display with carols playing from 6-10pm'),
-  house(6, '777 North Pole Ct, Preston Hollow, TX', 32.8650, -96.8020, ['Lights', 'Music', 'Animatronics', 'Blowups'], 5.0, 89, 'Absolutely jaw-dropping — full animated village with fog machines'),
-  house(7, '159 Evergreen Terrace, Uptown, TX', 32.8000, -96.8000, ['Lights', 'Strobes'], 3.2, 8, 'Colorful strobing display — not for the faint of heart'),
-  house(8, '246 Holly St, East Dallas, TX', 32.7880, -96.7600, ['Lights', 'Blowups'], 3.8, 15, 'Fun collection of holiday inflatables'),
-  house(9, '802 Jingle Bell Rd, Lake Highlands, TX', 32.8800, -96.7500, ['Lights', 'Music', 'Animatronics'], 4.6, 34, 'Moving reindeer and a real sleigh photo op'),
-  house(10, '963 Frost Ave, Oak Cliff, TX', 32.7400, -96.8200, ['Lights'], 2.8, 5, 'Simple but charming roofline lights'),
-  house(11, '511 Nutcracker Ln, Greenville Ave, TX', 32.8150, -96.7700, ['Lights', 'Music', 'Blowups'], 4.3, 22, 'Nutcracker theme with march music'),
-  house(12, '128 Starlight Pl, Kessler Park, TX', 32.7550, -96.8400, ['Lights', 'Animatronics'], 4.0, 17, 'Animated nativity scene with star projector'),
-  house(13, '675 Gingerbread Way, M Streets, TX', 32.8050, -96.7600, ['Lights', 'Music', 'Strobes', 'Blowups'], 4.7, 51, 'Over-the-top display — every inch covered in lights'),
-  house(14, '349 Sleigh Ride Dr, Northwood Hills, TX', 32.8900, -96.7800, ['Lights', 'Music'], 3.9, 11, 'Lovely neighborhood display with hot cocoa stand'),
-  house(15, '888 Angel Wings Ct, Lakewood Hills, TX', 32.7980, -96.7400, ['Lights', 'Animatronics', 'Blowups'], 4.4, 27, 'Angel-themed with floating lit wings'),
-  house(16, '222 Rudolph Run, White Rock, TX', 32.8200, -96.7300, ['Lights', 'Music', 'Strobes'], 4.1, 16, 'Laser light show synced to Trans-Siberian Orchestra'),
-  house(17, '456 Frosty Meadow, Bishop Arts, TX', 32.7450, -96.8300, ['Lights', 'Blowups'], 3.6, 9, 'Quirky display with a giant Frosty'),
-  house(18, '741 Silver Bells Dr, Devonshire, TX', 32.8500, -96.7700, ['Lights', 'Music', 'Animatronics'], 4.8, 38, 'Musical bells and animated elves workshop'),
+  house(1, '1234 Candy Cane Ln, Dallas, TX', 32.7850, -96.7920, ['Lights', 'Music', 'Animatronics'], 4.8, 42, 'Stunning synchronized light show with over 50,000 LEDs', 156, 2, 8, '75201'),
+  house(2, '567 Snowflake Dr, Highland Park, TX', 32.8320, -96.7910, ['Lights', 'Blowups'], 4.5, 28, 'Giant inflatable wonderland with a 20ft Santa', 87, 5, 22, '75205'),
+  house(3, '890 Reindeer Way, University Park, TX', 32.8260, -96.8050, ['Lights', 'Music', 'Strobes'], 4.9, 67, 'The legendary display — voted #1 in DFW three years running', 312, 1, 2, '75205'),
+  house(4, '321 Tinsel Blvd, Lakewood, TX', 32.7920, -96.7500, ['Lights'], 3.5, 12, 'Classic white lights and elegant wreaths', 23, 8, 67, '75214'),
+  house(5, '444 Mistletoe Ave, Oak Lawn, TX', 32.8080, -96.8100, ['Lights', 'Music'], 4.2, 19, 'Tasteful display with carols playing from 6-10pm', 64, 6, 34, '75219'),
+  house(6, '777 North Pole Ct, Preston Hollow, TX', 32.8650, -96.8020, ['Lights', 'Music', 'Animatronics', 'Blowups'], 5.0, 89, 'Absolutely jaw-dropping — full animated village with fog machines', 278, 1, 3, '75230'),
+  house(7, '159 Evergreen Terrace, Uptown, TX', 32.8000, -96.8000, ['Lights', 'Strobes'], 3.2, 8, 'Colorful strobing display — not for the faint of heart', 11, 9, 89, '75201'),
+  house(8, '246 Holly St, East Dallas, TX', 32.7880, -96.7600, ['Lights', 'Blowups'], 3.8, 15, 'Fun collection of holiday inflatables', 42, 7, 51, '75214'),
+  house(9, '802 Jingle Bell Rd, Lake Highlands, TX', 32.8800, -96.7500, ['Lights', 'Music', 'Animatronics'], 4.6, 34, 'Moving reindeer and a real sleigh photo op', 134, 3, 11, '75240'),
+  house(10, '963 Frost Ave, Oak Cliff, TX', 32.7400, -96.8200, ['Lights'], 2.8, 5, 'Simple but charming roofline lights', 8, 10, 95, '75208'),
+  house(11, '511 Nutcracker Ln, Greenville Ave, TX', 32.8150, -96.7700, ['Lights', 'Music', 'Blowups'], 4.3, 22, 'Nutcracker theme with march music', 95, 4, 18, '75206'),
+  house(12, '128 Starlight Pl, Kessler Park, TX', 32.7550, -96.8400, ['Lights', 'Animatronics'], 4.0, 17, 'Animated nativity scene with star projector', 53, 1, 29, '75208'),
+  house(13, '675 Gingerbread Way, M Streets, TX', 32.8050, -96.7600, ['Lights', 'Music', 'Strobes', 'Blowups'], 4.7, 51, 'Over-the-top display — every inch covered in lights', 189, 3, 6, '75206'),
+  house(14, '349 Sleigh Ride Dr, Northwood Hills, TX', 32.8900, -96.7800, ['Lights', 'Music'], 3.9, 11, 'Lovely neighborhood display with hot cocoa stand', 31, 2, 58, '75240'),
+  house(15, '888 Angel Wings Ct, Lakewood Hills, TX', 32.7980, -96.7400, ['Lights', 'Animatronics', 'Blowups'], 4.4, 27, 'Angel-themed with floating lit wings', 108, 5, 15, '75218'),
+  house(16, '222 Rudolph Run, White Rock, TX', 32.8200, -96.7300, ['Lights', 'Music', 'Strobes'], 4.1, 16, 'Laser light show synced to Trans-Siberian Orchestra', 72, 4, 27, '75218'),
+  house(17, '456 Frosty Meadow, Bishop Arts, TX', 32.7450, -96.8300, ['Lights', 'Blowups'], 3.6, 9, 'Quirky display with a giant Frosty', 19, 2, 74, '75208'),
+  house(18, '741 Silver Bells Dr, Devonshire, TX', 32.8500, -96.7700, ['Lights', 'Music', 'Animatronics'], 4.8, 38, 'Musical bells and animated elves workshop', 145, 2, 9, '75209'),
+];
+
+// Additional mock houses from other cities for national leaderboard
+export const nationalMockHouses: House[] = [
+  ...mockHouses,
+  house(100, '42 Miracle on 34th St, New York, NY', 40.7488, -73.9879, ['Lights', 'Music', 'Animatronics', 'Blowups'], 4.9, 203, 'Legendary NYC display — lines around the block every night', 892, null, 1, '10001'),
+  house(101, '1600 Candy Lane, Austin, TX', 30.2672, -97.7431, ['Lights', 'Music', 'Strobes'], 4.7, 94, 'Austin\'s best kept secret — incredible music sync', 245, 1, 4, '78701'),
+  house(102, '250 Tinsel Town Rd, Los Angeles, CA', 34.0522, -118.2437, ['Lights', 'Animatronics', 'Blowups'], 4.6, 78, 'Hollywood-level production with animatronic elves', 198, 1, 5, '90001'),
+  house(103, '88 Snowdrift Ct, Chicago, IL', 41.8781, -87.6298, ['Lights', 'Music', 'Strobes', 'Animatronics'], 4.8, 112, 'Chicago\'s winter wonderland — visible from two blocks away', 334, 1, 2 /*national intentionally not 1 since NYC is*/, '60601'),
+  house(104, '700 Stocking Way, Houston, TX', 29.7604, -95.3698, ['Lights', 'Music', 'Blowups'], 4.5, 65, 'Texas-sized display with a BBQ Santa', 167, 1, 7, '77001'),
+  house(105, '333 Icicle Blvd, Austin, TX', 30.2849, -97.7341, ['Lights', 'Blowups'], 4.3, 41, 'Funky Keep Austin Weird holiday edition', 121, 2, 13, '78702'),
+  house(106, '999 Polar Express Dr, Chicago, IL', 41.8827, -87.6233, ['Lights', 'Music'], 4.4, 58, 'Train-themed display with model railroad', 201, 2, 5, '60602'),
+  house(107, '512 Glow Up Ave, Los Angeles, CA', 34.0195, -118.4912, ['Lights', 'Strobes', 'Music'], 4.2, 39, 'Venice Beach holiday vibes with surf Santa', 143, 2, 12, '90291'),
+  house(108, '1776 Liberty Lights, New York, NY', 40.7580, -73.9855, ['Lights', 'Music', 'Animatronics'], 4.6, 87, 'Times Square adjacent spectacular', 356, null, 3, '10036'),
+  house(109, '404 Blizzard Blvd, Houston, TX', 29.7520, -95.3580, ['Lights', 'Animatronics'], 4.1, 33, 'Snow machine in Houston — yes, really', 89, 2, 19, '77002'),
 ];
