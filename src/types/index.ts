@@ -30,6 +30,8 @@ export interface House {
   votes: number;
   local_rank: number | null;
   national_rank: number | null;
+  // Monetization
+  is_featured?: boolean;
 }
 
 export interface Rating {

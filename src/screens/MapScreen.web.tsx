@@ -219,6 +219,61 @@ export default function MapScreenWeb() {
         ))}
       </MapContainer>
 
+      {/* Featured Sidebar */}
+      <div style={{
+        position: 'absolute', top: 0, right: 0, bottom: 0, width: 280,
+        background: 'linear-gradient(to bottom, rgba(26,26,46,0.97), rgba(26,26,46,0.95))',
+        zIndex: 999, overflowY: 'auto', borderLeft: '1px solid #2a2a4e',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        backdropFilter: 'blur(10px)',
+      }}>
+        <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #2a2a4e' }}>
+          <h2 style={{ color: '#FFD700', fontSize: 15, fontWeight: 800, margin: 0, letterSpacing: 1, textTransform: 'uppercase' }}>
+            Featured
+          </h2>
+        </div>
+        <div style={{ padding: '8px 10px' }}>
+          {houses.filter(h => h.is_featured).map(h => {
+            const r = h.avg_rating ?? 0;
+            return (
+              <div
+                key={h.id}
+                onClick={() => setSelectedHouse(h)}
+                style={{
+                  background: '#2a2a4e', borderRadius: 10, marginBottom: 8,
+                  overflow: 'hidden', cursor: 'pointer', border: '1px solid #333',
+                  transition: 'border-color 0.2s, transform 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#FFD700'; (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#333'; (e.currentTarget as HTMLElement).style.transform = 'none'; }}
+              >
+                <img src={h.photos[0]} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }} />
+                <div style={{ padding: '8px 10px' }}>
+                  <div style={{ color: '#fff', fontSize: 12, fontWeight: 600, lineHeight: 1.3, marginBottom: 4,
+                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {h.address}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 12 }}>
+                      <span style={{ color: '#888' }}>Rating </span>
+                      <span style={{ color: '#FFD700', fontWeight: 700 }}>{r.toFixed(1)}</span>
+                      {h.local_rank && <span style={{ color: '#666', marginLeft: 6 }}>#{h.local_rank} local</span>}
+                    </span>
+                  </div>
+                  <div style={{
+                    marginTop: 6, padding: '4px 0', textAlign: 'center',
+                    background: 'rgba(255,215,0,0.1)', borderRadius: 6,
+                    color: '#FFD700', fontSize: 11, fontWeight: 700,
+                  }}>
+                    View Listing
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* House Detail Panel */}
       {selectedHouse && (
         <HouseDetailPanel house={selectedHouse} onClose={() => setSelectedHouse(null)} />
