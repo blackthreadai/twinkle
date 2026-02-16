@@ -164,7 +164,6 @@ export default function MapScreenWeb() {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               animation: 'twinkle-shimmer 12s linear infinite',
-              filter: 'drop-shadow(0 0 8px rgba(255,165,0,0.4)) drop-shadow(0 0 20px rgba(255,215,0,0.2))',
             }}
           >
             Twinkle

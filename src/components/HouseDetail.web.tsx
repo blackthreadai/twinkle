@@ -131,7 +131,17 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
         {/* Header */}
         <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 1 }}>
           <button onClick={handleClose} style={{ background: 'none', border: 'none', color: '#4ade80', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
-          <h2 style={{ color: '#4ade80', fontSize: 18, fontWeight: 700, margin: 0 }}>Twinkle ✨</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 700, margin: 0, fontFamily: "'Mountains of Christmas', cursive", display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+              backgroundSize: '400% 100%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text' as any,
+              animation: 'twinkle-shimmer 12s linear infinite',
+            }}>Twinkle</span>
+            <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block' }}>✨</span>
+          </h2>
         </div>
 
         <div style={{ padding: '0 20px 40px' }}>
@@ -200,7 +210,9 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                   title={votedToday ? 'Already voted today' : 'Upvote this house!'}
                   style={{
                     width: 40, height: 40, borderRadius: '50%', border: 'none',
-                    background: votedToday ? '#444' : 'linear-gradient(135deg, #4ade80, #22c55e)',
+                    background: votedToday ? '#444' : 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+                    backgroundSize: votedToday ? 'auto' : '400% 100%',
+                    animation: votedToday ? 'none' : 'btn-shimmer 12s linear infinite',
                     fontSize: 18, cursor: votedToday ? 'not-allowed' : 'pointer',
                     boxShadow: votedToday ? 'none' : '0 0 12px rgba(255,215,0,0.3)',
                     transition: 'all 0.2s ease',
@@ -218,7 +230,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #4ade80, #22c55e)', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)', backgroundSize: '400% 100%', animation: 'btn-shimmer 12s linear infinite', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
               Get Directions
             </a>
             <button
@@ -361,7 +373,22 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
         </div>
       )}
 
+      <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet" />
       <style>{`
+        @keyframes twinkle-shimmer {
+          0% { background-position: 0% 0%; }
+          100% { background-position: 400% 0%; }
+        }
+        @keyframes sparkle-pulse {
+          0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+          25% { opacity: 0.4; transform: scale(0.7) rotate(-15deg); }
+          50% { opacity: 1; transform: scale(1.2) rotate(10deg); }
+          75% { opacity: 0.6; transform: scale(0.85) rotate(-5deg); }
+        }
+        @keyframes btn-shimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 400% 50%; }
+        }
         textarea:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }
         .twinkle-confetti-container {
