@@ -149,13 +149,13 @@ export default function MapScreenWeb() {
             margin: 0,
             fontSize: 28,
             fontWeight: 800,
-            background: 'linear-gradient(135deg, #FFD700, #FFA500, #FF8C00, #FFD700, #FFF5CC)',
-            backgroundSize: '200% 200%',
+            background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #818cf8, #FFD700, #FFA500)',
+            backgroundSize: '400% 100%',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            animation: 'twinkle-shimmer 3s ease-in-out infinite',
-            filter: 'drop-shadow(0 0 8px rgba(255,165,0,0.5)) drop-shadow(0 0 20px rgba(255,215,0,0.3))',
+            animation: 'twinkle-shimmer 6s linear infinite',
+            filter: 'drop-shadow(0 0 8px rgba(255,165,0,0.4)) drop-shadow(0 0 20px rgba(255,215,0,0.2))',
             fontFamily: 'system-ui, -apple-system, sans-serif',
             pointerEvents: 'auto',
           }}
@@ -311,9 +311,8 @@ export default function MapScreenWeb() {
       <style>{`
         body { margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; }
         @keyframes twinkle-shimmer {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% { background-position: 0% 0%; }
+          100% { background-position: 400% 0%; }
         }
         .twinkle-marker { background: none !important; border: none !important; }
         .twinkle-star {
