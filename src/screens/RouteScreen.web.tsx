@@ -128,8 +128,17 @@ export default function RouteScreenWeb() {
   return (
     <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 100px' }}>
-        <h1 style={{ color: '#4ade80', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
-          🚗 Plan Your Route
+        <h1 style={{
+          fontSize: 28, fontWeight: 700, margin: '0 0 4px',
+          fontFamily: "'Mountains of Christmas', cursive",
+          background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+          backgroundSize: '400% 100%',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text' as any,
+          animation: 'twinkle-shimmer 12s linear infinite',
+        }}>
+          Plan Your Route
         </h1>
         <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px' }}>Build the perfect Christmas lights tour</p>
 
@@ -187,15 +196,21 @@ export default function RouteScreenWeb() {
         </div>
 
         {/* Generate Button */}
-        <button onClick={handleGenerate} style={{
-          width: '100%', padding: '16px 0', borderRadius: 12, border: 'none',
-          background: 'linear-gradient(135deg, #B22222, #8B0000)', color: '#fff',
-          fontSize: 18, fontWeight: 800, cursor: 'pointer', transition: 'transform 0.15s, box-shadow 0.15s',
-          boxShadow: '0 4px 15px rgba(178,34,34,0.4)',
+        <button className="gradient-border-btn" onClick={handleGenerate} style={{
+          width: '100%', padding: '16px 0', borderRadius: 12, background: 'none',
+          fontSize: 20, fontWeight: 700, cursor: 'pointer', transition: 'transform 0.15s',
+          fontFamily: "'Mountains of Christmas', cursive",
         }}
           onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
           onMouseLeave={e => { (e.target as HTMLElement).style.transform = 'none'; }}
-        >🗺️ Generate Route</button>
+        ><span style={{
+            background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+            backgroundSize: '400% 100%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text' as any,
+            animation: 'twinkle-shimmer 12s linear infinite',
+          }}>Generate Route</span></button>
 
         {/* Route Results */}
         {routeHouses !== null && (
@@ -267,6 +282,30 @@ export default function RouteScreenWeb() {
         .twinkle-marker { background: none !important; border: none !important; }
         input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
+        @keyframes twinkle-shimmer {
+          0% { background-position: 0% 0%; }
+          50% { background-position: 400% 0%; }
+          100% { background-position: 0% 0%; }
+        }
+        .gradient-border-btn {
+          position: relative;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .gradient-border-btn::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 14px;
+          padding: 2px;
+          background: linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700);
+          background-size: 400% 100%;
+          animation: twinkle-shimmer 12s linear infinite;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
       `}</style>
     </div>
   );
