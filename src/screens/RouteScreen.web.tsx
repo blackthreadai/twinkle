@@ -126,7 +126,7 @@ export default function RouteScreenWeb() {
   };
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🚗 Plan Your Route

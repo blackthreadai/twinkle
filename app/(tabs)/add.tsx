@@ -4,7 +4,7 @@ import { Platform, View, Text, StyleSheet } from 'react-native';
 export default function AddTab() {
   if (Platform.OS !== 'web') {
     const AddHouseScreen = require('@/src/screens/AddHouseScreen').default;
-    return <AddHouseScreen />;
+    return (<View style={{ flex: 1 }}><AddHouseScreen /></View>);
   }
 
   const [Component, setComponent] = useState<React.ComponentType | null>(null);

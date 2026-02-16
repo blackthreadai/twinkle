@@ -4,7 +4,7 @@ import { Platform, View, Text, StyleSheet } from 'react-native';
 export default function ProfileTab() {
   if (Platform.OS !== 'web') {
     const ProfileScreen = require('@/src/screens/ProfileScreen').default;
-    return <ProfileScreen />;
+    return (<View style={{ flex: 1 }}><ProfileScreen /></View>);
   }
 
   const [Component, setComponent] = useState<React.ComponentType | null>(null);

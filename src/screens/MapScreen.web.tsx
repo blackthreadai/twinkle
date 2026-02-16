@@ -127,7 +127,7 @@ export default function MapScreenWeb() {
     : DALLAS;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000000', position: 'relative' }}>
+    <div style={{ width: '100%', height: '100%', background: '#000000', position: 'relative' }}>
       {/* Header */}
       <div
         style={{

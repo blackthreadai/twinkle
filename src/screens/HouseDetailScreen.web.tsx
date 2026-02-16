@@ -63,7 +63,7 @@ export default function HouseDetailScreenWeb() {
 
   if (!house) {
     return (
-      <div style={{ width: '100vw', height: '100vh', background: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
+      <div style={{ width: '100%', height: '100%', background: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
           <p style={{ color: '#888', fontSize: 16 }}>House not found</p>
@@ -86,7 +86,7 @@ export default function HouseDetailScreenWeb() {
   };
 
   return (
-    <div style={{ width: '100vw', minHeight: '100vh', background: '#000000', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100%', minHeight: '100%', background: '#000000', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       {/* Header */}
       <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111' }}>
         <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 20, lineHeight: 1 }}>←</a>

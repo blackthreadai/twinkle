@@ -31,7 +31,7 @@ export default function ProfileScreenWeb() {
   const [activeSection, setActiveSection] = useState<'houses' | 'routes' | 'reviews'>('houses');
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100%', height: '100%', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '32px 20px 100px' }}>
 
         {/* Auth Section */}

@@ -4,7 +4,7 @@ import { Platform, View, Text, StyleSheet } from 'react-native';
 export default function RoutesTab() {
   if (Platform.OS !== 'web') {
     const RouteScreen = require('@/src/screens/RouteScreen').default;
-    return <RouteScreen />;
+    return (<View style={{ flex: 1 }}><RouteScreen /></View>);
   }
 
   const [Component, setComponent] = useState<React.ComponentType | null>(null);

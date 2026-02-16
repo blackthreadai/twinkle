@@ -57,7 +57,7 @@ export default function LeaderboardScreenWeb() {
 
   return (
     <div style={{
-      width: '100vw', height: '100vh', background: '#000000',
+      width: '100%', height: '100%', background: '#000000',
       fontFamily: 'system-ui, -apple-system, sans-serif', overflowY: 'auto',
     }}>
       {/* Header */}

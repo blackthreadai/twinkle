@@ -40,7 +40,11 @@ export default function ExploreTab() {
     );
   }
 
-  return <MapComponent />;
+  return (
+    <View style={{ flex: 1 }}>
+      <MapComponent />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -24,8 +24,10 @@ export default function LeaderboardTab() {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <LeaderboardScreenWeb />
-    </Suspense>
+    <View style={{ flex: 1 }}>
+      <Suspense fallback={<Loading />}>
+        <LeaderboardScreenWeb />
+      </Suspense>
+    </View>
   );
 }
