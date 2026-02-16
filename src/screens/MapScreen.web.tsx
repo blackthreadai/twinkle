@@ -19,9 +19,10 @@ function ratingToColor(rating: number): string {
 
 function createStarIcon(house: House): L.DivIcon {
   const rating = house.avg_rating ?? 0;
-  const color = house.local_rank === 1 ? '#ff4d6d' : house.is_featured ? '#4ade80' : ratingToColor(rating);
-  const scale = rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
-  const glow = rating >= 4 ? 8 : 4;
+  const isTopLocal = house.local_rank === 1;
+  const color = isTopLocal ? '#ff4d6d' : house.is_featured ? '#4ade80' : ratingToColor(rating);
+  const scale = isTopLocal ? 1.4 : rating >= 4.5 ? 1.3 : rating >= 4 ? 1.15 : rating >= 3 ? 1 : 0.85;
+  const glow = isTopLocal ? 14 : rating >= 4 ? 8 : 4;
 
   return L.divIcon({
     className: 'twinkle-marker',
