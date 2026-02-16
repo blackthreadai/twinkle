@@ -54,6 +54,7 @@ function popupHtml(house: House): string {
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
         ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
+        <a href="/house/${house.id}" style="display:block;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700">View Details →</a>
       </div>
     </div>
   `;
