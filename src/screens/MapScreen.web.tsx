@@ -258,8 +258,8 @@ export default function MapScreenWeb() {
         backdropFilter: 'blur(10px)',
       }}>
         <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #111111' }}>
-          <h2 style={{ color: '#FFD700', fontSize: 15, fontWeight: 800, margin: 0, letterSpacing: 1, textTransform: 'uppercase' }}>
-            Featured
+          <h2 style={{ color: '#FFD700', fontSize: 18, fontWeight: 700, margin: 0, letterSpacing: 1, fontFamily: "'Mountains of Christmas', cursive" }}>
+            Featured Displays
           </h2>
         </div>
         <div style={{ padding: '8px 10px' }}>
