@@ -6,12 +6,27 @@ const FEATURE_EMOJI: Record<string, string> = {
 };
 
 const MOCK_REVIEWS = [
-  { id: '1', user: 'Sarah M.', score: 5, body: 'Absolutely stunning! The kids were screaming with joy.', date: 'Dec 8' },
-  { id: '2', user: 'Mike T.', score: 4.5, body: 'Incredible light show synced to music. Visit after 7pm!', date: 'Dec 10' },
-  { id: '3', user: 'Jessica R.', score: 5, body: 'We drive 30 minutes just to see this every year.', date: 'Dec 12' },
-  { id: '4', user: 'David L.', score: 4, body: 'Really well done. Parking can be tricky though.', date: 'Dec 14' },
-  { id: '5', user: 'Amanda K.', score: 4.5, body: "Pure magic. My 3-year-old didn't want to leave.", date: 'Dec 15' },
+  { id: '1', user: 'Sarah M.', score: 5, body: 'Absolutely stunning! The kids were screaming with joy.', date: 'Dec 8', flags: 0 },
+  { id: '2', user: 'Mike T.', score: 4.5, body: 'Incredible light show synced to music. Visit after 7pm!', date: 'Dec 10', flags: 0 },
+  { id: '3', user: 'Jessica R.', score: 5, body: 'We drive 30 minutes just to see this every year.', date: 'Dec 12', flags: 0 },
+  { id: '4', user: 'David L.', score: 4, body: 'Really well done. Parking can be tricky though.', date: 'Dec 14', flags: 2 },
+  { id: '5', user: 'Amanda K.', score: 4.5, body: "Pure magic. My 3-year-old didn't want to leave.", date: 'Dec 15', flags: 0 },
 ];
+
+const FLAG_REASONS = ['Inappropriate content', 'Fake review', 'Spam', 'Wrong house', 'Offensive language', 'Other'];
+const AUTO_HIDE_THRESHOLD = 15;
+
+function getFlagKey(type: string, id: string): string {
+  return `twinkle_flag_${type}_${id}`;
+}
+
+function hasFlagged(type: string, id: string): boolean {
+  try { return localStorage.getItem(getFlagKey(type, id)) === '1'; } catch { return false; }
+}
+
+function recordFlag(type: string, id: string): void {
+  try { localStorage.setItem(getFlagKey(type, id), '1'); } catch {}
+}
 
 function Stars({ score, size = 14 }: { score: number; size?: number }) {
   const full = Math.floor(score);
@@ -48,6 +63,20 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
   const [voteCount, setVoteCount] = useState(house.votes);
   const [votedToday, setVotedToday] = useState(hasVotedToday());
   const [showConfetti, setShowConfetti] = useState(false);
+  const [houseFlagCount, setHouseFlagCount] = useState(0);
+  const [houseFlagged, setHouseFlagged] = useState(hasFlagged('house', house.id));
+  const [showFlagModal, setShowFlagModal] = useState<{ type: 'house' | 'review'; id: string } | null>(null);
+  const [reviewFlags, setReviewFlags] = useState<Record<string, number>>(() => {
+    const m: Record<string, number> = {};
+    MOCK_REVIEWS.forEach(r => { m[r.id] = r.flags; });
+    return m;
+  });
+  const [flaggedReviews, setFlaggedReviews] = useState<Set<string>>(() => {
+    const s = new Set<string>();
+    MOCK_REVIEWS.forEach(r => { if (hasFlagged('review', r.id)) s.add(r.id); });
+    return s;
+  });
+  const [flagSuccess, setFlagSuccess] = useState(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
@@ -186,11 +215,25 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
             {votedToday && <p style={{ color: '#666', fontSize: 11, margin: '8px 0 0', fontStyle: 'italic' }}>You've already voted today</p>}
           </div>
 
-          {/* Directions */}
-          <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-block', padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e', fontSize: 14, textDecoration: 'none', fontWeight: 700, marginBottom: 24 }}>
-            Get Directions
-          </a>
+          {/* Directions + Flag */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+            <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              Get Directions
+            </a>
+            <button
+              onClick={() => !houseFlagged && setShowFlagModal({ type: 'house', id: house.id })}
+              disabled={houseFlagged}
+              style={{
+                padding: '10px 16px', borderRadius: 10, border: '1px solid #444',
+                background: houseFlagged ? '#333' : '#2a2a4e', color: houseFlagged ? '#666' : '#ff6b6b',
+                fontSize: 13, fontWeight: 600, cursor: houseFlagged ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+              }}
+            >
+              {houseFlagged ? 'Flagged' : 'Flag Listing'}
+            </button>
+          </div>
 
           {/* Rate */}
           <div style={{ background: '#2a2a4e', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
@@ -221,21 +264,102 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
 
           {/* Reviews */}
           <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>💬 Reviews ({MOCK_REVIEWS.length})</h4>
-          {MOCK_REVIEWS.map(r => (
-            <div key={r.id} style={{ background: '#2a2a4e', borderRadius: 10, padding: 14, marginBottom: 10, border: '1px solid #333' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 14, background: '#444', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: 12, fontWeight: 700 }}>{r.user[0]}</div>
-                  <span style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{r.user}</span>
+          {MOCK_REVIEWS.filter(r => (reviewFlags[r.id] ?? 0) < AUTO_HIDE_THRESHOLD).map(r => {
+            const flagCount = reviewFlags[r.id] ?? 0;
+            const isFlagged = flaggedReviews.has(r.id);
+            return (
+              <div key={r.id} style={{ background: '#2a2a4e', borderRadius: 10, padding: 14, marginBottom: 10, border: '1px solid #333' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 14, background: '#444', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: 12, fontWeight: 700 }}>{r.user[0]}</div>
+                    <span style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{r.user}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#888', fontSize: 11 }}>{r.date}</span>
+                    <button
+                      onClick={() => !isFlagged && setShowFlagModal({ type: 'review', id: r.id })}
+                      disabled={isFlagged}
+                      style={{
+                        background: 'none', border: 'none', color: isFlagged ? '#555' : '#666',
+                        fontSize: 11, cursor: isFlagged ? 'not-allowed' : 'pointer', padding: '2px 4px',
+                        transition: 'color 0.2s',
+                      }}
+                      title={isFlagged ? 'Already flagged' : 'Flag this review'}
+                    >
+                      {isFlagged ? '⚑' : '⚐'}
+                    </button>
+                  </div>
                 </div>
-                <span style={{ color: '#888', fontSize: 11 }}>{r.date}</span>
+                <span style={{ color: '#FFD700', fontSize: 13, fontWeight: 700 }}>{r.score.toFixed(1)}</span>
+                <p style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4, margin: '6px 0 0' }}>{r.body}</p>
               </div>
-              <span style={{ color: '#FFD700', fontSize: 13, fontWeight: 700 }}>{r.score.toFixed(1)}</span>
-              <p style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4, margin: '6px 0 0' }}>{r.body}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      {/* Flag Modal */}
+      {showFlagModal && (
+        <>
+          <div onClick={() => setShowFlagModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 3000 }} />
+          <div style={{
+            position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+            background: '#1a1a2e', border: '1px solid #444', borderRadius: 16, padding: 24,
+            zIndex: 3001, width: '90%', maxWidth: 360, boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+            fontFamily: 'system-ui',
+          }}>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 4px' }}>
+              Flag {showFlagModal.type === 'house' ? 'Listing' : 'Review'}
+            </h3>
+            <p style={{ color: '#888', fontSize: 12, margin: '0 0 16px' }}>
+              Select a reason. After {AUTO_HIDE_THRESHOLD} flags, this will be sent for admin review.
+            </p>
+            {FLAG_REASONS.map(reason => (
+              <button
+                key={reason}
+                onClick={() => {
+                  const { type, id } = showFlagModal;
+                  recordFlag(type, id);
+                  if (type === 'house') {
+                    setHouseFlagCount(prev => prev + 1);
+                    setHouseFlagged(true);
+                  } else {
+                    setReviewFlags(prev => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
+                    setFlaggedReviews(prev => new Set(prev).add(id));
+                  }
+                  setShowFlagModal(null);
+                  setFlagSuccess(true);
+                  setTimeout(() => setFlagSuccess(false), 2500);
+                }}
+                style={{
+                  display: 'block', width: '100%', padding: '10px 14px', marginBottom: 6,
+                  borderRadius: 8, border: '1px solid #333', background: '#2a2a4e', color: '#ccc',
+                  fontSize: 13, textAlign: 'left', cursor: 'pointer', transition: 'all 0.15s',
+                }}
+                onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = '#ff6b6b'; (e.target as HTMLElement).style.color = '#ff6b6b'; }}
+                onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = '#333'; (e.target as HTMLElement).style.color = '#ccc'; }}
+              >
+                {reason}
+              </button>
+            ))}
+            <button onClick={() => setShowFlagModal(null)} style={{
+              marginTop: 8, width: '100%', padding: '10px', borderRadius: 8, border: '1px solid #444',
+              background: 'transparent', color: '#888', fontSize: 13, cursor: 'pointer',
+            }}>Cancel</button>
+          </div>
+        </>
+      )}
+
+      {/* Flag Success Toast */}
+      {flagSuccess && (
+        <div style={{
+          position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)',
+          background: '#2a2a4e', border: '1px solid #ff6b6b', borderRadius: 10,
+          padding: '12px 20px', zIndex: 3002, boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        }}>
+          <p style={{ color: '#ff6b6b', margin: 0, fontSize: 13, fontWeight: 600 }}>Flag submitted — thank you for keeping Twinkle safe</p>
+        </div>
+      )}
 
       <style>{`
         textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }

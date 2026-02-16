@@ -223,3 +223,35 @@ $$ language plpgsql;
 create trigger on_house_updated
   before update on public.houses
   for each row execute function public.handle_updated_at();
+
+-- ============================================================
+-- FLAGS
+-- ============================================================
+
+create table public.flags (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users(id) on delete cascade,
+  target_type text not null check (target_type in ('house', 'review')),
+  target_id uuid not null,
+  reason text not null,
+  created_at timestamptz default now() not null,
+  -- One flag per user per target
+  unique (user_id, target_type, target_id)
+);
+
+create index idx_flags_target on public.flags(target_type, target_id);
+
+-- View: flag counts per target (auto-queue at 15+ flags)
+create or replace view public.flag_counts as
+select
+  target_type,
+  target_id,
+  count(*) as flag_count,
+  count(*) >= 15 as needs_review
+from public.flags
+group by target_type, target_id;
+
+-- RLS
+alter table public.flags enable row level security;
+create policy "Users can flag" on public.flags for insert with check (auth.uid() = user_id);
+create policy "Users can see own flags" on public.flags for select using (auth.uid() = user_id);
