@@ -169,7 +169,7 @@ export default function MapScreenWeb() {
           >
             Twinkle
           </span>
-          <span>✨</span>
+          <span style={{ animation: 'sparkle-pulse 2s ease-in-out infinite', display: 'inline-block' }}>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
@@ -323,6 +323,12 @@ export default function MapScreenWeb() {
         @keyframes twinkle-shimmer {
           0% { background-position: 0% 0%; }
           100% { background-position: 400% 0%; }
+        }
+        @keyframes sparkle-pulse {
+          0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.6)); }
+          25% { opacity: 0.4; transform: scale(0.7) rotate(-15deg); filter: drop-shadow(0 0 0px transparent); }
+          50% { opacity: 1; transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 8px rgba(255,215,0,0.8)); }
+          75% { opacity: 0.6; transform: scale(0.85) rotate(-5deg); filter: drop-shadow(0 0 2px rgba(255,215,0,0.3)); }
         }
         .twinkle-marker { background: none !important; border: none !important; }
         .twinkle-star {
