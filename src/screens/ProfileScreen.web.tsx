@@ -37,9 +37,17 @@ export default function ProfileScreenWeb() {
         {/* Auth Section */}
         {isGuest && (
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <div style={{ fontSize: 64, marginBottom: 12 }}>✨</div>
-            <h1 style={{ color: '#4ade80', fontSize: 28, fontWeight: 800, margin: '0 0 8px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
-              Sign In to Get Started
+            <h1 style={{
+              fontSize: 32, fontWeight: 700, margin: '0 0 8px',
+              fontFamily: "'Mountains of Christmas', cursive",
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+              backgroundSize: '400% 100%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text' as any,
+              animation: 'twinkle-shimmer 12s linear infinite',
+            }}>
+              Join Twinkle
             </h1>
             <p style={{ color: '#888', fontSize: 14, margin: '0 0 28px', lineHeight: 1.5 }}>
               Create an account to add houses, rate displays, and save routes
@@ -57,22 +65,30 @@ export default function ProfileScreenWeb() {
                 style={{ ...inputStyle, width: '100%', marginBottom: 16 }}
               />
               <div style={{ display: 'flex', gap: 10 }}>
-                <button onClick={() => setIsGuest(false)} style={{
-                  flex: 1, padding: '14px 0', borderRadius: 12, border: 'none',
-                  background: 'linear-gradient(135deg, #4ade80, #22c55e)', color: '#000000',
-                  fontSize: 16, fontWeight: 800, cursor: 'pointer', transition: 'transform 0.15s',
+                <button className="gradient-border-btn" onClick={() => setIsGuest(false)} style={{
+                  flex: 1, padding: '14px 0', borderRadius: 12, background: 'none',
+                  fontSize: 18, fontWeight: 700, cursor: 'pointer', transition: 'transform 0.15s',
+                  fontFamily: "'Mountains of Christmas', cursive",
                 }}
                   onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
                   onMouseLeave={e => { (e.target as HTMLElement).style.transform = 'none'; }}
-                >Sign In</button>
-                <button onClick={() => setIsGuest(false)} style={{
-                  flex: 1, padding: '14px 0', borderRadius: 12, border: '1px solid #4ade80',
-                  background: 'transparent', color: '#4ade80',
-                  fontSize: 16, fontWeight: 700, cursor: 'pointer', transition: 'transform 0.15s',
+                ><span style={{
+                    background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                    backgroundSize: '400% 100%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text' as any, animation: 'twinkle-shimmer 12s linear infinite',
+                  }}>Sign In</span></button>
+                <button className="gradient-border-btn" onClick={() => setIsGuest(false)} style={{
+                  flex: 1, padding: '14px 0', borderRadius: 12, background: 'none',
+                  fontSize: 18, fontWeight: 700, cursor: 'pointer', transition: 'transform 0.15s',
+                  fontFamily: "'Mountains of Christmas', cursive",
                 }}
                   onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
                   onMouseLeave={e => { (e.target as HTMLElement).style.transform = 'none'; }}
-                >Create Account</button>
+                ><span style={{
+                    background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700)',
+                    backgroundSize: '400% 100%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text' as any, animation: 'twinkle-shimmer 12s linear infinite',
+                  }}>Create Account</span></button>
               </div>
               <button onClick={() => setIsGuest(false)} style={{
                 marginTop: 16, background: 'none', border: 'none', color: '#888',
@@ -200,6 +216,30 @@ export default function ProfileScreenWeb() {
         body { margin: 0; background: #000000; }
         input:focus { outline: none; border-color: #4ade80 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
+        @keyframes twinkle-shimmer {
+          0% { background-position: 0% 0%; }
+          50% { background-position: 400% 0%; }
+          100% { background-position: 0% 0%; }
+        }
+        .gradient-border-btn {
+          position: relative;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+        .gradient-border-btn::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 14px;
+          padding: 2px;
+          background: linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #4ade80, #22d3ee, #FFFFFF, #22d3ee, #4ade80, #ff4d6d, #FFA500, #FFD700);
+          background-size: 400% 100%;
+          animation: twinkle-shimmer 12s linear infinite;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
       `}</style>
     </div>
   );
