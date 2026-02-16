@@ -145,11 +145,11 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           </div>
           {house.description && <p style={{ color: '#ccc', fontSize: 14, lineHeight: 1.5, margin: '0 0 20px' }}>{house.description}</p>}
 
-          {/* Vote Section */}
-          <div style={{ background: 'linear-gradient(135deg, #2a2a4e, #1a1a2e)', borderRadius: 14, padding: 20, marginBottom: 24, border: '2px solid #FFD700', position: 'relative', overflow: 'hidden' }}>
+          {/* Votes & Ranking — single line */}
+          <div style={{ background: '#2a2a4e', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid #444', position: 'relative', overflow: 'hidden' }}>
             {showConfetti && (
               <div className="twinkle-confetti-container">
-                {Array.from({ length: 20 }).map((_, i) => (
+                {Array.from({ length: 15 }).map((_, i) => (
                   <div key={i} className="twinkle-confetti-piece" style={{
                     left: `${Math.random() * 100}%`,
                     animationDelay: `${Math.random() * 0.5}s`,
@@ -158,44 +158,32 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                 ))}
               </div>
             )}
-            <div style={{ textAlign: 'center' }}>
-              <button
-                onClick={handleVote}
-                disabled={votedToday}
-                style={{
-                  width: 80, height: 80, borderRadius: '50%', border: 'none',
-                  background: votedToday ? '#444' : 'linear-gradient(135deg, #FFD700, #FFA500)',
-                  fontSize: 36, cursor: votedToday ? 'not-allowed' : 'pointer',
-                  boxShadow: votedToday ? 'none' : '0 0 20px rgba(255,215,0,0.4)',
-                  transition: 'all 0.3s ease',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 12px',
-                }}
-              >
-                ⬆️
-              </button>
-              <div style={{ color: '#FFD700', fontSize: 28, fontWeight: 800 }}>{voteCount}</div>
-              <div style={{ color: '#aaa', fontSize: 13, marginTop: 2 }}>votes</div>
-              {votedToday && (
-                <p style={{ color: '#888', fontSize: 12, marginTop: 8, fontStyle: 'italic' }}>
-                  You've already voted today! Come back tomorrow. 🌅
-                </p>
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ color: '#FFD700', fontSize: 14, fontWeight: 700 }}>{voteCount} votes</span>
+              <span style={{ color: '#555' }}>·</span>
+              {house.local_rank && <span style={{ color: '#ccc', fontSize: 13 }}>🏠 <strong style={{ color: '#FFD700' }}>#{house.local_rank}</strong> locally</span>}
+              <span style={{ color: '#555' }}>·</span>
+              {house.national_rank && <span style={{ color: '#ccc', fontSize: 13 }}>🌎 <strong style={{ color: '#FFA500' }}>#{house.national_rank}</strong> nationally</span>}
+              <div style={{ marginLeft: 'auto' }}>
+                <button
+                  onClick={handleVote}
+                  disabled={votedToday}
+                  title={votedToday ? 'Already voted today' : 'Upvote this house!'}
+                  style={{
+                    width: 40, height: 40, borderRadius: '50%', border: 'none',
+                    background: votedToday ? '#444' : 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    fontSize: 18, cursor: votedToday ? 'not-allowed' : 'pointer',
+                    boxShadow: votedToday ? 'none' : '0 0 12px rgba(255,215,0,0.3)',
+                    transition: 'all 0.2s ease',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: votedToday ? 0.5 : 1,
+                  }}
+                >
+                  ⬆️
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 14 }}>
-              {house.local_rank && (
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#FFD700', fontSize: 18, fontWeight: 700 }}>#{house.local_rank}</div>
-                  <div style={{ color: '#888', fontSize: 11 }}>locally</div>
-                </div>
-              )}
-              {house.national_rank && (
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#FFA500', fontSize: 18, fontWeight: 700 }}>#{house.national_rank}</div>
-                  <div style={{ color: '#888', fontSize: 11 }}>nationally</div>
-                </div>
-              )}
-            </div>
+            {votedToday && <p style={{ color: '#666', fontSize: 11, margin: '8px 0 0', fontStyle: 'italic' }}>You've already voted today</p>}
           </div>
 
           {/* Directions */}
