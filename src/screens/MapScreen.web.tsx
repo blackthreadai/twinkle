@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { useLocation } from '../hooks/useLocation';
 import { useHouses, type HouseFilters } from '../hooks/useHouses';
 import { FilterSheet, type FilterValues } from '../components/FilterSheet';
+import { HouseDetailPanel } from '../components/HouseDetail.web';
 import type { Feature, House } from '../types';
 
 const DALLAS: [number, number] = [32.7767, -96.7970];
@@ -54,7 +55,7 @@ function popupHtml(house: House): string {
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
         ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
-        <a href="/house?id=${house.id}" style="display:block;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700">View Details →</a>
+        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
       </div>
     </div>
   `;
@@ -75,6 +76,7 @@ function FlyToLocation({ center }: { center: [number, number] }) {
 export default function MapScreenWeb() {
   const { location, loading: locationLoading } = useLocation();
   const [filtersVisible, setFiltersVisible] = useState(false);
+  const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
   const [filterValues, setFilterValues] = useState<FilterValues>({
     radius: 10,
     minRating: 0,
@@ -87,6 +89,20 @@ export default function MapScreenWeb() {
   };
 
   const { houses } = useHouses(houseFilters);
+
+  // Handle "View Details" clicks from popup buttons
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const btn = (e.target as HTMLElement).closest('[data-house-id]') as HTMLElement | null;
+      if (btn) {
+        const id = btn.getAttribute('data-house-id');
+        const house = houses.find(h => h.id === id);
+        if (house) setSelectedHouse(house);
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [houses]);
 
   const center: [number, number] = location
     ? [location.coords.latitude, location.coords.longitude]
@@ -199,6 +215,11 @@ export default function MapScreenWeb() {
           </Marker>
         ))}
       </MapContainer>
+
+      {/* House Detail Panel */}
+      {selectedHouse && (
+        <HouseDetailPanel house={selectedHouse} onClose={() => setSelectedHouse(null)} />
+      )}
 
       {/* Filter Sheet */}
       <FilterSheet
