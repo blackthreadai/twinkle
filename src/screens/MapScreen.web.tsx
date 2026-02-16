@@ -147,13 +147,13 @@ export default function MapScreenWeb() {
         <h1
           style={{
             margin: 0,
-            fontSize: 28,
-            fontWeight: 800,
-            fontFamily: 'system-ui, -apple-system, sans-serif',
+            fontWeight: 700,
+            fontFamily: "'Mountains of Christmas', cursive",
             pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
             gap: 4,
+            fontSize: 34,
           }}
         >
           <span
@@ -317,6 +317,7 @@ export default function MapScreenWeb() {
         onClose={() => setFiltersVisible(false)}
       />
 
+      <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet" />
       <style>{`
         body { margin: 0; padding: 0; overflow: hidden; background: #000000; }
         @keyframes twinkle-shimmer {
