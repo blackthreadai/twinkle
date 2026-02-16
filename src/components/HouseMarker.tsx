@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#1a1a2e',
+    color: '#000000',
   },
 });

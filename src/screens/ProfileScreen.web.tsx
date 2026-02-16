@@ -31,7 +31,7 @@ export default function ProfileScreenWeb() {
   const [activeSection, setActiveSection] = useState<'houses' | 'routes' | 'reviews'>('houses');
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100vw', height: '100vh', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '32px 20px 100px' }}>
 
         {/* Auth Section */}
@@ -59,7 +59,7 @@ export default function ProfileScreenWeb() {
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={() => setIsGuest(false)} style={{
                   flex: 1, padding: '14px 0', borderRadius: 12, border: 'none',
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e',
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000000',
                   fontSize: 16, fontWeight: 800, cursor: 'pointer', transition: 'transform 0.15s',
                 }}
                   onMouseEnter={e => { (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
@@ -103,7 +103,7 @@ export default function ProfileScreenWeb() {
             </div>
             {!isGuest && (
               <button onClick={() => setIsGuest(true)} style={{
-                marginLeft: 'auto', padding: '8px 16px', borderRadius: 8, border: '1px solid #444',
+                marginLeft: 'auto', padding: '8px 16px', borderRadius: 8, border: '1px solid #222',
                 background: 'transparent', color: '#888', fontSize: 13, cursor: 'pointer',
               }}>Sign Out</button>
             )}
@@ -112,7 +112,7 @@ export default function ProfileScreenWeb() {
           {/* Stats */}
           <div style={{
             display: 'flex', justifyContent: 'space-around', padding: 20,
-            background: '#2a2a4e', borderRadius: 12, marginBottom: 24, border: '1px solid #333',
+            background: '#111111', borderRadius: 12, marginBottom: 24, border: '1px solid #333',
           }}>
             {[
               { label: 'Houses Added', value: mockProfile.stats.houses, icon: '🏠' },
@@ -128,7 +128,7 @@ export default function ProfileScreenWeb() {
           </div>
 
           {/* Section Tabs */}
-          <div style={{ display: 'flex', gap: 4, marginBottom: 16, background: '#2a2a4e', borderRadius: 10, padding: 4 }}>
+          <div style={{ display: 'flex', gap: 4, marginBottom: 16, background: '#111111', borderRadius: 10, padding: 4 }}>
             {(['houses', 'routes', 'reviews'] as const).map(s => (
               <button key={s} onClick={() => setActiveSection(s)} style={{
                 flex: 1, padding: '10px 0', borderRadius: 8, border: 'none',
@@ -145,7 +145,7 @@ export default function ProfileScreenWeb() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {mockMyHouses.map(h => (
                 <div key={h.id} style={{
-                  display: 'flex', gap: 12, padding: 12, background: '#2a2a4e',
+                  display: 'flex', gap: 12, padding: 12, background: '#111111',
                   borderRadius: 10, border: '1px solid #333', transition: 'border-color 0.2s',
                 }}>
                   <img src={h.photos[0]} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8 }} />
@@ -164,7 +164,7 @@ export default function ProfileScreenWeb() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {mockMyRoutes.map(r => (
                 <div key={r.id} style={{
-                  padding: 16, background: '#2a2a4e', borderRadius: 10,
+                  padding: 16, background: '#111111', borderRadius: 10,
                   border: '1px solid #333', transition: 'border-color 0.2s',
                 }}>
                   <div style={{ color: '#fff', fontSize: 15, fontWeight: 600 }}>{r.name}</div>
@@ -183,7 +183,7 @@ export default function ProfileScreenWeb() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {mockMyReviews.map(r => (
                 <div key={r.id} style={{
-                  padding: 16, background: '#2a2a4e', borderRadius: 10,
+                  padding: 16, background: '#111111', borderRadius: 10,
                   border: '1px solid #333',
                 }}>
                   <div style={{ color: '#888', fontSize: 12, marginBottom: 4 }}>{r.house}</div>
@@ -197,7 +197,7 @@ export default function ProfileScreenWeb() {
       </div>
 
       <style>{`
-        body { margin: 0; background: #1a1a2e; }
+        body { margin: 0; background: #000000; }
         input:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
       `}</style>
@@ -206,7 +206,7 @@ export default function ProfileScreenWeb() {
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: '12px 14px', borderRadius: 10, border: '1px solid #444',
-  backgroundColor: '#2a2a4e', color: '#fff', fontSize: 15, fontFamily: 'inherit',
+  padding: '12px 14px', borderRadius: 10, border: '1px solid #222',
+  backgroundColor: '#111111', color: '#fff', fontSize: 15, fontFamily: 'inherit',
   boxSizing: 'border-box' as const, transition: 'border-color 0.2s, box-shadow 0.2s',
 };

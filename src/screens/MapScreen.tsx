@@ -191,7 +191,7 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
   },
   map: {
     flex: 1,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
   },
   loadingText: {
     color: '#FFD700',
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     bottom: 100,
     left: 16,
     right: 16,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   tag: {
-    backgroundColor: '#2a2a4e',
+    backgroundColor: '#111111',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 60,
     left: 16,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 24,
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 60,
     right: 16,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#000000',
     borderRadius: 20,
     padding: 8,
     borderWidth: 1,

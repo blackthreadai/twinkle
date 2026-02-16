@@ -55,7 +55,7 @@ function MiniMap({ position }: { position: [number, number] }) {
 
   if (!mapMod || !leaflet) {
     return (
-      <div style={{ height: 220, background: '#2a2a4e', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
+      <div style={{ height: 220, background: '#111111', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
         Loading map...
       </div>
     );
@@ -177,7 +177,7 @@ export default function AddHouseScreenWeb() {
   };
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100vw', height: '100vh', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🎄 Add a House
@@ -225,7 +225,7 @@ export default function AddHouseScreenWeb() {
                 padding: '10px 18px',
                 borderRadius: 24,
                 border: `2px solid ${features.includes(key) ? '#FFD700' : '#444'}`,
-                backgroundColor: features.includes(key) ? 'rgba(178,34,34,0.6)' : '#2a2a4e',
+                backgroundColor: features.includes(key) ? 'rgba(178,34,34,0.6)' : '#111111',
                 color: '#fff',
                 fontSize: 14,
                 fontWeight: 600,
@@ -243,7 +243,7 @@ export default function AddHouseScreenWeb() {
 
         {/* Lights sub-options */}
         {features.includes('Lights') && (
-          <div style={{ marginTop: 16, padding: 16, background: '#2a2a4e', borderRadius: 12, border: '1px solid #444' }}>
+          <div style={{ marginTop: 16, padding: 16, background: '#111111', borderRadius: 12, border: '1px solid #222' }}>
             <label style={{ ...labelStyle, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontSize: 18 }}>🎄</span> How many lights? *
             </label>
@@ -273,7 +273,7 @@ export default function AddHouseScreenWeb() {
 
         {/* Music sub-options */}
         {features.includes('Music') && (
-          <div style={{ marginTop: 12, padding: 16, background: '#2a2a4e', borderRadius: 12, border: '1px solid #444' }}>
+          <div style={{ marginTop: 12, padding: 16, background: '#111111', borderRadius: 12, border: '1px solid #222' }}>
             <label style={{ ...labelStyle, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontSize: 18 }}>🎶</span> Music type *
             </label>
@@ -361,7 +361,7 @@ export default function AddHouseScreenWeb() {
           <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
             {photos.map((p, i) => (
               <div key={i} style={{ position: 'relative', width: 80, height: 80 }}>
-                <img src={p.url} alt="" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8, border: '1px solid #444' }} />
+                <img src={p.url} alt="" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8, border: '1px solid #222' }} />
                 <button
                   onClick={(e) => { e.stopPropagation(); removePhoto(i); }}
                   style={{ position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: 10, background: '#B22222', border: 'none', color: '#fff', fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -388,7 +388,7 @@ export default function AddHouseScreenWeb() {
             borderRadius: 12,
             border: 'none',
             background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-            color: '#1a1a2e',
+            color: '#000000',
             fontSize: 18,
             fontWeight: 800,
             cursor: 'pointer',
@@ -406,7 +406,7 @@ export default function AddHouseScreenWeb() {
       {showSuccess && (
         <div style={{
           position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
-          background: '#2a2a4e', border: '1px solid #FFD700', borderRadius: 12,
+          background: '#111111', border: '1px solid #FFD700', borderRadius: 12,
           padding: '16px 24px', zIndex: 9999, boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
           animation: 'fadeInUp 0.3s ease',
         }}>
@@ -416,7 +416,7 @@ export default function AddHouseScreenWeb() {
       )}
 
       <style>{`
-        body { margin: 0; background: #1a1a2e; }
+        body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
         input:focus, textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder, textarea::placeholder { color: #555; }
@@ -432,7 +432,7 @@ const labelStyle: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '12px 14px', borderRadius: 10,
-  border: '1px solid #444', backgroundColor: '#2a2a4e', color: '#fff',
+  border: '1px solid #222', backgroundColor: '#111111', color: '#fff',
   fontSize: 15, fontFamily: 'inherit', boxSizing: 'border-box',
   transition: 'border-color 0.2s, box-shadow 0.2s',
 };

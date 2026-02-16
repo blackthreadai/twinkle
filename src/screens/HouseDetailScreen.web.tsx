@@ -63,7 +63,7 @@ export default function HouseDetailScreenWeb() {
 
   if (!house) {
     return (
-      <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
+      <div style={{ width: '100vw', height: '100vh', background: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🏠</div>
           <p style={{ color: '#888', fontSize: 16 }}>House not found</p>
@@ -86,9 +86,9 @@ export default function HouseDetailScreenWeb() {
   };
 
   return (
-    <div style={{ width: '100vw', minHeight: '100vh', background: '#1a1a2e', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100vw', minHeight: '100vh', background: '#000000', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       {/* Header */}
-      <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #2a2a4e' }}>
+      <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111' }}>
         <a href="/" style={{ color: '#FFD700', textDecoration: 'none', fontSize: 20, lineHeight: 1 }}>←</a>
         <h1 style={{ color: '#FFD700', fontSize: 20, fontWeight: 700, margin: 0, textShadow: '0 0 15px rgba(255,215,0,0.3)' }}>Twinkle ✨</h1>
       </div>
@@ -141,7 +141,7 @@ export default function HouseDetailScreenWeb() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
             {features.map(f => (
               <span key={f} style={{
-                padding: '6px 14px', borderRadius: 20, background: '#2a2a4e', border: '1px solid #444',
+                padding: '6px 14px', borderRadius: 20, background: '#111111', border: '1px solid #222',
                 color: '#FFD700', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4,
               }}>
                 {FEATURE_EMOJI[f] || '✨'} {f}
@@ -173,7 +173,7 @@ export default function HouseDetailScreenWeb() {
               </MapContainer>
             );
           })() : (
-            <div style={{ height: 200, background: '#2a2a4e', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>Loading map...</div>
+            <div style={{ height: 200, background: '#111111', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>Loading map...</div>
           )}
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`}
@@ -181,7 +181,7 @@ export default function HouseDetailScreenWeb() {
             rel="noopener noreferrer"
             style={{
               display: 'inline-block', marginTop: 10, padding: '8px 16px', borderRadius: 8,
-              background: '#2a2a4e', border: '1px solid #444', color: '#fff', fontSize: 13,
+              background: '#111111', border: '1px solid #222', color: '#fff', fontSize: 13,
               textDecoration: 'none', fontWeight: 600,
             }}
           >
@@ -190,7 +190,7 @@ export default function HouseDetailScreenWeb() {
         </div>
 
         {/* Rate This House */}
-        <div style={{ background: '#2a2a4e', borderRadius: 16, padding: 24, marginBottom: 32, border: '1px solid #333' }}>
+        <div style={{ background: '#111111', borderRadius: 16, padding: 24, marginBottom: 32, border: '1px solid #333' }}>
           <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>⭐ Rate This House</h3>
           <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
             {[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(s => (
@@ -221,7 +221,7 @@ export default function HouseDetailScreenWeb() {
             rows={3}
             style={{
               width: '100%', padding: '12px 14px', borderRadius: 10,
-              border: '1px solid #444', backgroundColor: '#1a1a2e', color: '#fff',
+              border: '1px solid #222', backgroundColor: '#000000', color: '#fff',
               fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box',
               resize: 'vertical', minHeight: 70,
             }}
@@ -232,7 +232,7 @@ export default function HouseDetailScreenWeb() {
             style={{
               marginTop: 12, padding: '10px 24px', borderRadius: 10, border: 'none',
               background: userRating && reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
-              color: userRating && reviewText.trim() ? '#1a1a2e' : '#888',
+              color: userRating && reviewText.trim() ? '#000000' : '#888',
               fontSize: 14, fontWeight: 700, cursor: userRating && reviewText.trim() ? 'pointer' : 'not-allowed',
               transition: 'all 0.2s',
             }}
@@ -248,7 +248,7 @@ export default function HouseDetailScreenWeb() {
         <div>
           <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>💬 Reviews ({MOCK_REVIEWS.length})</h3>
           {MOCK_REVIEWS.map(r => (
-            <div key={r.id} style={{ background: '#2a2a4e', borderRadius: 12, padding: 16, marginBottom: 12, border: '1px solid #333' }}>
+            <div key={r.id} style={{ background: '#111111', borderRadius: 12, padding: 16, marginBottom: 12, border: '1px solid #333' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ width: 32, height: 32, borderRadius: 16, background: '#444', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: 14, fontWeight: 700 }}>
@@ -266,7 +266,7 @@ export default function HouseDetailScreenWeb() {
       </div>
 
       <style>{`
-        body { margin: 0; background: #1a1a2e; }
+        body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
         textarea:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         textarea::placeholder { color: #555; }

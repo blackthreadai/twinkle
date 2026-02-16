@@ -21,10 +21,10 @@ function rankBorder(rank: number): string {
 }
 
 function rankBg(rank: number): string {
-  if (rank === 1) return 'linear-gradient(135deg, #2a2a4e, #3a3a20)';
-  if (rank === 2) return 'linear-gradient(135deg, #2a2a4e, #2e2e3a)';
-  if (rank === 3) return 'linear-gradient(135deg, #2a2a4e, #3a2e20)';
-  return '#2a2a4e';
+  if (rank === 1) return 'linear-gradient(135deg, #111111, #1a1a0a)';
+  if (rank === 2) return 'linear-gradient(135deg, #111111, #1a1a1e)';
+  if (rank === 3) return 'linear-gradient(135deg, #111111, #1e1a0a)';
+  return '#111111';
 }
 
 function medalEmoji(rank: number): string {
@@ -57,25 +57,25 @@ export default function LeaderboardScreenWeb() {
 
   return (
     <div style={{
-      width: '100vw', height: '100vh', background: '#1a1a2e',
+      width: '100vw', height: '100vh', background: '#000000',
       fontFamily: 'system-ui, -apple-system, sans-serif', overflowY: 'auto',
     }}>
       {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid #2a2a4e', position: 'sticky', top: 0, background: '#1a1a2e', zIndex: 10 }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 10 }}>
         <h1 style={{ color: '#FFD700', fontSize: 24, fontWeight: 800, margin: '0 0 14px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🏆 Leaderboard
         </h1>
 
         {/* Tab toggle */}
-        <div style={{ display: 'flex', gap: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid #444' }}>
+        <div style={{ display: 'flex', gap: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid #222' }}>
           {(['local', 'national'] as const).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               style={{
                 flex: 1, padding: '10px 0', border: 'none', cursor: 'pointer',
-                background: tab === t ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#2a2a4e',
-                color: tab === t ? '#1a1a2e' : '#888',
+                background: tab === t ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#111111',
+                color: tab === t ? '#000000' : '#888',
                 fontSize: 14, fontWeight: 700, transition: 'all 0.2s',
               }}
             >
@@ -94,7 +94,7 @@ export default function LeaderboardScreenWeb() {
               onChange={e => setZipFilter(e.target.value.replace(/\D/g, '').slice(0, 5))}
               style={{
                 width: '100%', padding: '8px 12px', borderRadius: 8,
-                border: '1px solid #444', background: '#2a2a4e', color: '#fff',
+                border: '1px solid #222', background: '#111111', color: '#fff',
                 fontSize: 13, boxSizing: 'border-box',
               }}
             />
@@ -155,7 +155,7 @@ export default function LeaderboardScreenWeb() {
                 </div>
               </div>
               {expanded && (
-                <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #444' }}>
+                <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #222' }}>
                   {house.photos.length > 0 && (
                     <img src={house.photos[0]} alt="" style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 8, marginBottom: 10 }} />
                   )}
@@ -164,7 +164,7 @@ export default function LeaderboardScreenWeb() {
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                     {(house.features as Feature[]).map(f => (
-                      <span key={f} style={{ padding: '3px 10px', borderRadius: 12, background: '#1a1a2e', border: '1px solid #444', color: '#FFD700', fontSize: 11, fontWeight: 600 }}>
+                      <span key={f} style={{ padding: '3px 10px', borderRadius: 12, background: '#000000', border: '1px solid #222', color: '#FFD700', fontSize: 11, fontWeight: 600 }}>
                         {FEATURE_EMOJI[f] || '✨'} {f}
                       </span>
                     ))}

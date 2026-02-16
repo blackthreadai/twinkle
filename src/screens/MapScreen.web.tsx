@@ -29,7 +29,7 @@ function createStarIcon(house: House): L.DivIcon {
     html: `
       <div class="twinkle-star" style="transform:scale(${scale});filter:drop-shadow(0 0 ${glow}px ${color})" data-color="${color}" data-scale="${scale}" data-glow="${glow}">
         <span style="font-size:28px;color:${color};line-height:1">✦</span>
-        ${rating > 0 ? `<span style="font-size:10px;font-weight:700;color:#1a1a2e;background:${color};border-radius:6px;padding:1px 4px;margin-top:-2px">${rating.toFixed(1)}</span>` : ''}
+        ${rating > 0 ? `<span style="font-size:10px;font-weight:700;color:#000000;background:${color};border-radius:6px;padding:1px 4px;margin-top:-2px">${rating.toFixed(1)}</span>` : ''}
       </div>
     `,
     iconSize: [40, 50],
@@ -41,7 +41,7 @@ function createStarIcon(house: House): L.DivIcon {
 function popupHtml(house: House): string {
   const rating = house.avg_rating ?? 0;
   const features = (house.features as Feature[])
-    .map((f) => `<span style="background:#2a2a4e;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
+    .map((f) => `<span style="background:#111111;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
     .join(' ');
 
   return `
@@ -59,7 +59,7 @@ function popupHtml(house: House): string {
           <span>·</span>
           <span>${house.votes} votes</span>
         </div>
-        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
+        <button data-house-id="${house.id}" style="display:block;width:100%;margin-top:10px;padding:8px 0;text-align:center;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000000;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer">View Details →</button>
       </div>
     </div>
   `;
@@ -127,7 +127,7 @@ export default function MapScreenWeb() {
     : DALLAS;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: '#000000', position: 'relative' }}>
       {/* Header */}
       <div
         style={{
@@ -149,26 +149,35 @@ export default function MapScreenWeb() {
             margin: 0,
             fontSize: 28,
             fontWeight: 800,
-            background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
-            backgroundSize: '400% 100%',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            animation: 'twinkle-shimmer 12s linear infinite',
-            filter: 'drop-shadow(0 0 8px rgba(255,165,0,0.4)) drop-shadow(0 0 20px rgba(255,215,0,0.2))',
             fontFamily: 'system-ui, -apple-system, sans-serif',
             pointerEvents: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
           }}
         >
-          Twinkle ✨
+          <span
+            style={{
+              background: 'linear-gradient(90deg, #FFD700, #FFA500, #ff4d6d, #FF6347, #4ade80, #22d3ee, #FFFFFF, #FFD700, #FFA500)',
+              backgroundSize: '400% 100%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              animation: 'twinkle-shimmer 12s linear infinite',
+              filter: 'drop-shadow(0 0 8px rgba(255,165,0,0.4)) drop-shadow(0 0 20px rgba(255,215,0,0.2))',
+            }}
+          >
+            Twinkle
+          </span>
+          <span style={{ filter: 'drop-shadow(0 0 6px rgba(255,215,0,0.6))' }}>✨</span>
         </h1>
         <button
           onClick={() => setFiltersVisible(true)}
           style={{
             padding: '8px 18px',
             borderRadius: 24,
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
+            border: '1px solid #222',
+            backgroundColor: '#000000',
             color: '#fff',
             fontSize: 14,
             fontWeight: 600,
@@ -204,7 +213,7 @@ export default function MapScreenWeb() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 1001,
-            backgroundColor: '#1a1a2e',
+            backgroundColor: '#000000',
           }}
         >
           <div style={{ textAlign: 'center' }}>
@@ -244,11 +253,11 @@ export default function MapScreenWeb() {
       <div style={{
         position: 'absolute', top: 0, right: 0, bottom: 0, width: 280,
         background: 'linear-gradient(to bottom, rgba(26,26,46,0.97), rgba(26,26,46,0.95))',
-        zIndex: 999, overflowY: 'auto', borderLeft: '1px solid #2a2a4e',
+        zIndex: 999, overflowY: 'auto', borderLeft: '1px solid #111111',
         fontFamily: 'system-ui, -apple-system, sans-serif',
         backdropFilter: 'blur(10px)',
       }}>
-        <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #2a2a4e' }}>
+        <div style={{ padding: '16px 14px 8px', borderBottom: '1px solid #111111' }}>
           <h2 style={{ color: '#FFD700', fontSize: 15, fontWeight: 800, margin: 0, letterSpacing: 1, textTransform: 'uppercase' }}>
             Featured
           </h2>
@@ -261,7 +270,7 @@ export default function MapScreenWeb() {
                 key={h.id}
                 onClick={() => setSelectedHouse(h)}
                 style={{
-                  background: '#2a2a4e', borderRadius: 10, marginBottom: 8,
+                  background: '#111111', borderRadius: 10, marginBottom: 8,
                   overflow: 'hidden', cursor: 'pointer', border: '1px solid #333',
                   transition: 'border-color 0.2s, transform 0.15s',
                 }}
@@ -309,7 +318,7 @@ export default function MapScreenWeb() {
       />
 
       <style>{`
-        body { margin: 0; padding: 0; overflow: hidden; background: #1a1a2e; }
+        body { margin: 0; padding: 0; overflow: hidden; background: #000000; }
         @keyframes twinkle-shimmer {
           0% { background-position: 0% 0%; }
           100% { background-position: 400% 0%; }
@@ -327,7 +336,7 @@ export default function MapScreenWeb() {
           filter: drop-shadow(0 0 12px #FFD700) !important;
         }
         .leaflet-popup-content-wrapper {
-          background: #1a1a2e !important;
+          background: #000000 !important;
           border: 1px solid #FFD700 !important;
           border-radius: 12px !important;
           padding: 0 !important;
@@ -338,7 +347,7 @@ export default function MapScreenWeb() {
           margin: 0 !important;
         }
         .leaflet-popup-tip {
-          background: #1a1a2e !important;
+          background: #000000 !important;
           border: 1px solid #FFD700 !important;
           border-top: none !important;
           border-left: none !important;

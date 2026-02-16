@@ -60,7 +60,7 @@ function RouteMap({ houses }: { houses: House[] }) {
   }, []);
 
   if (!mapMod || !leaflet || houses.length === 0) {
-    return <div style={{ height: 350, background: '#2a2a4e', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
+    return <div style={{ height: 350, background: '#111111', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
       {houses.length === 0 ? 'No houses match your filters' : 'Loading map...'}
     </div>;
   }
@@ -126,7 +126,7 @@ export default function RouteScreenWeb() {
   };
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#1a1a2e', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ width: '100vw', height: '100vh', background: '#000000', overflowY: 'auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '32px 20px 100px' }}>
         <h1 style={{ color: '#FFD700', fontSize: 28, fontWeight: 800, margin: '0 0 4px', textShadow: '0 0 20px rgba(255,215,0,0.3)' }}>
           🚗 Plan Your Route
@@ -139,8 +139,8 @@ export default function RouteScreenWeb() {
           {DURATIONS.map(d => (
             <button key={d.value} onClick={() => setDuration(d.value)} style={{
               padding: '10px 20px', borderRadius: 24, border: 'none',
-              background: duration === d.value ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#2a2a4e',
-              color: duration === d.value ? '#1a1a2e' : '#ccc',
+              background: duration === d.value ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#111111',
+              color: duration === d.value ? '#000000' : '#ccc',
               fontWeight: 700, fontSize: 14, cursor: 'pointer', transition: 'all 0.2s',
             }}>{d.label}</button>
           ))}
@@ -155,8 +155,8 @@ export default function RouteScreenWeb() {
             style={{ ...inputStyle, flex: 1 }}
           />
           <button onClick={() => setStartAddress('📍 My Location')} style={{
-            padding: '12px 16px', borderRadius: 10, border: '1px solid #444',
-            background: '#2a2a4e', color: '#FFD700', fontSize: 13, fontWeight: 600,
+            padding: '12px 16px', borderRadius: 10, border: '1px solid #222',
+            background: '#111111', color: '#FFD700', fontSize: 13, fontWeight: 600,
             cursor: 'pointer', whiteSpace: 'nowrap', transition: 'border-color 0.2s',
           }}>📍 Use My Location</button>
         </div>
@@ -180,7 +180,7 @@ export default function RouteScreenWeb() {
             <button key={f} onClick={() => toggleFeature(f)} style={{
               padding: '8px 14px', borderRadius: 20,
               border: `1px solid ${featurePref.includes(f) ? '#FFD700' : '#444'}`,
-              backgroundColor: featurePref.includes(f) ? '#B22222' : '#2a2a4e',
+              backgroundColor: featurePref.includes(f) ? '#B22222' : '#111111',
               color: '#fff', fontSize: 13, cursor: 'pointer', transition: 'all 0.15s',
             }}>{FEATURE_EMOJI[f]} {f}</button>
           ))}
@@ -206,7 +206,7 @@ export default function RouteScreenWeb() {
               <>
                 {/* Summary Card */}
                 <div style={{
-                  marginTop: 16, padding: 20, background: '#2a2a4e', borderRadius: 12,
+                  marginTop: 16, padding: 20, background: '#111111', borderRadius: 12,
                   display: 'flex', justifyContent: 'space-around', textAlign: 'center',
                   border: '1px solid #333',
                 }}>
@@ -229,7 +229,7 @@ export default function RouteScreenWeb() {
                   {routeHouses.map((h, i) => (
                     <div key={h.id} style={{
                       display: 'flex', alignItems: 'center', gap: 14, padding: 14,
-                      background: '#2a2a4e', borderRadius: 10, border: '1px solid #333',
+                      background: '#111111', borderRadius: 10, border: '1px solid #333',
                       transition: 'border-color 0.2s',
                     }}>
                       <div style={{
@@ -263,7 +263,7 @@ export default function RouteScreenWeb() {
       </div>
 
       <style>{`
-        body { margin: 0; background: #1a1a2e; }
+        body { margin: 0; background: #000000; }
         .twinkle-marker { background: none !important; border: none !important; }
         input:focus { outline: none; border-color: #FFD700 !important; box-shadow: 0 0 0 2px rgba(255,215,0,0.2); }
         input::placeholder { color: #555; }
@@ -277,7 +277,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 const inputStyle: React.CSSProperties = {
-  padding: '12px 14px', borderRadius: 10, border: '1px solid #444',
-  backgroundColor: '#2a2a4e', color: '#fff', fontSize: 15, fontFamily: 'inherit',
+  padding: '12px 14px', borderRadius: 10, border: '1px solid #222',
+  backgroundColor: '#111111', color: '#fff', fontSize: 15, fontFamily: 'inherit',
   boxSizing: 'border-box' as const, transition: 'border-color 0.2s, box-shadow 0.2s',
 };

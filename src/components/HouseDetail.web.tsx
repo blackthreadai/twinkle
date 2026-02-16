@@ -122,14 +122,14 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       {/* Panel */}
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, width: '100%', maxWidth: 480,
-        background: '#1a1a2e', zIndex: 2001, overflowY: 'auto',
+        background: '#000000', zIndex: 2001, overflowY: 'auto',
         transform: visible ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 0.3s ease',
         boxShadow: '-4px 0 30px rgba(0,0,0,0.5)',
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}>
         {/* Header */}
-        <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #2a2a4e', position: 'sticky', top: 0, background: '#1a1a2e', zIndex: 1 }}>
+        <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #111111', position: 'sticky', top: 0, background: '#000000', zIndex: 1 }}>
           <button onClick={handleClose} style={{ background: 'none', border: 'none', color: '#FFD700', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
           <h2 style={{ color: '#FFD700', fontSize: 18, fontWeight: 700, margin: 0 }}>Twinkle ✨</h2>
         </div>
@@ -167,7 +167,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
             {features.map((f: Feature) => (
-              <span key={f} style={{ padding: '4px 12px', borderRadius: 16, background: '#2a2a4e', border: '1px solid #444', color: '#FFD700', fontSize: 12, fontWeight: 600 }}>
+              <span key={f} style={{ padding: '4px 12px', borderRadius: 16, background: '#111111', border: '1px solid #222', color: '#FFD700', fontSize: 12, fontWeight: 600 }}>
                 {FEATURE_EMOJI[f] || '✨'} {f}
               </span>
             ))}
@@ -175,7 +175,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {house.description && <p style={{ color: '#ccc', fontSize: 14, lineHeight: 1.5, margin: '0 0 20px' }}>{house.description}</p>}
 
           {/* Votes & Ranking — single line */}
-          <div style={{ background: '#2a2a4e', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid #444', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: '#111111', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid #222', position: 'relative', overflow: 'hidden' }}>
             {showConfetti && (
               <div className="twinkle-confetti-container">
                 {Array.from({ length: 15 }).map((_, i) => (
@@ -218,15 +218,15 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           {/* Directions + Flag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
             <a href={`https://www.google.com/maps/dir/?api=1&destination=${house.lat},${house.lng}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#1a1a2e', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
+              style={{ padding: '10px 20px', borderRadius: 10, background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000000', fontSize: 14, textDecoration: 'none', fontWeight: 700 }}>
               Get Directions
             </a>
             <button
               onClick={() => !houseFlagged && setShowFlagModal({ type: 'house', id: house.id })}
               disabled={houseFlagged}
               style={{
-                padding: '10px 16px', borderRadius: 10, border: '1px solid #444',
-                background: houseFlagged ? '#333' : '#2a2a4e', color: houseFlagged ? '#666' : '#ff6b6b',
+                padding: '10px 16px', borderRadius: 10, border: '1px solid #222',
+                background: houseFlagged ? '#333' : '#111111', color: houseFlagged ? '#666' : '#ff6b6b',
                 fontSize: 13, fontWeight: 600, cursor: houseFlagged ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s',
               }}
@@ -236,7 +236,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           </div>
 
           {/* Rate */}
-          <div style={{ background: '#2a2a4e', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
+          <div style={{ background: '#111111', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
             <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>Rate This House</h4>
             <div style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -252,11 +252,11 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               </div>
             </div>
             <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience..." rows={2}
-              style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #444', backgroundColor: '#1a1a2e', color: '#fff', fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }} />
+              style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #222', backgroundColor: '#000000', color: '#fff', fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }} />
             <button onClick={submitReview} disabled={!reviewText.trim()} style={{
               marginTop: 8, padding: '8px 20px', borderRadius: 8, border: 'none',
               background: reviewText.trim() ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#444',
-              color: reviewText.trim() ? '#1a1a2e' : '#888',
+              color: reviewText.trim() ? '#000000' : '#888',
               fontSize: 13, fontWeight: 700, cursor: reviewText.trim() ? 'pointer' : 'not-allowed',
             }}>Submit Review</button>
             {showSuccess && <p style={{ color: '#4ade80', fontSize: 12, margin: '6px 0 0' }}>✓ Review submitted!</p>}
@@ -268,7 +268,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
             const flagCount = reviewFlags[r.id] ?? 0;
             const isFlagged = flaggedReviews.has(r.id);
             return (
-              <div key={r.id} style={{ background: '#2a2a4e', borderRadius: 10, padding: 14, marginBottom: 10, border: '1px solid #333' }}>
+              <div key={r.id} style={{ background: '#111111', borderRadius: 10, padding: 14, marginBottom: 10, border: '1px solid #333' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <div style={{ width: 28, height: 28, borderRadius: 14, background: '#444', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: 12, fontWeight: 700 }}>{r.user[0]}</div>
@@ -304,7 +304,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
           <div onClick={() => setShowFlagModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 3000 }} />
           <div style={{
             position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-            background: '#1a1a2e', border: '1px solid #444', borderRadius: 16, padding: 24,
+            background: '#000000', border: '1px solid #222', borderRadius: 16, padding: 24,
             zIndex: 3001, width: '90%', maxWidth: 360, boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
             fontFamily: 'system-ui',
           }}>
@@ -333,7 +333,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                 }}
                 style={{
                   display: 'block', width: '100%', padding: '10px 14px', marginBottom: 6,
-                  borderRadius: 8, border: '1px solid #333', background: '#2a2a4e', color: '#ccc',
+                  borderRadius: 8, border: '1px solid #333', background: '#111111', color: '#ccc',
                   fontSize: 13, textAlign: 'left', cursor: 'pointer', transition: 'all 0.15s',
                 }}
                 onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = '#ff6b6b'; (e.target as HTMLElement).style.color = '#ff6b6b'; }}
@@ -343,7 +343,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
               </button>
             ))}
             <button onClick={() => setShowFlagModal(null)} style={{
-              marginTop: 8, width: '100%', padding: '10px', borderRadius: 8, border: '1px solid #444',
+              marginTop: 8, width: '100%', padding: '10px', borderRadius: 8, border: '1px solid #222',
               background: 'transparent', color: '#888', fontSize: 13, cursor: 'pointer',
             }}>Cancel</button>
           </div>
@@ -354,7 +354,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
       {flagSuccess && (
         <div style={{
           position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)',
-          background: '#2a2a4e', border: '1px solid #ff6b6b', borderRadius: 10,
+          background: '#111111', border: '1px solid #ff6b6b', borderRadius: 10,
           padding: '12px 20px', zIndex: 3002, boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
         }}>
           <p style={{ color: '#ff6b6b', margin: 0, fontSize: 13, fontWeight: 600 }}>Flag submitted — thank you for keeping Twinkle safe</p>
