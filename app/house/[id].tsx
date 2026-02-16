@@ -8,18 +8,26 @@ export default function HouseDetailRoute() {
   }
 
   const [Component, setComponent] = useState<React.ComponentType | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    import('@/src/screens/HouseDetailScreen').then((mod) => {
-      setComponent(() => mod.default);
-    });
-  }, []);
+    if (!mounted) return;
+    import('@/src/screens/HouseDetailScreen')
+      .then((mod) => setComponent(() => mod.default))
+      .catch((err) => {
+        console.error('Failed to load HouseDetailScreen:', err);
+        setError(err?.message || 'Load failed');
+      });
+  }, [mounted]);
 
-  if (!Component) {
+  if (!mounted || !Component) {
     return (
       <View style={styles.loading}>
         <Text style={styles.sparkle}>✨</Text>
-        <Text style={styles.text}>Loading...</Text>
+        <Text style={styles.text}>{error ? `Error: ${error}` : 'Loading...'}</Text>
       </View>
     );
   }

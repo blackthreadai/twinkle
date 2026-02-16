@@ -3,6 +3,7 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "rewrites": [
+    { "source": "/house/:id", "destination": "/house/[id].html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
