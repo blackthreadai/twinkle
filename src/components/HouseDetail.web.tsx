@@ -194,7 +194,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
 
           {/* Rate */}
           <div style={{ background: '#2a2a4e', borderRadius: 14, padding: 20, marginBottom: 24, border: '1px solid #333' }}>
-            <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>⭐ Rate This House</h4>
+            <h4 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: '0 0 12px' }}>Rate This House</h4>
             <div style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <input
@@ -230,7 +230,7 @@ export function HouseDetailPanel({ house, onClose }: { house: House; onClose: ()
                 </div>
                 <span style={{ color: '#888', fontSize: 11 }}>{r.date}</span>
               </div>
-              <Stars score={r.score} size={12} />
+              <span style={{ color: '#FFD700', fontSize: 13, fontWeight: 700 }}>{r.score.toFixed(1)}</span>
               <p style={{ color: '#ccc', fontSize: 13, lineHeight: 1.4, margin: '6px 0 0' }}>{r.body}</p>
             </div>
           ))}

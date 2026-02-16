@@ -39,7 +39,6 @@ function createStarIcon(house: House): L.DivIcon {
 
 function popupHtml(house: House): string {
   const rating = house.avg_rating ?? 0;
-  const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
   const features = (house.features as Feature[])
     .map((f) => `<span style="background:#2a2a4e;color:#FFD700;font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block">${f}</span>`)
     .join(' ');
@@ -49,9 +48,8 @@ function popupHtml(house: House): string {
       ${house.photos.length > 0 ? `<img src="${house.photos[0]}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0" />` : ''}
       <div style="padding:12px 14px">
         <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px">${house.address}</div>
-        <div style="color:#FFD700;font-size:14px;margin-bottom:6px">
-          ${stars}
-          <span style="color:#ccc;font-size:12px;margin-left:6px">${rating.toFixed(1)} (${house.rating_count ?? 0})</span>
+        <div style="font-size:14px;margin-bottom:6px">
+          <span style="color:#888;font-weight:600">Rating</span> <span style="color:#FFD700;font-weight:700">${rating.toFixed(1)}</span> <span style="color:#888;font-size:12px">(${house.rating_count ?? 0})</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">${features}</div>
         ${house.description ? `<p style="color:#aaa;font-size:12px;margin:8px 0 0;line-height:1.4">${house.description}</p>` : ''}
